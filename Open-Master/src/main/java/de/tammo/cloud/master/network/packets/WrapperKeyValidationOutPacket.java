@@ -11,13 +11,13 @@ import java.io.IOException;
 
 public class WrapperKeyValidationOutPacket implements Packet {
 
-    private boolean valid;
+	private boolean valid;
 
-    public WrapperKeyValidationOutPacket(final boolean valid) {
-        this.valid = valid;
-    }
+	public WrapperKeyValidationOutPacket(final boolean valid) {
+		this.valid = valid;
+	}
 
-    public void write(final ByteBufOutputStream byteBuf) throws IOException {
-        byteBuf.writeBoolean(this.valid);
-    }
+	public void write(final ByteBufOutputStream byteBuf) throws IOException {
+		byteBuf.writeBoolean(this.valid);
+	}
 }

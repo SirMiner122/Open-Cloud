@@ -10,8 +10,8 @@ import de.tammo.cloud.master.Master;
 @Command.CommandInfo(name = "stop", aliases = {"shutdown", "terminate"})
 public class StopCommand implements Command {
 
-    public boolean execute(final String[] args) {
-        Master.getMaster().setRunning(false);
-        return true;
-    }
+	public boolean execute(final String[] args) {
+		Master.getMaster().setRunning(false);
+		return true;
+	}
 }
