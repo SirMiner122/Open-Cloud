@@ -6,8 +6,8 @@ package de.tammo.cloud.core.exceptions;
 
 public class JavaVersionRequiredException extends Exception {
 
-    public JavaVersionRequiredException() {
-        super("Java 8 is required to start the cloud!");
-    }
+	public JavaVersionRequiredException() {
+		super("Java 8 is required to start the cloud!");
+	}
 
 }

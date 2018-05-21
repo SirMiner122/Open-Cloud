@@ -11,6 +11,6 @@ import java.io.IOException;
 
 public interface Setup {
 
-    void setup(final Logger logger, final ConsoleReader reader) throws IOException;
+	void setup(final Logger logger, final ConsoleReader reader) throws IOException;
 
 }

@@ -12,41 +12,41 @@ import java.util.ArrayList;
 
 public class DocumentHandler {
 
-    @Getter
-    private final ArrayList<DocumentFile> files = new ArrayList<>();
+	@Getter
+	private final ArrayList<DocumentFile> files = new ArrayList<>();
 
-    public DocumentHandler(final String path) {
-        try {
-            for (final ClassPath.ClassInfo classInfo : ClassPath.from(this.getClass().getClassLoader()).getTopLevelClasses(path)) {
-                final Class fileClass = Class.forName(classInfo.getName());
-                if (fileClass.getSuperclass() == DocumentFile.class) {
-                    this.files.add((DocumentFile) fileClass.newInstance());
-                }
-            }
-        } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
-        }
+	public DocumentHandler(final String path) {
+		try {
+			for (final ClassPath.ClassInfo classInfo : ClassPath.from(this.getClass().getClassLoader()).getTopLevelClasses(path)) {
+				final Class fileClass = Class.forName(classInfo.getName());
+				if (fileClass.getSuperclass() == DocumentFile.class) {
+					this.files.add((DocumentFile) fileClass.newInstance());
+				}
+			}
+		} catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			e.printStackTrace();
+		}
 
-        this.loadFiles();
-    }
+		this.loadFiles();
+	}
 
-    private void loadFiles() {
-        this.files.forEach(documentFile -> {
-            try {
-                documentFile.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+	private void loadFiles() {
+		this.files.forEach(documentFile -> {
+			try {
+				documentFile.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-    public void saveFiles() {
-        this.files.forEach(documentFile -> {
-            try {
-                documentFile.save();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+	public void saveFiles() {
+		this.files.forEach(documentFile -> {
+			try {
+				documentFile.save();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 }
