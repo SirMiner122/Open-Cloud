@@ -12,14 +12,14 @@ import java.nio.file.Files;
 
 public class PacketFile {
 
-    @Getter
-    private final byte[] bytes;
+	@Getter
+	private final byte[] bytes;
 
-    public PacketFile(final byte[] bytes) {
-        this.bytes = bytes;
-    }
+	public PacketFile(final byte[] bytes) {
+		this.bytes = bytes;
+	}
 
-    public void saveAsFile(final String path) throws IOException {
-        Files.write(new File(path).toPath(), this.bytes);
-    }
+	public void saveAsFile(final String path) throws IOException {
+		Files.write(new File(path).toPath(), this.bytes);
+	}
 }

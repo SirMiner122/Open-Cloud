@@ -14,20 +14,20 @@ import java.io.IOException;
 
 public class WrapperKeyValidationInPacket implements Packet {
 
-    private boolean valid;
+	private boolean valid;
 
-    public final Packet handle(final Channel channel) {
-        if (this.valid) {
-            Wrapper.getWrapper().getLogger().info("Wrapper key is valid!");
-            return new SuccessPacket();
-        } else {
-            Wrapper.getWrapper().getLogger().info("Wrapper key is not valid!");
-            Wrapper.getWrapper().shutdown();
-            return null;
-        }
-    }
+	public final Packet handle(final Channel channel) {
+		if (this.valid) {
+			Wrapper.getWrapper().getLogger().info("Wrapper key is valid!");
+			return new SuccessPacket();
+		} else {
+			Wrapper.getWrapper().getLogger().info("Wrapper key is not valid!");
+			Wrapper.getWrapper().shutdown();
+			return null;
+		}
+	}
 
-    public void read(final ByteBufInputStream byteBuf) throws IOException {
-        this.valid = byteBuf.readBoolean();
-    }
+	public void read(final ByteBufInputStream byteBuf) throws IOException {
+		this.valid = byteBuf.readBoolean();
+	}
 }

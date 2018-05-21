@@ -15,11 +15,11 @@ import java.io.IOException;
 
 public class WrapperSetup implements Setup {
 
-    public void setup(final Logger logger, final ConsoleReader reader) throws IOException {
-        if (Wrapper.getWrapper().getConfiguration().getKey().isEmpty()) {
-            new StringRequest().request(logger, "Type in the key, you received from the Open-Master", reader, key -> Wrapper.getWrapper().getConfiguration().setKey(key));
-            Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(new WrapperKeyOutPacket(Wrapper.getWrapper().getConfiguration().getKey()));
-        }
-    }
+	public void setup(final Logger logger, final ConsoleReader reader) throws IOException {
+		if (Wrapper.getWrapper().getConfiguration().getKey().isEmpty()) {
+			new StringRequest().request(logger, "Type in the key, you received from the Open-Master", reader, key -> Wrapper.getWrapper().getConfiguration().setKey(key));
+			Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(new WrapperKeyOutPacket(Wrapper.getWrapper().getConfiguration().getKey()));
+		}
+	}
 
 }

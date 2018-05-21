@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class ConnectableAddress {
 
-    private final String host;
+	private final String host;
 
-    private final int port;
+	private final int port;
 
 }
