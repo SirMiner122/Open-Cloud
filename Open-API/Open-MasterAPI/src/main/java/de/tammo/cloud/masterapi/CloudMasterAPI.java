@@ -9,7 +9,7 @@ import lombok.Getter;
 
 public class CloudMasterAPI {
 
-    @Getter
-    private final EventHandler eventHandler = new EventHandler();
+	@Getter
+	private final EventHandler eventHandler = new EventHandler();
 
 }
