@@ -6,6 +6,7 @@ package de.tammo.cloud.command;
 
 import com.google.common.reflect.ClassPath;
 import de.tammo.cloud.core.logging.Logger;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CommandHandler {
 
+	@Getter
 	private final ArrayList<Command> commands = new ArrayList<>();
 
 	public CommandHandler(final String commandPackage, final Logger logger) {

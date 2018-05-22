@@ -57,6 +57,9 @@ public class Master implements CloudApplication {
 	@Getter
 	private TemplateHandler templateHandler;
 
+	@Getter
+	private CommandHandler commandHandler;
+
 	@Setter
 	@Getter
 	private boolean running = false;
@@ -102,7 +105,7 @@ public class Master implements CloudApplication {
 
 		this.setupServer(() -> this.logger.info("Server was successfully bound to port 1337"));
 
-		final CommandHandler commandHandler = new CommandHandler("de.tammo.cloud.master.commands", this.logger);
+		this.commandHandler = new CommandHandler("de.tammo.cloud.master.commands", this.logger);
 
 		while (this.running) {
 			try {
