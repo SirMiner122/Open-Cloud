@@ -14,21 +14,20 @@ import java.io.IOException;
 
 public class WrapperKeyInPacket implements Packet {
 
-    private String key;
+	private String key;
 
-    public final Packet handle(final Channel channel) {
-        final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(channel));
-        if (wrapper != null) {
-            if (wrapper.getWrapperMeta().getKey().equals(this.key)) {
-                //SUCCESS
-                wrapper.setVerified(true);
-                return null;
-            }
-        }
-        return null;
-    }
+	public final Packet handle(final Channel channel) {
+		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(channel));
+		if (wrapper != null) {
+			if (wrapper.getWrapperMeta().getKey().equals(this.key)) {
+				wrapper.setVerified(true);
+				return new WrapperKeyValidationOutPacket(true);
+			}
+		}
+		return new WrapperKeyValidationOutPacket(false);
+	}
 
-    public void read(final ByteBufInputStream byteBuf) throws IOException {
-        this.key = byteBuf.readUTF();
-    }
+	public void read(final ByteBufInputStream byteBuf) throws IOException {
+		this.key = byteBuf.readUTF();
+	}
 }

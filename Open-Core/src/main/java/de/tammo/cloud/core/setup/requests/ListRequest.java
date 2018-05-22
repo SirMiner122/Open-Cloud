@@ -13,7 +13,8 @@ import java.util.function.Consumer;
 
 public class ListRequest {
 
-	public void request(final Logger logger, final String request, final String[] responses, final ConsoleReader reader, final Consumer<String> accept) throws IOException {
+	public <T> void request(final Logger logger, final String request, final T[] responses, final ConsoleReader
+			reader, final Consumer<String> accept) throws IOException {
 		logger.info(request + " " + this.getResponseString(responses));
 		final String line = reader.readLine();
 		if (this.contains(responses, line)) {
@@ -23,16 +24,16 @@ public class ListRequest {
 		}
 	}
 
-	private String getResponseString(final String[] responses) {
+	private <T> String getResponseString(final T[] responses) {
 		final StringBuilder responseBuilder = new StringBuilder();
-		for (final String response : responses) {
-			responseBuilder.append((responseBuilder.length() == 0) ? response : ", " + response);
+		for (final T response : responses) {
+			responseBuilder.append((responseBuilder.length() == 0) ? response.toString() : ", " + response.toString());
 		}
 		return responseBuilder.toString();
 	}
 
-	private boolean contains(final String[] responses, final String response) {
-		return Arrays.stream(responses).anyMatch(s -> s.equalsIgnoreCase(response));
+	private<T> boolean contains(final T[] responses, final String response) {
+		return Arrays.stream(responses).anyMatch(s -> s.toString().equalsIgnoreCase(response));
 	}
 
 }

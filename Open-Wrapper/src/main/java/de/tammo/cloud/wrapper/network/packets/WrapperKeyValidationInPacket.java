@@ -19,6 +19,7 @@ public class WrapperKeyValidationInPacket implements Packet {
 	public final Packet handle(final Channel channel) {
 		if (this.valid) {
 			Wrapper.getWrapper().getLogger().info("Wrapper key is valid!");
+			Wrapper.getWrapper().getConfiguration().setKey(Wrapper.getWrapper().getKey());
 			return new SuccessPacket();
 		} else {
 			Wrapper.getWrapper().getLogger().info("Wrapper key is not valid!");

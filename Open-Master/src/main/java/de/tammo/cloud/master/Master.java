@@ -14,8 +14,10 @@ import de.tammo.cloud.master.network.handler.PacketHandler;
 import de.tammo.cloud.master.network.packets.WrapperKeyInPacket;
 import de.tammo.cloud.master.network.packets.WrapperKeyValidationOutPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
+import de.tammo.cloud.master.servergroup.ServerGroupHandler;
 import de.tammo.cloud.master.setup.LoginSetup;
 import de.tammo.cloud.master.setup.MasterSetup;
+import de.tammo.cloud.master.template.TemplateHandler;
 import de.tammo.cloud.network.NettyServer;
 import de.tammo.cloud.network.handler.PacketDecoder;
 import de.tammo.cloud.network.handler.PacketEncoder;
@@ -23,117 +25,140 @@ import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import de.tammo.cloud.network.registry.PacketRegistry;
 import de.tammo.cloud.security.user.CloudUserHandler;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Master implements CloudApplication {
 
-    @Getter
-    private static Master master;
+	@Getter
+	private static Master master;
 
-    @Getter
-    private Logger logger;
+	@Getter
+	private Logger logger;
 
-    @Getter
-    private NetworkHandler networkHandler;
+	@Getter
+	private NetworkHandler networkHandler;
 
-    @Getter
-    private CloudUserHandler cloudUserHandler;
+	@Getter
+	private CloudUserHandler cloudUserHandler;
 
-    private DocumentHandler documentHandler;
+	private DocumentHandler documentHandler;
 
-    private NettyServer nettyServer;
+	private NettyServer nettyServer;
 
-    @Setter
-    @Getter
-    private boolean running = false;
+	@Getter
+	private ServerGroupHandler serverGroupHandler;
 
-    public void bootstrap(final OptionSet optionSet) throws IOException{
-        master = this;
+	@Getter
+	private TemplateHandler templateHandler;
 
-        this.setRunning(true);
+	@Setter
+	@Getter
+	private boolean running = false;
 
-        this.logger = new Logger("", "Open-Cloud", optionSet.has("debug") ? LogLevel.DEBUG : LogLevel.INFO);
+	public void bootstrap(final OptionSet optionSet) {
+		master = this;
 
-        this.printHeader("Open-Cloud", this.logger);
+		this.setRunning(true);
 
-        this.networkHandler = new NetworkHandler();
+		this.logger = new Logger("", "Open-Cloud", optionSet.has("debug") ? LogLevel.DEBUG : LogLevel.INFO);
 
-        this.cloudUserHandler = new CloudUserHandler();
+		this.printHeader("Open-Cloud", this.logger);
 
-        this.documentHandler = new DocumentHandler("de.tammo.cloud.master.config");
+		this.networkHandler = new NetworkHandler();
 
-        final ConsoleReader reader = new ConsoleReader(System.in, System.out);
-        reader.setHistoryEnabled(false);
+		this.cloudUserHandler = new CloudUserHandler();
 
-        new LoginSetup().setup(this.logger, reader);
+		this.serverGroupHandler = new ServerGroupHandler();
 
-        new MasterSetup().setup(this.logger, reader);
+		this.templateHandler = new TemplateHandler();
 
-        this.setupServer(() -> this.logger.info("Server was successfully bound to port 1337"));
+		this.documentHandler = new DocumentHandler("de.tammo.cloud.master.config");
 
-        final CommandHandler commandHandler = new CommandHandler("de.tammo.cloud.master.commands", this.logger);
+		ConsoleReader reader = null;
 
-        while (this.running) {
-            try {
-                commandHandler.executeCommand(reader.readLine(), this.logger);
-            } catch (IOException e) {
-                this.logger.error("Error while reading command!", e);
-            }
-        }
+		try {
+			reader = new ConsoleReader(System.in, System.out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        reader.close();
+		try {
+			new LoginSetup().setup(this.logger, reader);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        this.shutdown();
-    }
+		try {
+			new MasterSetup().setup(this.logger, reader);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    private void setupServer(final Runnable ready) {
-        this.registerPackets();
+		this.setupServer(() -> this.logger.info("Server was successfully bound to port 1337"));
 
-        this.nettyServer = new NettyServer(1337).withSSL().bind(ready, channel -> {
-            final String host = this.networkHandler.getHostFromChannel(channel);
-            if (!this.networkHandler.isWhitelisted(host)) {
-                channel.close().syncUninterruptibly();
-                this.logger.warn("A not whitelisted Wrapper would like to connect to this master!");
-                return;
-            }
+		final CommandHandler commandHandler = new CommandHandler("de.tammo.cloud.master.commands", this.logger);
 
-            channel.pipeline().addLast(new PacketEncoder()).addLast(new PacketDecoder()).addLast(new PacketHandler());
-            final Wrapper wrapper = this.networkHandler.getWrapperByHost(host);
-            if (wrapper != null) {
-                wrapper.setChannel(channel);
-                this.logger.info("Wrapper from " + wrapper.getWrapperMeta().getHost() + " connected!");
-            }
-        });
-    }
+		while (this.running) {
+			try {
+				commandHandler.executeCommand(Objects.requireNonNull(reader).readLine(), this.logger);
+			} catch (IOException e) {
+				this.logger.error("Error while reading command!", e);
+			}
+		}
 
-    public void shutdown() {
-        this.logger.info("Open-Cloud is stopping!");
+		Objects.requireNonNull(reader).close();
 
-        this.documentHandler.saveFiles();
+		this.shutdown();
+	}
 
-        this.networkHandler.getWrappers().stream().filter(Wrapper::isConnected).forEach(wrapper -> wrapper.getChannel().close().syncUninterruptibly());
+	private void setupServer(final Runnable ready) {
+		this.registerPackets();
 
-        this.nettyServer.close(() -> logger.info("Netty server was closed!"));
+		this.nettyServer = new NettyServer(1337).withSSL().bind(ready, channel -> {
+			final String host = this.networkHandler.getHostFromChannel(channel);
+			if (!this.networkHandler.isWhitelisted(host)) {
+				channel.close().syncUninterruptibly();
+				this.logger.warn("A not whitelisted Wrapper would like to connect to this master!");
+				return;
+			}
 
-        System.exit(0);
-    }
+			channel.pipeline().addLast(new PacketEncoder()).addLast(new PacketDecoder()).addLast(new PacketHandler());
+			final Wrapper wrapper = this.networkHandler.getWrapperByHost(host);
+			if (wrapper != null) {
+				wrapper.setChannel(channel);
+				this.logger.info("Wrapper from " + wrapper.getWrapperMeta().getHost() + " connected!");
+			}
+		});
+	}
 
-    private void registerPackets() {
-        PacketRegistry.PacketDirection.IN.addPacket(0, SuccessPacket.class);
-        PacketRegistry.PacketDirection.IN.addPacket(1, ErrorPacket.class);
+	public void shutdown() {
+		this.logger.info("Open-Cloud is stopping!");
 
-        PacketRegistry.PacketDirection.IN.addPacket(200, WrapperKeyInPacket.class);
+		this.documentHandler.saveFiles();
 
-        PacketRegistry.PacketDirection.OUT.addPacket(0, SuccessPacket.class);
-        PacketRegistry.PacketDirection.OUT.addPacket(1, ErrorPacket.class);
+		this.networkHandler.getWrappers().stream().filter(Wrapper::isConnected).forEach(wrapper -> wrapper.getChannel().close().syncUninterruptibly());
 
-        PacketRegistry.PacketDirection.OUT.addPacket(201, WrapperKeyValidationOutPacket.class);
-    }
+		this.nettyServer.close(() -> logger.info("Netty server was closed!"));
+
+		System.exit(0);
+	}
+
+	private void registerPackets() {
+		PacketRegistry.PacketDirection.IN.addPacket(0, SuccessPacket.class);
+		PacketRegistry.PacketDirection.IN.addPacket(1, ErrorPacket.class);
+
+		PacketRegistry.PacketDirection.IN.addPacket(200, WrapperKeyInPacket.class);
+
+		PacketRegistry.PacketDirection.OUT.addPacket(0, SuccessPacket.class);
+		PacketRegistry.PacketDirection.OUT.addPacket(1, ErrorPacket.class);
+
+		PacketRegistry.PacketDirection.OUT.addPacket(201, WrapperKeyValidationOutPacket.class);
+	}
 
 }

@@ -32,11 +32,7 @@ public class MasterBootstrap {
 
 		System.setProperty("jline.WindowsTerminal.directConsole", "false");
 
-		try {
-			new Master().bootstrap(optionSet);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		new Master().bootstrap(optionSet);
 	}
 
 }

@@ -32,11 +32,7 @@ public class WrapperBootstrap {
 
 		System.setProperty("jline.WindowsTerminal.directConsole", "false");
 
-		try {
-			new Wrapper().bootstrap(optionSet);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		new Wrapper().bootstrap(optionSet);
 	}
 
 }

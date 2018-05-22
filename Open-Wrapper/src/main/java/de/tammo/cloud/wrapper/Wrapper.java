@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Wrapper implements CloudApplication {
 
@@ -50,9 +51,13 @@ public class Wrapper implements CloudApplication {
 
 	@Setter
 	@Getter
+	private String key;
+
+	@Setter
+	@Getter
 	private boolean running = false;
 
-	public void bootstrap(final OptionSet optionSet) throws IOException {
+	public void bootstrap(final OptionSet optionSet) {
 		wrapper = this;
 
 		this.setRunning(true);
@@ -63,9 +68,19 @@ public class Wrapper implements CloudApplication {
 
 		this.documentHandler = new DocumentHandler("de.tammo.cloud.wrapper.config");
 
-		final ConsoleReader reader = new ConsoleReader();
+		ConsoleReader reader = null;
 
-		new WrapperSetup().setup(this.logger, reader);
+		try {
+			reader = new ConsoleReader();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			new WrapperSetup().setup(this.logger, reader);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		this.setupServer();
 
@@ -73,13 +88,13 @@ public class Wrapper implements CloudApplication {
 
 		while (this.running) {
 			try {
-				commandHandler.executeCommand(reader.readLine(), this.logger);
+				commandHandler.executeCommand(Objects.requireNonNull(reader).readLine(), this.logger);
 			} catch (IOException e) {
 				this.logger.error("Error while reading command!", e);
 			}
 		}
 
-		reader.close();
+		Objects.requireNonNull(reader).close();
 
 		this.shutdown();
 	}
@@ -99,6 +114,8 @@ public class Wrapper implements CloudApplication {
 		this.documentHandler.saveFiles();
 
 		this.nettyClient.disconnect(() -> this.logger.info("Wrapper is disconnected!"));
+
+		this.networkHandler.getExecutorService().shutdown();
 
 		System.exit(0);
 	}

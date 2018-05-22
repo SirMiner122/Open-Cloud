@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public interface CloudApplication {
 
-	void bootstrap(final OptionSet optionSet) throws IOException;
+	void bootstrap(final OptionSet optionSet);
 
 	void shutdown();
 
