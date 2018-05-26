@@ -2,9 +2,10 @@
  * Copyright (c) 2018. File created by Tammo
  */
 
-package de.tammo.cloud.master.network.packets;
+package de.tammo.cloud.master.network.packets.in;
 
 import de.tammo.cloud.master.Master;
+import de.tammo.cloud.master.network.packets.out.WrapperKeyValidationOutPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
 import io.netty.buffer.ByteBufInputStream;

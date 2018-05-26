@@ -5,7 +5,7 @@
 package de.tammo.cloud.master.network.handler;
 
 import de.tammo.cloud.master.Master;
-import de.tammo.cloud.master.network.packets.WrapperKeyInPacket;
+import de.tammo.cloud.master.network.packets.in.WrapperKeyInPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
 import io.netty.channel.ChannelHandlerContext;
