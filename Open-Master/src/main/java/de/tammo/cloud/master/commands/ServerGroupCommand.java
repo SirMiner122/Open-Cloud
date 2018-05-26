@@ -48,6 +48,7 @@ public class ServerGroupCommand implements Command {
 								Master.getMaster().getServerGroupHandler().addServerGroup(new ServerGroup(name
 										.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(),minServer,
 										maxServer, minRam, maxRam));
+								Master.getMaster().getServerGroupHandler().getServerGroups().forEach(ServerGroup::init);
 								this.logger.info("Created server group with name " + name.substring(0, 1).toUpperCase
 										() + name.substring(1).toLowerCase());
 							} catch (final NumberFormatException e) {
