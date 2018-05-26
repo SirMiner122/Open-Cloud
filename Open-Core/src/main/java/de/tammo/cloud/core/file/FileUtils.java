@@ -4,12 +4,14 @@
 
 package de.tammo.cloud.core.file;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
+
 import java.io.*;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class FileUtils {
 
@@ -39,24 +41,16 @@ public class FileUtils {
 		}
 	}
 
-	public static void packZip(final Path folder, final Path zipFile) throws IOException {
-		try (FileOutputStream fos = new FileOutputStream(zipFile.toFile()); ZipOutputStream zos = new ZipOutputStream(fos)) {
-			Files.walkFileTree(folder, new SimpleFileVisitor<Path>() {
+	public static void zip(final String dir, final String zipPath) throws ZipException {
+		final ZipFile zipFile = new ZipFile(zipPath + ".zip");
+		final ZipParameters parameters = new ZipParameters();
+		parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+		parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+		zipFile.addFolder(dir, parameters);
+	}
 
-				public FileVisitResult visitFile(final Path file, final BasicFileAttributes basicFileAttributes) throws IOException {
-					zos.putNextEntry(new ZipEntry(folder.relativize(file).toString()));
-					Files.copy(file, zos);
-					zos.closeEntry();
-					return FileVisitResult.CONTINUE;
-				}
-
-				public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes basicFileAttributes) throws IOException {
-					zos.putNextEntry(new ZipEntry(folder.relativize(dir).toString() + "/"));
-					zos.closeEntry();
-					return FileVisitResult.CONTINUE;
-				}
-			});
-		}
+	public static void unzip(final String zipPath, final String targetDir) throws ZipException {
+		new ZipFile(zipPath).extractAll(targetDir);
 	}
 
 }
