@@ -7,6 +7,10 @@ package de.tammo.cloud.master.servergroup;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 @Data
 @AllArgsConstructor
 public class ServerGroup {
@@ -20,5 +24,16 @@ public class ServerGroup {
 	private int minRam;
 
 	private int maxRam;
+
+	public void init() {
+		final File template = new File("template//" + this.getName());
+		if (Files.notExists(template.toPath())) {
+			try {
+				Files.createDirectories(template.toPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }
