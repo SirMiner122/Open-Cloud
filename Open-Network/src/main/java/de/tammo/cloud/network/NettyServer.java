@@ -40,7 +40,10 @@ public class NettyServer {
 			this.workerGroup = this.EPOLL ? new EpollEventLoopGroup() : new NioEventLoopGroup();
 
 			try {
-				final ChannelFuture future = new ServerBootstrap().group(this.bossGroup, this.workerGroup).channel(this.EPOLL ? EpollServerSocketChannel.class : NioServerSocketChannel.class).childHandler(new ChannelInitializer<Channel>() {
+				final ChannelFuture future = new ServerBootstrap()
+						.group(this.bossGroup, this.workerGroup)
+						.channel(this.EPOLL ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
+						.childHandler(new ChannelInitializer<Channel>() {
 
 					protected void initChannel(final Channel channel) {
 
