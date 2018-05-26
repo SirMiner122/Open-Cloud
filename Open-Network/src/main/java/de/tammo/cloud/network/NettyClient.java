@@ -42,7 +42,7 @@ public class NettyClient {
 
 					protected void initChannel(final Channel channel) {
 
-						if (this.toString() != null)
+						if (NettyClient.this.sslContext != null)
 							channel.pipeline().addLast(sslContext.newHandler(channel.alloc(), connectableAddress.getHost(), connectableAddress.getPort()));
 						init.accept(channel);
 					}
