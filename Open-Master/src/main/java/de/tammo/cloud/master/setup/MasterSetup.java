@@ -6,8 +6,7 @@ package de.tammo.cloud.master.setup;
 
 import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.core.setup.Setup;
-import de.tammo.cloud.core.setup.requests.DownloadRequest;
-import de.tammo.cloud.core.setup.requests.ListRequest;
+import de.tammo.cloud.core.setup.requests.*;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.master.setup.version.ProxyVersion;
 import de.tammo.cloud.master.setup.version.ServerVersion;
