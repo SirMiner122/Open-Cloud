@@ -18,23 +18,23 @@ public class CommandHandler {
 	@Getter
 	private final ArrayList<Command> commands = new ArrayList<>();
 
-	public CommandHandler(final String commandPackage, final Logger logger) {
+	public CommandHandler(final String commandPackage) {
 		try {
 			for (final ClassPath.ClassInfo classInfo : ClassPath.from(this.getClass().getClassLoader()).getTopLevelClasses(commandPackage)) {
 				final Class commandClass = Class.forName(classInfo.getName());
 				if (Command.class.isAssignableFrom(commandClass) && commandClass.isAnnotationPresent(Command.CommandInfo.class)) {
 					this.commands.add((Command) commandClass.newInstance());
-					logger.debug("Command " + classInfo.getSimpleName() + " was added to the command list!");
+					Logger.debug("Command " + classInfo.getSimpleName() + " was added to the command list!");
 				} else {
-					logger.warn("Command " + classInfo.getSimpleName() + " does not implement the Command interface or have the CommandInfo annotation!");
+					Logger.warn("Command " + classInfo.getSimpleName() + " does not implement the Command interface or have the CommandInfo annotation!");
 				}
 			}
 		} catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-			logger.error("Could not initialize commands!", e);
+			Logger.error("Could not initialize commands!", e);
 		}
 	}
 
-	public void executeCommand(final String message, final Logger logger) {
+	public void executeCommand(final String message) {
 		if (message.trim().isEmpty()) return;
 
 		final AtomicBoolean found = new AtomicBoolean(false);
@@ -54,7 +54,7 @@ public class CommandHandler {
 			}
 		});
 
-		if (!found.get()) logger.info("Command not found!");
+		if (!found.get()) Logger.info("Command not found!");
 	}
 
 }

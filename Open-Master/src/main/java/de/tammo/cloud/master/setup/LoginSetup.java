@@ -17,57 +17,58 @@ import java.util.UUID;
 
 public class LoginSetup implements Setup {
 
-	public void setup(final Logger logger, final ConsoleReader reader) throws IOException {
+	public void setup(final ConsoleReader reader) throws IOException {
 		if (Master.getMaster().getCloudUserHandler().getCloudUsers().isEmpty()) {
-			logger.info("There is currently no user created. Creating the first user -> ");
-			new StringRequest().request(logger, "Please enter a name for the setup user:", reader, name -> {
+			Logger.info("There is currently no user created. Creating the first user -> ");
+			new StringRequest().request("Please enter a name for the setup user:", reader, name -> {
 				if (name.equalsIgnoreCase("exit")) {
-					logger.info("\"exit\" is an invalid username. Exiting...");
+					Logger.info("\"exit\" is an invalid username. Exiting...");
 					Master.getMaster().shutdown();
 				} else {
 					try {
-						new StringRequest().request(logger, "Please enter the password for the setup user:", reader, input -> Master.getMaster().getCloudUserHandler().getCloudUsers().add(new CloudUser(name, UUID.randomUUID(), Hashing.hash(input))));
+						new StringRequest().request("Please enter the password for the setup user:", reader, input -> Master.getMaster().getCloudUserHandler().getCloudUsers().add(new CloudUser(name, UUID.randomUUID(), Hashing.hash(input))));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			});
 		} else {
-			this.login(logger, reader);
+			this.login(reader);
 		}
 	}
 
-	private void login(final Logger logger, final ConsoleReader reader) throws IOException {
-		logger.info("Welcome to the login!");
-		new StringRequest().request(logger, "Please enter your username:", reader, name -> {
+	private void login(final ConsoleReader reader) throws IOException {
+		Logger.info("Welcome to the login!");
+		new StringRequest().request("Please enter your username:", reader, name -> {
 			if (name.equalsIgnoreCase("exit")) {
 				Master.getMaster().shutdown();
 			} else {
 				final CloudUser cloudUser = Master.getMaster().getCloudUserHandler().findCloudUserByName(name);
 				if (cloudUser == null) {
 					try {
-						this.login(logger, reader);
+						this.login(reader);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				} else {
+					Logger.info("Password:");
 					try {
-						new StringRequest().request(logger, "Password:", reader, password -> {
-							if (Hashing.verify(password, cloudUser.getHash())) {
-								logger.info("You successfully logged in!");
-							} else {
-								try {
-									this.login(logger, reader);
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
+						final String password = reader.readLine('*');
+						if (Hashing.verify(String.valueOf(password), cloudUser.getHash())) {
+							Logger.info("You successfully logged in!");
+						} else {
+							try {
+								this.login(reader);
+							} catch (IOException e) {
+								e.printStackTrace();
 							}
-						});
+						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
+
 		});
 	}
 

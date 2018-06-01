@@ -19,45 +19,48 @@ import java.util.function.Consumer;
 
 public class MasterSetup implements Setup {
 
-	public void setup(final Logger logger, final ConsoleReader reader) throws IOException {
-		if (Files.notExists(Master.getMaster().getTemplateHandler().getProxyTemplate().toPath())) {
-			Files.createDirectories(Master.getMaster().getTemplateHandler().getProxyTemplate().toPath());
+	public void setup(final ConsoleReader reader) throws IOException {
+		final File proxyTemplate = new File("proxy");
+
+		if (Files.notExists(proxyTemplate.toPath())) {
+			Files.createDirectories(proxyTemplate.toPath());
 		}
 
 		final File proxyJar = new File("proxy//proxy.jar");
 		if (Files.notExists(proxyJar.toPath())) {
-			new ListRequest().request(logger, "Which proxy version you want to install?", ProxyVersion.values(),
+			new ListRequest().request("Which proxy version you want to install?", ProxyVersion.values(),
 					reader, version -> {
 						final ProxyVersion install = ProxyVersion.valueOf(version.toUpperCase());
 						try {
-							logger.info(install.getUrl());
-							new DownloadRequest().request(logger, install.getUrl(), proxyJar.getPath(), () -> logger.info("Download complete!"));
+							Logger.info(install.getUrl());
+							new DownloadRequest().request(install.getUrl(), proxyJar.getPath(), () -> Logger.info("Download complete!"));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					});
 		}
 
-		if (Files.notExists(Master.getMaster().getTemplateHandler().getGlobalTemplate().toPath())) {
-			Files.createDirectories(Master.getMaster().getTemplateHandler().getGlobalTemplate().toPath());
+		final File globalTemplate = new File("global");
+
+		if (Files.notExists(globalTemplate.toPath())) {
+			Files.createDirectories(globalTemplate.toPath());
 		}
 
 		final File serverJar = new File("global//server.jar");
 		if (Files.notExists(serverJar.toPath())) {
-			new ListRequest().request(logger, "Which server version you want to install?", ServerVersion.values(),
+			new ListRequest().request("Which server version you want to install?", ServerVersion.values(),
 					reader, version -> {
 						final ServerVersion install = ServerVersion.valueOf(version);
-						logger.info(install.toString());
+						Logger.info(install.toString());
 						try {
-							new ListRequest().request(logger, "Which specific version you want to install?", install
+							new ListRequest().request("Which specific version you want to install?", install
 									.getVersions(), reader, specificVersion -> {
 								try {
-									logger.info(install.getUrl().replace("%version%", install.getVersionByName
+									Logger.info(install.getUrl().replace("%version%", install.getVersionByName
 											(specificVersion).getUrl()));
-									new DownloadRequest().request(logger, install.getUrl().replace("%version%",
+									new DownloadRequest().request(install.getUrl().replace("%version%",
 											install.getVersionByName(specificVersion).getUrl()), serverJar.getPath(), () ->
-											logger.info
-											("Download complete!"));
+											Logger.info("Download complete!"));
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -69,7 +72,7 @@ public class MasterSetup implements Setup {
 		}
 
 		if (Master.getMaster().getNetworkHandler().getWrapperMetas().isEmpty()) {
-			logger.info("To create a wrapper use the following command: \"wrapper create <host>\"!");
+			Logger.info("To create a wrapper use the following command: \"wrapper create <host>\"!");
 		}
 	}
 

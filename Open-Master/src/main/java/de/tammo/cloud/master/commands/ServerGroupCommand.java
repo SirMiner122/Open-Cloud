@@ -12,25 +12,23 @@ import de.tammo.cloud.master.servergroup.ServerGroup;
 @Command.CommandInfo(name = "group", aliases = {"servergroup", "sg"})
 public class ServerGroupCommand implements Command {
 
-	private final Logger logger = Master.getMaster().getLogger();
-
 	public final boolean execute(final String[] args) {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
-				this.logger.info("<-- Server Groups -->");
-				Master.getMaster().getServerGroupHandler().getServerGroups().forEach(serverGroup -> this.logger.info
+				Logger.info("<-- Server Groups -->");
+				Master.getMaster().getServerGroupHandler().getServerGroups().forEach(serverGroup -> Logger.info
 						("Servergroup: " + serverGroup.getName()));
-				this.logger.info("");
+				Logger.info("");
 				return true;
 			}
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("delete")) {
 				final ServerGroup serverGroup = Master.getMaster().getServerGroupHandler().getServerGroupByName(args[1]);
 				if (serverGroup == null) {
-					this.logger.warn("Can not find this server group!");
+					Logger.warn("Can not find this server group!");
 				} else {
 					Master.getMaster().getServerGroupHandler().removeServerGroup(serverGroup);
-					this.logger.info("Deleted this server group!");
+					Logger.info("Deleted this server group!");
 				}
 				return true;
 			}
@@ -49,19 +47,19 @@ public class ServerGroupCommand implements Command {
 										.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(),minServer,
 										maxServer, minRam, maxRam));
 								Master.getMaster().getServerGroupHandler().getServerGroups().forEach(ServerGroup::init);
-								this.logger.info("Created server group with name " + name.substring(0, 1).toUpperCase
+								Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase
 										() + name.substring(1).toLowerCase());
 							} catch (final NumberFormatException e) {
-								this.logger.warn("Maximum of ram must be a number!");
+								Logger.warn("Maximum of ram must be a number!");
 							}
 						} catch (final NumberFormatException e) {
-							this.logger.warn("Minimum of ram must be a number!");
+							Logger.warn("Minimum of ram must be a number!");
 						}
 					} catch (final NumberFormatException e) {
-						this.logger.warn("Maximum of servers must be a number!");
+						Logger.warn("Maximum of servers must be a number!");
 					}
 				} catch (final NumberFormatException e) {
-					this.logger.warn("Minimum of servers must be a number!");
+					Logger.warn("Minimum of servers must be a number!");
 				}
 				return true;
 			}
@@ -70,8 +68,8 @@ public class ServerGroupCommand implements Command {
 	}
 
 	public void printHelp() {
-		this.logger.info("group list");
-		this.logger.info("group create <name> <min server> <max server> <min ram> <max ram>");
-		this.logger.info("group delete <name>");
+		Logger.info("group list");
+		Logger.info("group create <name> <min server> <max server> <min ram> <max ram>");
+		Logger.info("group delete <name>");
 	}
 }

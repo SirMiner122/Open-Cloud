@@ -12,18 +12,18 @@ import java.util.function.Consumer;
 
 public class IntegerRequest {
 
-	public void request(final Logger logger, final String request, final ConsoleReader reader, final Consumer<Integer> accept) throws IOException {
-		logger.info(request);
+	public void request(final String request, final ConsoleReader reader, final Consumer<Integer> accept) throws IOException {
+		Logger.info(request);
 		final String input = reader.readLine();
 		if (input.trim().isEmpty()) {
-			this.request(logger, request, reader, accept);
+			this.request(request, reader, accept);
 		}
 
 		try {
 			final int number = Integer.parseInt(input);
 			accept.accept(number);
 		} catch (NumberFormatException e) {
-			this.request(logger, request, reader, accept);
+			this.request(request, reader, accept);
 		}
 	}
 

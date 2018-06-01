@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.master.network.handler;
 
+import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.master.network.packets.in.WrapperKeyInPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
@@ -20,7 +21,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 				wrapper.sendPacket(wrapper.getQueue().poll());
 			}
 		} else {
-			Master.getMaster().getLogger().warn("Unknown wrapper!");
+			Logger.warn("Unknown wrapper!");
 		}
 	}
 
@@ -37,7 +38,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 	public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
 		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(ctx.channel()));
 		wrapper.disconnect();
-		Master.getMaster().getLogger().info("Wrapper from host " + wrapper.getWrapperMeta().getHost() + " is disconnected!");
+		Logger.info("Wrapper from host " + wrapper.getWrapperMeta().getHost() + " is disconnected!");
 		super.channelInactive(ctx);
 	}
 

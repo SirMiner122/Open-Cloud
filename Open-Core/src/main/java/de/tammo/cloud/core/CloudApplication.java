@@ -15,23 +15,23 @@ public interface CloudApplication {
 
 	void shutdown();
 
-	default void printHeader(final String module, final Logger logger) {
-		logger.info("   ____                      _____ _                 _       ");
-		logger.info("  / __ \\                    / ____| |               | |     ");
-		logger.info(" | |  | |_ __   ___ _ __   | |    | | ___  _   _  __| |      ");
-		logger.info(" | |  | | '_ \\ / _ \\ '_ \\  | |    | |/ _ \\| | | |/ _` |  ");
-		logger.info(" | |__| | |_) |  __/ | | | | |____| | (_) | |_| | (_| |      ");
-		logger.info("  \\____/| .__/ \\___|_| |_|  \\_____|_|\\___/ \\__,_|\\__,_|");
-		logger.info("        | |                                                  ");
-		logger.info("        |_|                                                   ");
+	default void printHeader(final String module) {
+		Logger.info("   ____                      _____ _                 _       ");
+		Logger.info("  / __ \\                    / ____| |               | |     ");
+		Logger.info(" | |  | |_ __   ___ _ __   | |    | | ___  _   _  __| |      ");
+		Logger.info(" | |  | | '_ \\ / _ \\ '_ \\  | |    | |/ _ \\| | | |/ _` |  ");
+		Logger.info(" | |__| | |_) |  __/ | | | | |____| | (_) | |_| | (_| |      ");
+		Logger.info("  \\____/| .__/ \\___|_| |_|  \\_____|_|\\___/ \\__,_|\\__,_|");
+		Logger.info("        | |                                                  ");
+		Logger.info("        |_|                                                  ");
 
 		this.sleep(200);
 
-		logger.info("");
+		Logger.info("");
 
 		this.sleep(200);
 
-		logger.info("Starting " + module + "!");
+		Logger.info("Starting " + module + "!");
 	}
 
 	default void sleep(final long ms) {

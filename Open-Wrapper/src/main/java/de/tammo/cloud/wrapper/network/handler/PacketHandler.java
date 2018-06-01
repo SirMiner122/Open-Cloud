@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.wrapper.network.handler;
 
+import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.wrapper.Wrapper;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,7 +27,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
-		Wrapper.getWrapper().getLogger().info("Connection was refused!");
+		Logger.info("Connection was refused!");
 		if (Wrapper.getWrapper().isRunning()) {
 			Wrapper.getWrapper().shutdown();
 		}

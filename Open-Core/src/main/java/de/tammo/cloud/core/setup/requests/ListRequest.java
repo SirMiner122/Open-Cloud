@@ -13,14 +13,13 @@ import java.util.function.Consumer;
 
 public class ListRequest {
 
-	public <T> void request(final Logger logger, final String request, final T[] responses, final ConsoleReader
-			reader, final Consumer<String> accept) throws IOException {
-		logger.info(request + " " + this.getResponseString(responses));
+	public <T> void request(final String request, final T[] responses, final ConsoleReader reader, final Consumer<String> accept) throws IOException {
+		Logger.info(request + " " + this.getResponseString(responses));
 		final String line = reader.readLine();
 		if (this.contains(responses, line)) {
 			accept.accept(line.toUpperCase());
 		} else {
-			this.request(logger, request, responses, reader, accept);
+			this.request(request, responses, reader, accept);
 		}
 	}
 

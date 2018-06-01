@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.wrapper.network.packets.in;
 
+import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import de.tammo.cloud.wrapper.Wrapper;
@@ -18,11 +19,12 @@ public class WrapperKeyValidationInPacket implements Packet {
 
 	public final Packet handle(final Channel channel) {
 		if (this.valid) {
-			Wrapper.getWrapper().getLogger().info("Wrapper key is valid!");
+			Logger.info("Wrapper key is valid!");
 			Wrapper.getWrapper().getConfiguration().setKey(Wrapper.getWrapper().getKey());
+			Wrapper.getWrapper().setVeriefied(true);
 			return new SuccessPacket();
 		} else {
-			Wrapper.getWrapper().getLogger().info("Wrapper key is not valid!");
+			Logger.info("Wrapper key is not valid!");
 			Wrapper.getWrapper().shutdown();
 			return null;
 		}
