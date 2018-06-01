@@ -7,7 +7,7 @@ package de.tammo.cloud.master.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import de.tammo.cloud.core.document.DocumentFile;
+import de.tammo.cloud.config.DocumentFile;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
 

@@ -17,8 +17,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
 	protected void decode(final ChannelHandlerContext ctx, final ByteBuf byteBuf, final List<Object> output) throws Exception {
 		final int id = byteBuf.readInt();
-		System.out.println(id);
 		final Packet packet = PacketRegistry.getPacketById(id, PacketRegistry.PacketDirection.IN);
+
 		if (packet == null) {
 			new NullPointerException("Could not find packet by id " + id + "!").printStackTrace();
 		} else {

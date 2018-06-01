@@ -87,6 +87,18 @@
         </dependency>
 
         <dependency>
+            <groupId>de.tammo.cloud</groupId>
+            <artifactId>Open-Web</artifactId>
+            <version>${version.open-cloud}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tammo.cloud</groupId>
+            <artifactId>Open-Config</artifactId>
+            <version>${version.open-cloud}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${version.lombok}</version>

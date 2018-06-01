@@ -5,13 +5,15 @@
 package de.tammo.cloud.master.servergroup;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 
 public class ServerGroupHandler {
 
+	@Setter
 	@Getter
-	private final ArrayList<ServerGroup> serverGroups = new ArrayList<>();
+	private ArrayList<ServerGroup> serverGroups = new ArrayList<>();
 
 	public final ServerGroup getServerGroupByName(final String name) {
 		return this.serverGroups.stream().filter(serverGroup -> serverGroup.getName().equalsIgnoreCase(name)).findFirst().orElse(null);

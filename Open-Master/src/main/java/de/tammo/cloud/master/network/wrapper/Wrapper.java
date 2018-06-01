@@ -24,6 +24,14 @@ public class Wrapper {
 	@Getter
 	private boolean verified = false;
 
+	@Setter
+	@Getter
+	private int cpu = 0;
+
+	@Setter
+	@Getter
+	private int memory = 0;
+
 	@Getter
 	private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
 
@@ -42,7 +50,7 @@ public class Wrapper {
 	}
 
 	public final boolean isConnected() {
-		return this.channel != null;
+		return this.channel != null && this.channel.isOpen();
 	}
 
 }

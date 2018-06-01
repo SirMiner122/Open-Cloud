@@ -10,8 +10,7 @@ import io.netty.channel.Channel;
 import lombok.Getter;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 public class NetworkHandler {
 
@@ -28,6 +27,10 @@ public class NetworkHandler {
 
 	public void removeWrapper(final Wrapper wrapper) {
 		this.wrappers.remove(wrapper);
+	}
+
+	public final Wrapper getWrapperByChannel(final Channel channel) {
+		return this.wrappers.stream().filter(wrapper -> wrapper.getWrapperMeta().getHost().equalsIgnoreCase(this.getHostFromChannel(channel))).findFirst().orElse(null);
 	}
 
 	public final String getHostFromChannel(final Channel channel) {
@@ -50,6 +53,24 @@ public class NetworkHandler {
 
 	public final String generateWrapperKey() {
 		return UUID.randomUUID().toString().replace("-", "");
+	}
+
+	private Wrapper getBestWrapper() {
+		// cpu -> ram
+		final Wrapper bestCpu = this.wrappers.stream().min(Comparator.comparing(Wrapper::getCpu)).orElse(null);
+		final Wrapper bestMemory = this.wrappers.stream().min(Comparator.comparing(Wrapper::getMemory)).orElse(null);
+
+		if (bestCpu == null || bestMemory == null) {
+			return null;
+		}
+
+		if (bestCpu == bestMemory) {
+			return bestCpu;
+		} else {
+
+		}
+
+		return null;
 	}
 
 }

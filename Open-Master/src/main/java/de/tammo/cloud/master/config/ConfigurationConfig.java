@@ -6,7 +6,7 @@ package de.tammo.cloud.master.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.tammo.cloud.core.document.DocumentFile;
+import de.tammo.cloud.config.DocumentFile;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.master.config.configuration.Configuration;
 
@@ -20,15 +20,14 @@ public class ConfigurationConfig extends DocumentFile {
 	}
 
 	protected void load() throws IOException {
-		try (final BufferedReader bufferedReader = Files.newBufferedReader(this.file.toPath())){
+		try (final BufferedReader bufferedReader = Files.newBufferedReader(this.file.toPath())) {
 			Master.getMaster().setConfiguration(new Gson().fromJson(bufferedReader, Configuration.class));
 		}
 	}
 
 	protected void save() throws IOException {
-		try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(this.file.toPath())){
-			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-					.toJson(Master.getMaster().getConfiguration()));
+		try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(this.file.toPath())) {
+			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(Master.getMaster().getConfiguration()));
 		}
 	}
 
