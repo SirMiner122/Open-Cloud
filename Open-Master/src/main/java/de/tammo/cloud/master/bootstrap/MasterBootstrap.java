@@ -9,8 +9,6 @@ import de.tammo.cloud.master.Master;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
-import java.io.IOException;
-
 public class MasterBootstrap {
 
 	public static void main(final String[] args) throws JavaVersionRequiredException {
