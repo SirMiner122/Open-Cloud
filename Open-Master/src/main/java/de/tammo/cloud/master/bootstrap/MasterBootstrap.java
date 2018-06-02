@@ -9,34 +9,28 @@ import de.tammo.cloud.master.Master;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
-import java.io.IOException;
-
 public class MasterBootstrap {
 
-    public static void main(final String[] args) throws JavaVersionRequiredException {
-        if (Double.parseDouble(System.getProperty("java.class.version")) < 52) {
-            throw new JavaVersionRequiredException();
-        } else {
-            new MasterBootstrap(args);
-        }
-    }
+	public static void main(final String[] args) throws JavaVersionRequiredException {
+		if (Double.parseDouble(System.getProperty("java.class.version")) < 52) {
+			throw new JavaVersionRequiredException();
+		} else {
+			new MasterBootstrap(args);
+		}
+	}
 
-    private MasterBootstrap(final String[] args) {
-        final OptionParser optionParser = new OptionParser();
+	private MasterBootstrap(final String[] args) {
+		final OptionParser optionParser = new OptionParser();
 
-        optionParser.accepts("debug");
-        optionParser.accepts("help");
-        optionParser.accepts("version");
+		optionParser.accepts("debug");
+		optionParser.accepts("help");
+		optionParser.accepts("version");
 
-        final OptionSet optionSet = optionParser.parse(args);
+		final OptionSet optionSet = optionParser.parse(args);
 
-        System.setProperty("jline.WindowsTerminal.directConsole", "false");
+		System.setProperty("jline.WindowsTerminal.directConsole", "false");
 
-        try {
-            new Master().bootstrap(optionSet);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		new Master().bootstrap(optionSet);
+	}
 
 }

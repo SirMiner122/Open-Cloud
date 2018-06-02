@@ -11,6 +11,7 @@
         <groupId>de.tammo.cloud</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Open-Modules</artifactId>
@@ -19,6 +20,8 @@
     <modules>
         <module>Open-Security</module>
         <module>Open-Command</module>
+        <module>Open-Web</module>
+        <module>Open-Config</module>
     </modules>
 
 

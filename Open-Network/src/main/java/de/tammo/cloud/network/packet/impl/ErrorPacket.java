@@ -13,23 +13,23 @@ import java.io.IOException;
 
 public class ErrorPacket implements Packet {
 
-    private String error;
+	private String error;
 
-    public ErrorPacket() {}
+	public ErrorPacket() {}
 
-    public ErrorPacket(final String error) {
-        this.error = error;
-    }
+	public ErrorPacket(final String error) {
+		this.error = error;
+	}
 
-    public final Packet handle(final Channel channel) {
-        return new SuccessPacket();
-    }
+	public final Packet handle(final Channel channel) {
+		return new SuccessPacket();
+	}
 
-    public void read(final ByteBufInputStream byteBuf) throws IOException {
-        this.error = byteBuf.readUTF();
-    }
+	public void read(final ByteBufInputStream byteBuf) throws IOException {
+		this.error = byteBuf.readUTF();
+	}
 
-    public void write(final ByteBufOutputStream byteBuf) throws IOException {
-        byteBuf.writeUTF(this.error);
-    }
+	public void write(final ByteBufOutputStream byteBuf) throws IOException {
+		byteBuf.writeUTF(this.error);
+	}
 }

@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.wrapper.network.handler;
 
+import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.wrapper.Wrapper;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,23 +12,25 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
-    public void channelActive(final ChannelHandlerContext ctx) {
-        if (Wrapper.getWrapper().getNetworkHandler().getHostFromChannel(ctx.channel()).equals("127.0.0.1")) {
-            Wrapper.getWrapper().getNetworkHandler().setMasterChannel(ctx.channel());
-            while (!Wrapper.getWrapper().getNetworkHandler().getQueue().isEmpty()) {
-                Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(Wrapper.getWrapper().getNetworkHandler().getQueue().poll());
-            }
-        }
-    }
+	public void channelActive(final ChannelHandlerContext ctx) {
+		if (Wrapper.getWrapper().getNetworkHandler().getHostFromChannel(ctx.channel()).equals("127.0.0.1")) {
+			Wrapper.getWrapper().getNetworkHandler().setMasterChannel(ctx.channel());
+			while (!Wrapper.getWrapper().getNetworkHandler().getQueue().isEmpty()) {
+				Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(Wrapper.getWrapper().getNetworkHandler().getQueue().poll());
+			}
+		}
+	}
 
-    protected void channelRead0(final ChannelHandlerContext ctx, final Packet packet) {
-        final Packet response = packet.handle(ctx.channel());
-        if(response != null) ctx.channel().writeAndFlush(response);
-    }
+	protected void channelRead0(final ChannelHandlerContext ctx, final Packet packet) {
+		final Packet response = packet.handle(ctx.channel());
+		if (response != null) ctx.channel().writeAndFlush(response);
+	}
 
-    public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
-        Wrapper.getWrapper().getLogger().info("Master interrupted the connection!");
-        Wrapper.getWrapper().shutdown();
-        super.channelInactive(ctx);
-    }
+	public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
+		Logger.info("Connection was refused!");
+		if (Wrapper.getWrapper().isRunning()) {
+			Wrapper.getWrapper().shutdown();
+		}
+		super.channelInactive(ctx);
+	}
 }

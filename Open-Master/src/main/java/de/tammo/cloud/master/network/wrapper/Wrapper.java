@@ -6,45 +6,46 @@ package de.tammo.cloud.master.network.wrapper;
 
 import de.tammo.cloud.network.packet.Packet;
 import io.netty.channel.Channel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Getter
 @RequiredArgsConstructor
 public class Wrapper {
 
-    @Getter
-    private final WrapperMeta wrapperMeta;
+	private final WrapperMeta wrapperMeta;
 
-    @Setter
-    @Getter
-    private Channel channel;
+	@Setter
+	private Channel channel;
 
-    @Setter
-    @Getter
-    private boolean verified = false;
+	@Setter
+	private boolean verified = false;
 
-    @Getter
-    private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
+	@Setter
+	private int cpu = 0;
 
-    public void sendPacket(final Packet packet) {
-        if (this.channel == null) {
-            this.queue.offer(packet);
-        } else {
-            this.channel.writeAndFlush(packet);
-        }
-    }
+	@Setter
+	private int memory = 0;
 
-    public void disconnect() {
-        this.channel.close();
-        this.channel = null;
-        this.queue.clear();
-    }
+	private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
 
-    public final boolean isConnected() {
-        return this.channel != null;
-    }
+	public void sendPacket(final Packet packet) {
+		if (this.channel == null) {
+			this.queue.offer(packet);
+		} else {
+			this.channel.writeAndFlush(packet);
+		}
+	}
+
+	public void disconnect() {
+		this.channel.close();
+		this.channel = null;
+		this.queue.clear();
+	}
+
+	public final boolean isConnected() {
+		return this.channel != null && this.channel.isOpen();
+	}
 
 }

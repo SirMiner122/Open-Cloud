@@ -6,24 +6,27 @@ package de.tammo.cloud.masterapi.module;
 
 public interface Module {
 
-    default void onLoad() {}
+	default void onLoad() {}
 
-    default void onEnable() {}
+	default void onEnable() {}
 
-    default void onDisable() {}
+	default void onDisable() {}
 
-    default void onStop() {}
+	default void onStop() {}
 
-    default String getName() {
-        return "";
-    }
+	default String getName() {
 
-    default String getVersion() {
-        return "1.0-SNAPSHOT";
-    }
+		return "";
+	}
 
-    default String getAuthor() {
-        return "";
-    }
+	default String getVersion() {
+
+		return "1.0-SNAPSHOT";
+	}
+
+	default String getAuthor() {
+
+		return "";
+	}
 
 }

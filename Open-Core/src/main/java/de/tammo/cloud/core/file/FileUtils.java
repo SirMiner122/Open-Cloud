@@ -4,59 +4,66 @@
 
 package de.tammo.cloud.core.file;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
+
 import java.io.*;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 import java.util.Objects;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class FileUtils {
 
-    public static void copyDir(final File from, final File to) throws IOException {
-        if (!Files.notExists(to.toPath())) {
-            Files.createDirectories(to.toPath());
-        }
+	public static void copyDir(final File from, final File to) throws IOException {
+		if (!Files.notExists(to.toPath())) {
+			Files.createDirectories(to.toPath());
+		}
 
-        for (final File file : Objects.requireNonNull(from.listFiles())) {
-            if (file.isDirectory()) {
-                copyDir(file, new File(to.getAbsolutePath() + "//" + file.getName()));
-            } else {
-                Files.copy(file.toPath(), new File(to.getAbsolutePath() + "//" + file.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
-        }
-    }
+		for (final File file : Objects.requireNonNull(from.listFiles())) {
+			if (file.isDirectory()) {
+				copyDir(file, new File(to.getAbsolutePath() + "//" + file.getName()));
+			} else {
+				Files.copy(file.toPath(), new File(to.getAbsolutePath() + "//" + file.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}
+		}
+	}
 
-    public static void deleteDir(final File dir) throws IOException {
-        if (!Files.exists(dir.toPath())) throw new FileNotFoundException();
+	public static void deleteDir(final File dir) throws IOException {
+		if (!Files.exists(dir.toPath())) throw new FileNotFoundException();
 
-        for (final File file : Objects.requireNonNull(dir.listFiles())) {
-            if (file.isDirectory()) {
-                deleteDir(file);
-            } else {
-                Files.delete(file.toPath());
-            }
-        }
-    }
+		for (final File file : Objects.requireNonNull(dir.listFiles())) {
+			if (file.isDirectory()) {
+				deleteDir(file);
+			} else {
+				Files.delete(file.toPath());
+			}
+		}
 
-    public static void packZip(final Path folder, final Path zipFile) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(zipFile.toFile()); ZipOutputStream zos = new ZipOutputStream(fos)) {
-            Files.walkFileTree(folder, new SimpleFileVisitor<Path>() {
+		Files.delete(dir.toPath());
+	}
 
-                public FileVisitResult visitFile(final Path file, final BasicFileAttributes basicFileAttributes) throws IOException {
-                    zos.putNextEntry(new ZipEntry(folder.relativize(file).toString()));
-                    Files.copy(file, zos);
-                    zos.closeEntry();
-                    return FileVisitResult.CONTINUE;
-                }
+	public static void zip(final File dir, final String zipPath) throws ZipException {
+		final ZipFile zipFile = new ZipFile(zipPath + ".zip");
+		final ZipParameters parameters = new ZipParameters();
+		parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+		parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+		Arrays.stream(Objects.requireNonNull(dir.listFiles())).forEach(file -> {
+			try {
+				if (file.isDirectory()) {
+					zipFile.addFolder(file, parameters);
+				} else {
+					zipFile.addFile(file, parameters);
+				}
+			} catch (ZipException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-                public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes basicFileAttributes) throws IOException {
-                    zos.putNextEntry(new ZipEntry(folder.relativize(dir).toString() + "/"));
-                    zos.closeEntry();
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        }
-    }
+	public static void unzip(final String zipPath, final String targetDir) throws ZipException {
+		new ZipFile(zipPath).extractAll(targetDir);
+	}
 
 }

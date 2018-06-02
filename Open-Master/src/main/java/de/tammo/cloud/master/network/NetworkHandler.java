@@ -10,46 +10,67 @@ import io.netty.channel.Channel;
 import lombok.Getter;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 public class NetworkHandler {
 
-    @Getter
-    private final ArrayList<Wrapper> wrappers = new ArrayList<>();
+	@Getter
+	private final ArrayList<Wrapper> wrappers = new ArrayList<>();
 
-    public final Wrapper getWrapperByHost(final String host) {
-        return this.wrappers.stream().filter(wrapper -> wrapper.getWrapperMeta().getHost().equalsIgnoreCase(host)).findFirst().orElse(null);
-    }
+	public final Wrapper getWrapperByHost(final String host) {
+		return this.wrappers.stream().filter(wrapper -> wrapper.getWrapperMeta().getHost().equalsIgnoreCase(host)).findFirst().orElse(null);
+	}
 
-    public void addWrapper(final Wrapper wrapper) {
-        this.wrappers.add(wrapper);
-    }
+	public void addWrapper(final Wrapper wrapper) {
+		this.wrappers.add(wrapper);
+	}
 
-    public void removeWrapper(final Wrapper wrapper) {
-        this.wrappers.remove(wrapper);
-    }
+	public void removeWrapper(final Wrapper wrapper) {
+		this.wrappers.remove(wrapper);
+	}
 
-    public final String getHostFromChannel(final Channel channel) {
-        return ((InetSocketAddress) channel.remoteAddress()).getAddress().getHostAddress();
-    }
+	public final Wrapper getWrapperByChannel(final Channel channel) {
+		return this.wrappers.stream().filter(wrapper -> wrapper.getWrapperMeta().getHost().equalsIgnoreCase(this.getHostFromChannel(channel))).findFirst().orElse(null);
+	}
 
-    public final void createWrappers(final ArrayList<WrapperMeta> wrapperMetas) {
-        wrapperMetas.forEach(wrapperMeta -> this.addWrapper(new Wrapper(wrapperMeta)));
-    }
+	public final String getHostFromChannel(final Channel channel) {
+		return ((InetSocketAddress) channel.remoteAddress()).getAddress().getHostAddress();
+	}
 
-    public final ArrayList<WrapperMeta> getWrapperMetas() {
-        final ArrayList<WrapperMeta> metas = new ArrayList<>();
-        this.wrappers.forEach(wrapper -> metas.add(wrapper.getWrapperMeta()));
-        return metas;
-    }
+	public final void createWrappers(final ArrayList<WrapperMeta> wrapperMetas) {
+		wrapperMetas.forEach(wrapperMeta -> this.addWrapper(new Wrapper(wrapperMeta)));
+	}
 
-    public boolean isWhitelisted(final String ip) {
-        return this.wrappers.stream().filter(wrapper -> wrapper.getWrapperMeta().getHost().equalsIgnoreCase(ip)).findFirst().orElse(null) != null;
-    }
+	public final ArrayList<WrapperMeta> getWrapperMetas() {
+		final ArrayList<WrapperMeta> metas = new ArrayList<>();
+		this.wrappers.forEach(wrapper -> metas.add(wrapper.getWrapperMeta()));
+		return metas;
+	}
 
-    public final String generateWrapperKey() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
+	public boolean isWhitelisted(final String ip) {
+		return this.wrappers.stream().filter(wrapper -> wrapper.getWrapperMeta().getHost().equalsIgnoreCase(ip)).findFirst().orElse(null) != null;
+	}
+
+	public final String generateWrapperKey() {
+		return UUID.randomUUID().toString().replace("-", "");
+	}
+
+	private Wrapper getBestWrapper() {
+		// cpu -> ram
+		final Wrapper bestCpu = this.wrappers.stream().min(Comparator.comparing(Wrapper::getCpu)).orElse(null);
+		final Wrapper bestMemory = this.wrappers.stream().min(Comparator.comparing(Wrapper::getMemory)).orElse(null);
+
+		if (bestCpu == null || bestMemory == null) {
+			return null;
+		}
+
+		if (bestCpu == bestMemory) {
+			return bestCpu;
+		} else {
+
+		}
+
+		return null;
+	}
 
 }

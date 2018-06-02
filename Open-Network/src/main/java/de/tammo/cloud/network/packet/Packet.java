@@ -13,12 +13,13 @@ import java.io.IOException;
 
 public interface Packet {
 
-    default void read(final ByteBufInputStream byteBuf) throws IOException {}
+	default void read(final ByteBufInputStream byteBuf) throws IOException {}
 
-    default void write(final ByteBufOutputStream byteBuf) throws IOException {}
+	default void write(final ByteBufOutputStream byteBuf) throws IOException {}
 
-    default Packet handle(final Channel channel) {
-        return new SuccessPacket();
-    }
+	default Packet handle(final Channel channel) {
+
+		return new SuccessPacket();
+	}
 
 }

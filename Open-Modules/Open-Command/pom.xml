@@ -20,7 +20,14 @@
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version.open-cloud}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${version.lombok}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

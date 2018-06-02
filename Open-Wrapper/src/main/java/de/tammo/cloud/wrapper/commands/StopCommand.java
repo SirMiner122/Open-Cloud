@@ -10,9 +10,9 @@ import de.tammo.cloud.wrapper.Wrapper;
 @Command.CommandInfo(name = "stop", aliases = {"shutdown", "terminate"})
 public class StopCommand implements Command {
 
-    public boolean execute(final String[] args) {
-        Wrapper.getWrapper().setRunning(false);
-        return true;
-    }
+	public boolean execute(final String[] args) {
+		Wrapper.getWrapper().setRunning(false);
+		return true;
+	}
 
 }

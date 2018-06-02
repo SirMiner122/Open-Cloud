@@ -9,10 +9,14 @@ import lombok.Data;
 @Data
 public class Configuration {
 
-    private String masterHost = "127.0.0.1";
+	private String masterHost = "127.0.0.1";
 
-    private String key = "";
+	private String key = "";
 
-    private int masterPort = 1337;
+	private int masterPort = 1337;
+
+	private int webPort = 80;
+
+	private int averageSeconds = 5;
 
 }

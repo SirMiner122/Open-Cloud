@@ -9,8 +9,8 @@ import io.netty.channel.Channel;
 
 public class SuccessPacket implements Packet {
 
-    public final Packet handle(final Channel channel) {
-        return null;
-    }
+	public final Packet handle(final Channel channel) {
+		return null;
+	}
 
 }

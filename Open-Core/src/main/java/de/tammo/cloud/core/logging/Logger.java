@@ -5,6 +5,7 @@
 package de.tammo.cloud.core.logging;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,38 +13,63 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class Logger {
 
-    private final String logPath;
+	@Setter
+	private static String prefix;
 
-    private final String prefix;
+	@Setter
+	private static LogLevel level = LogLevel.INFO;
 
-    private final LogLevel level;
+	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-    private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+	public static void debug(final Object any) {
+		log(any, LogLevel.DEBUG);
+	}
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy//MM//dd");
+	public static void info(final Object any) {
+		log(any, LogLevel.INFO);
+	}
 
-    public void debug(final Object any) {
-        this.log(any, LogLevel.DEBUG);
-    }
+	public static void warn(final Object any) {
+		log(any, LogLevel.WARNING);
+	}
 
-    public void info(final Object any) {
-        this.log(any, LogLevel.INFO);
-    }
+	public static void error(final Object any, final Exception exception) {
+		log(any, LogLevel.ERROR);
+		exception.printStackTrace();
+	}
 
-    public void warn(final Object any) {
-        this.log(any, LogLevel.WARNING);
-    }
+	private static void log(final Object any, final LogLevel logLevel) {
+		if (level.getLevel() > logLevel.getLevel()) return;
 
-    public void error(final Object any, final Exception exception) {
-        this.log(any, LogLevel.ERROR);
-        exception.printStackTrace();
-    }
+		System.out.println("\r[" + timeFormat.format(new Date()) + "] " + prefix + " [" + logLevel.getName() + "] " + any.toString());
+		System.out.print("\r> ");
+	}
 
-    private void log(final Object any, final LogLevel logLevel) {
-        if (this.level.getLevel() > logLevel.getLevel()) return;
+	public static void progress(final long current, final long length) {
+		final int percent = (int) (((double) current / length) * 100);
+		System.out.print("\r[" + timeFormat.format(new Date()) + "] " + prefix + " [" + LogLevel.INFO.getName() + "] " + createProgress(percent, current, length));
 
-        System.out.println("\r[" + this.timeFormat.format(new Date()) + "] " + this.prefix + " [" + logLevel.getName() + "] " + any.toString());
-        System.out.print("> ");
-    }
+		if (percent == 100) {
+			System.out.println();
+			System.out.print("\r>");
+		}
+	}
+
+	private static String createProgress(final int percent, final long current, final long length) {
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("[");
+		for (int i = 0; i < 25; i++) {
+			if (i < percent / 4) {
+				stringBuilder.append("=");
+			} else if(i == percent / 4) {
+				stringBuilder.append(">");
+			} else {
+				stringBuilder.append(" ");
+			}
+		}
+		stringBuilder.append("]  ").append(current / 1024).append("/").append(length / 1024).append
+				(" KB");
+		return stringBuilder.toString();
+	}
 
 }
