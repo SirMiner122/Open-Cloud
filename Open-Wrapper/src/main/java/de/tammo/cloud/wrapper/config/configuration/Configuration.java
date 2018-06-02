@@ -15,4 +15,8 @@ public class Configuration {
 
 	private int masterPort = 1337;
 
+	private int webPort = 80;
+
+	private int averageSeconds = 5;
+
 }

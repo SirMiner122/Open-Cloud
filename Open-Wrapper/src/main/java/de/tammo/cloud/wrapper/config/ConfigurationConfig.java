@@ -6,7 +6,7 @@ package de.tammo.cloud.wrapper.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.tammo.cloud.core.document.DocumentFile;
+import de.tammo.cloud.config.DocumentFile;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.config.configuration.Configuration;
 
