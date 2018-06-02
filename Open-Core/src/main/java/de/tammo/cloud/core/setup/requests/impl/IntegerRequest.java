@@ -16,6 +16,7 @@ public class IntegerRequest extends Request {
 	public IntegerRequest(final String request, final ConsoleReader reader) {
 		super(request, reader);
 	}
+
 	public void request(final Consumer<Integer> accept) throws IOException {
 		Logger.info(this.request);
 		final String input = this.reader.readLine();
