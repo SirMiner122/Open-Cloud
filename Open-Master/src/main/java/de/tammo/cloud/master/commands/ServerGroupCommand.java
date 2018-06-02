@@ -16,8 +16,7 @@ public class ServerGroupCommand implements Command {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
 				Logger.info("<-- Server Groups -->");
-				Master.getMaster().getServerGroupHandler().getServerGroups().forEach(serverGroup -> Logger.info
-						("Servergroup: " + serverGroup.getName()));
+				Master.getMaster().getServerGroupHandler().getServerGroups().forEach(serverGroup -> Logger.info("Servergroup: " + serverGroup.getName()));
 				Logger.info("");
 				return true;
 			}
@@ -43,12 +42,9 @@ public class ServerGroupCommand implements Command {
 							final int minRam = Integer.parseInt(args[4]);
 							try {
 								final int maxRam = Integer.parseInt(args[5]);
-								Master.getMaster().getServerGroupHandler().addServerGroup(new ServerGroup(name
-										.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(),minServer,
-										maxServer, minRam, maxRam));
+								Master.getMaster().getServerGroupHandler().addServerGroup(new ServerGroup(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(), minServer, maxServer, minRam, maxRam));
 								Master.getMaster().getServerGroupHandler().getServerGroups().forEach(ServerGroup::init);
-								Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase
-										() + name.substring(1).toLowerCase());
+								Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
 							} catch (final NumberFormatException e) {
 								Logger.warn("Maximum of ram must be a number!");
 							}
