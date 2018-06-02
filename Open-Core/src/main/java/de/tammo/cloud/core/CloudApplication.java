@@ -7,8 +7,6 @@ package de.tammo.cloud.core;
 import de.tammo.cloud.core.logging.Logger;
 import joptsimple.OptionSet;
 
-import java.io.IOException;
-
 public interface CloudApplication {
 
 	void bootstrap(final OptionSet optionSet);
