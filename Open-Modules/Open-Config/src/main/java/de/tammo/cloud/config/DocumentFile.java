@@ -2,7 +2,7 @@
  * Copyright (c) 2018. File created by Tammo
  */
 
-package de.tammo.cloud.core.document;
+package de.tammo.cloud.config;
 
 import java.io.File;
 import java.io.IOException;
