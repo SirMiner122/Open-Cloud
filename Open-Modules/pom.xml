@@ -20,6 +20,8 @@
     <modules>
         <module>Open-Security</module>
         <module>Open-Command</module>
+        <module>Open-Web</module>
+        <module>Open-Config</module>
     </modules>
 
 
