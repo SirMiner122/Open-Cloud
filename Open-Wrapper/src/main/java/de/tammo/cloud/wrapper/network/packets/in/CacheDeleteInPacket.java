@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.wrapper.network.packets.in;
 
+import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
@@ -17,7 +18,7 @@ public class CacheDeleteInPacket implements Packet {
 
 	public final Packet handle(final Channel channel) {
 		try {
-			Files.deleteIfExists(Wrapper.getWrapper().getServerComponentHandler().getCache().toPath());
+			FileUtils.deleteDir(Wrapper.getWrapper().getServerComponentHandler().getCache());
 			return new SuccessPacket();
 		} catch (IOException e) {
 			e.printStackTrace();
