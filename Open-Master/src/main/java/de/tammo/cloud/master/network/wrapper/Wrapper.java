@@ -10,29 +10,24 @@ import lombok.*;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Getter
 @RequiredArgsConstructor
 public class Wrapper {
 
-	@Getter
 	private final WrapperMeta wrapperMeta;
 
 	@Setter
-	@Getter
 	private Channel channel;
 
 	@Setter
-	@Getter
 	private boolean verified = false;
 
 	@Setter
-	@Getter
 	private int cpu = 0;
 
 	@Setter
-	@Getter
 	private int memory = 0;
 
-	@Getter
 	private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
 
 	public void sendPacket(final Packet packet) {
