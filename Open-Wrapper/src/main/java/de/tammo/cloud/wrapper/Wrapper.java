@@ -18,6 +18,7 @@ import de.tammo.cloud.network.registry.PacketRegistry;
 import de.tammo.cloud.network.utils.ConnectableAddress;
 import de.tammo.cloud.wrapper.components.ServerComponentHandler;
 import de.tammo.cloud.wrapper.components.proxy.ProxyServer;
+import de.tammo.cloud.wrapper.components.server.GameServer;
 import de.tammo.cloud.wrapper.config.configuration.Configuration;
 import de.tammo.cloud.wrapper.network.NetworkHandler;
 import de.tammo.cloud.wrapper.network.handler.PacketHandler;
@@ -33,6 +34,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Wrapper implements CloudApplication {
 
@@ -63,7 +65,7 @@ public class Wrapper implements CloudApplication {
 	private boolean running = false;
 
 	@Setter
-	private boolean veriefied = false;
+	private boolean verified = false;
 
 	@Setter
 	@Getter
@@ -98,7 +100,7 @@ public class Wrapper implements CloudApplication {
 
 		this.setupServer();
 
-		while (!this.veriefied)
+		while (!this.verified)
 
 		this.serverComponentHandler = new ServerComponentHandler();
 
@@ -110,7 +112,7 @@ public class Wrapper implements CloudApplication {
 
 		this.workloadProvider.start();
 
-		this.serverComponentHandler.offerServerComponent(new ProxyServer());
+		this.networkHandler.startProxy();
 
 		this.commandHandler = new CommandHandler("de.tammo.cloud.wrapper.commands");
 

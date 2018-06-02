@@ -5,7 +5,7 @@
 package de.tammo.cloud.wrapper.network;
 
 import de.tammo.cloud.network.packet.Packet;
-import de.tammo.cloud.wrapper.proxy.ProxyServer;
+import de.tammo.cloud.wrapper.components.proxy.ProxyServer;
 import io.netty.channel.Channel;
 import lombok.Getter;
 import lombok.Setter;
