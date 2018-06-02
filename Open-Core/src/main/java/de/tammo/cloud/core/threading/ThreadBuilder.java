@@ -8,10 +8,6 @@ public class ThreadBuilder {
 
 	private final Thread thread;
 
-	public ThreadBuilder(final Runnable runnable) {
-		this.thread = new Thread(runnable);
-	}
-
 	public ThreadBuilder(final String name, final Runnable runnable) {
 		this.thread = new Thread(runnable, name);
 	}
