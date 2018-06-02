@@ -61,14 +61,13 @@ public class Logger {
 		for (int i = 0; i < 25; i++) {
 			if (i < percent / 4) {
 				stringBuilder.append("=");
-			} else if(i == percent / 4) {
+			} else if (i == percent / 4) {
 				stringBuilder.append(">");
 			} else {
 				stringBuilder.append(" ");
 			}
 		}
-		stringBuilder.append("]  ").append(current / 1024).append("/").append(length / 1024).append
-				(" KB");
+		stringBuilder.append("]  ").append(current / 1024).append("/").append(length / 1024).append(" KB");
 		return stringBuilder.toString();
 	}
 
