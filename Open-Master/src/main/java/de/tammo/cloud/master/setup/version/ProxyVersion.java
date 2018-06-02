@@ -15,7 +15,6 @@ public enum  ProxyVersion {
 	HEXACORD("https://yivesmirror.com/files/hexacord/HexaCord-v190.jar"),
 	TRAVERTINE("https://yivesmirror.com/files/travertine/Travertine-latest.jar");
 
-
 	@Getter
 	private final String url;
 

@@ -7,13 +7,12 @@ package de.tammo.cloud.master.setup.version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public class Version {
 
-	@Getter
 	private final String version;
 
-	@Getter
 	private final String url;
 
 	public final String toString() {

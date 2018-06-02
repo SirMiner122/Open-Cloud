@@ -6,7 +6,7 @@ package de.tammo.cloud.master.setup;
 
 import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.core.setup.Setup;
-import de.tammo.cloud.core.setup.requests.StringRequest;
+import de.tammo.cloud.core.setup.requests.impl.StringRequest;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.security.Hashing;
 import de.tammo.cloud.security.user.CloudUser;
@@ -20,13 +20,13 @@ public class LoginSetup implements Setup {
 	public void setup(final ConsoleReader reader) throws IOException {
 		if (Master.getMaster().getCloudUserHandler().getCloudUsers().isEmpty()) {
 			Logger.info("There is currently no user created. Creating the first user -> ");
-			new StringRequest().request("Please enter a name for the setup user:", reader, name -> {
+			new StringRequest("Please enter a name for the setup user:", reader).request(name -> {
 				if (name.equalsIgnoreCase("exit")) {
 					Logger.info("\"exit\" is an invalid username. Exiting...");
 					Master.getMaster().shutdown();
 				} else {
 					try {
-						new StringRequest().request("Please enter the password for the setup user:", reader, input -> Master.getMaster().getCloudUserHandler().getCloudUsers().add(new CloudUser(name, UUID.randomUUID(), Hashing.hash(input))));
+						new StringRequest("Please enter the password for the setup user:", reader).request(input -> Master.getMaster().getCloudUserHandler().getCloudUsers().add(new CloudUser(name, UUID.randomUUID(), Hashing.hash(input))));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -39,7 +39,7 @@ public class LoginSetup implements Setup {
 
 	private void login(final ConsoleReader reader) throws IOException {
 		Logger.info("Welcome to the login!");
-		new StringRequest().request("Please enter your username:", reader, name -> {
+		new StringRequest("Please enter your username:", reader).request(name -> {
 			if (name.equalsIgnoreCase("exit")) {
 				Master.getMaster().shutdown();
 			} else {
