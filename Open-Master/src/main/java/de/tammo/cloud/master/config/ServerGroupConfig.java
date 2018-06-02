@@ -29,7 +29,7 @@ public class ServerGroupConfig extends DocumentFile {
 
 	protected void save() throws IOException {
 		try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(this.file.toPath())){
-			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(Master.getMaster().getServerGroupHandler().getServerGroups()));
+			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(Master.getMaster().getServerGroupHandler().getServerGroups()));
 		}
 	}
 }

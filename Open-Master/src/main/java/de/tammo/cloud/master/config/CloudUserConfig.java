@@ -29,7 +29,7 @@ public class CloudUserConfig extends DocumentFile {
 
 	protected void save() throws IOException {
 		try (final BufferedWriter writer = Files.newBufferedWriter(this.file.toPath())) {
-			final Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+			final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			writer.write(gson.toJson(Master.getMaster().getCloudUserHandler().getCloudUsers()));
 		}
 	}
