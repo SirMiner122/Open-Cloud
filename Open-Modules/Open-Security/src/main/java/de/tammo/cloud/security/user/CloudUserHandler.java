@@ -9,10 +9,10 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
+@Setter
+@Getter
 public class CloudUserHandler {
 
-	@Setter
-	@Getter
 	private ArrayList<CloudUser> cloudUsers = new ArrayList<>();
 
 	public final CloudUser findCloudUserByName(final String name) {
