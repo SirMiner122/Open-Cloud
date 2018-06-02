@@ -11,6 +11,7 @@ import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class FileUtils {
@@ -39,14 +40,26 @@ public class FileUtils {
 				Files.delete(file.toPath());
 			}
 		}
+
+		Files.delete(dir.toPath());
 	}
 
-	public static void zip(final String dir, final String zipPath) throws ZipException {
+	public static void zip(final File dir, final String zipPath) throws ZipException {
 		final ZipFile zipFile = new ZipFile(zipPath + ".zip");
 		final ZipParameters parameters = new ZipParameters();
 		parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
 		parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-		zipFile.addFolder(dir, parameters);
+		Arrays.stream(Objects.requireNonNull(dir.listFiles())).forEach(file -> {
+			try {
+				if (file.isDirectory()) {
+					zipFile.addFolder(file, parameters);
+				} else {
+					zipFile.addFile(file, parameters);
+				}
+			} catch (ZipException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	public static void unzip(final String zipPath, final String targetDir) throws ZipException {
