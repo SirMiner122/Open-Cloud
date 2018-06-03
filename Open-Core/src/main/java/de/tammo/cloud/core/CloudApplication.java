@@ -27,6 +27,10 @@ public interface CloudApplication {
 
 		Logger.info("");
 
+		Logger.info("Open-Cloud");
+		Logger.info("Java version " + System.getProperty("java.version") + " " + System.getProperty("os.name"));
+		Logger.info("");
+
 		this.sleep(200);
 
 		Logger.info("Starting " + module + "!");
@@ -37,6 +41,14 @@ public interface CloudApplication {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	default String getVersion() {
+		if (this.getClass().getPackage().getImplementationVersion() != null) {
+			return "";
+		} else {
+			return "DEV VERSION";
 		}
 	}
 
