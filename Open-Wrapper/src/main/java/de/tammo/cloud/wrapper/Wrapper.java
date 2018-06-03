@@ -7,6 +7,7 @@ package de.tammo.cloud.wrapper;
 import de.tammo.cloud.command.CommandHandler;
 import de.tammo.cloud.config.DocumentHandler;
 import de.tammo.cloud.core.CloudApplication;
+import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.core.logging.LogLevel;
 import de.tammo.cloud.core.logging.Logger;
 import de.tammo.cloud.network.NettyClient;
@@ -32,6 +33,7 @@ import joptsimple.OptionSet;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
@@ -91,6 +93,14 @@ public class Wrapper implements CloudApplication {
 			e.printStackTrace();
 		}
 
+		final File cache = new File("cache//");
+		if (cache.exists() && optionSet.has("clearcache")) {
+			try {
+				FileUtils.deleteDir(cache);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		try {
 			new WrapperSetup().setup(reader);
