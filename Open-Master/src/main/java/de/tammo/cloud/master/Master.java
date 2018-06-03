@@ -20,6 +20,7 @@ import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.master.servergroup.ServerGroupHandler;
 import de.tammo.cloud.master.setup.LoginSetup;
 import de.tammo.cloud.master.setup.MasterSetup;
+import de.tammo.cloud.master.web.TemplateDeployment;
 import de.tammo.cloud.network.NettyServer;
 import de.tammo.cloud.network.handler.PacketDecoder;
 import de.tammo.cloud.network.handler.PacketEncoder;
@@ -28,6 +29,7 @@ import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import de.tammo.cloud.network.registry.PacketRegistry;
 import de.tammo.cloud.security.user.CloudUserHandler;
 import de.tammo.cloud.web.WebServer;
+import de.tammo.cloud.web.handler.WebRequestHandlerProvider;
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
 import lombok.Getter;
@@ -106,7 +108,8 @@ public class Master implements CloudApplication {
 			e.printStackTrace();
 		}
 
-		this.webServer = new WebServer(this.configuration.getWebPort());
+		this.webServer = new WebServer(this.configuration.getWebPort(), new WebRequestHandlerProvider().add(new
+				TemplateDeployment()).addPackage("de.tammo.cloud.master.web.rest"));
 
 		this.setupServer(() -> Logger.info("Server was successfully bound to port " + this.configuration.getNettyPort()));
 
