@@ -9,7 +9,7 @@
     <parent>
         <artifactId>Open-Cloud</artifactId>
         <groupId>de.tammo.cloud</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -27,6 +27,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <mainClass>de.tammo.cloud.master.bootstrap.MasterBootstrap</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
                 </configuration>
@@ -65,37 +66,37 @@
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Core</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Network</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Command</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Security</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Web</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Config</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
