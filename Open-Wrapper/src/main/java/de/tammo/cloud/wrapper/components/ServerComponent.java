@@ -12,4 +12,8 @@ public interface ServerComponent {
 
 	void stop();
 
+	void add();
+
+	void remove();
+
 }

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 public class NetworkHandler {
@@ -21,21 +22,6 @@ public class NetworkHandler {
 
 	@Getter
 	private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
-
-	@Getter
-	private final ExecutorService executorService = Executors.newCachedThreadPool();
-
-	private final ProxyServer proxyServer = new ProxyServer();
-
-	public void startProxy() {
-		this.executorService.submit(() -> {
-			try {
-				this.proxyServer.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-	}
 
 	public void sendPacketToMaster(final Packet packet) {
 		if (this.isConnected()) {

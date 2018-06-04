@@ -10,11 +10,11 @@ import de.tammo.cloud.core.CloudApplication;
 import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.core.logging.LogLevel;
 import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.master.components.ComponentsHandler;
 import de.tammo.cloud.master.config.configuration.Configuration;
 import de.tammo.cloud.master.network.NetworkHandler;
 import de.tammo.cloud.master.network.handler.PacketHandler;
-import de.tammo.cloud.master.network.packets.in.WrapperKeyInPacket;
-import de.tammo.cloud.master.network.packets.in.WrapperWorkloadInPacket;
+import de.tammo.cloud.master.network.packets.in.*;
 import de.tammo.cloud.master.network.packets.out.*;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.master.servergroup.ServerGroupHandler;
@@ -61,6 +61,9 @@ public class Master implements CloudApplication {
 	private CommandHandler commandHandler;
 
 	private WebServer webServer;
+
+	@Getter
+	private final ComponentsHandler componentsHandler = new ComponentsHandler();
 
 	@Setter
 	@Getter
@@ -177,6 +180,11 @@ public class Master implements CloudApplication {
 
 		PacketRegistry.PacketDirection.IN.addPacket(200, WrapperKeyInPacket.class);
 		PacketRegistry.PacketDirection.IN.addPacket(202, WrapperWorkloadInPacket.class);
+
+		PacketRegistry.PacketDirection.IN.addPacket(400, ProxyInfoAddInPacket.class);
+		PacketRegistry.PacketDirection.IN.addPacket(401, ProxyInfoRemoveInPacket.class);
+		PacketRegistry.PacketDirection.IN.addPacket(402, ServerInfoAddInPacket.class);
+		PacketRegistry.PacketDirection.IN.addPacket(403, ServerInfoRemoveInPacket.class);
 
 		PacketRegistry.PacketDirection.OUT.addPacket(0, SuccessPacket.class);
 		PacketRegistry.PacketDirection.OUT.addPacket(1, ErrorPacket.class);

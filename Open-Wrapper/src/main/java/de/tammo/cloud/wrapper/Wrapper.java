@@ -24,8 +24,7 @@ import de.tammo.cloud.wrapper.config.configuration.Configuration;
 import de.tammo.cloud.wrapper.network.NetworkHandler;
 import de.tammo.cloud.wrapper.network.handler.PacketHandler;
 import de.tammo.cloud.wrapper.network.packets.in.*;
-import de.tammo.cloud.wrapper.network.packets.out.WrapperKeyOutPacket;
-import de.tammo.cloud.wrapper.network.packets.out.WrapperWorkloadOutPacket;
+import de.tammo.cloud.wrapper.network.packets.out.*;
 import de.tammo.cloud.wrapper.setup.WrapperSetup;
 import de.tammo.cloud.wrapper.workload.WorkloadProvider;
 import jline.console.ConsoleReader;
@@ -122,8 +121,6 @@ public class Wrapper implements CloudApplication {
 
 		this.workloadProvider.start();
 
-		this.networkHandler.startProxy();
-
 		this.commandHandler = new CommandHandler("de.tammo.cloud.wrapper.commands");
 
 		while (this.running) {
@@ -159,8 +156,6 @@ public class Wrapper implements CloudApplication {
 
 		this.nettyClient.disconnect(() -> Logger.info("Wrapper is disconnected!"));
 
-		this.networkHandler.getExecutorService().shutdown();
-
 		System.exit(0);
 	}
 
@@ -178,6 +173,11 @@ public class Wrapper implements CloudApplication {
 
 		PacketRegistry.PacketDirection.OUT.addPacket(200, WrapperKeyOutPacket.class);
 		PacketRegistry.PacketDirection.OUT.addPacket(202, WrapperWorkloadOutPacket.class);
+
+		PacketRegistry.PacketDirection.OUT.addPacket(400, ProxyInfoAddOutPacket.class);
+		PacketRegistry.PacketDirection.OUT.addPacket(401, ProxyInfoRemoveOutPacket.class);
+		PacketRegistry.PacketDirection.OUT.addPacket(402, ServerInfoAddOutPacket.class);
+		PacketRegistry.PacketDirection.OUT.addPacket(403, ServerInfoRemovePacket.class);
 	}
 
 }
