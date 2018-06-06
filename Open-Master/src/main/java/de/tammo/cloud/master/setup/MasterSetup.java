@@ -28,7 +28,7 @@ public class MasterSetup implements Setup {
 
 		final File proxyJar = new File("proxy//proxy.jar");
 		if (Files.notExists(proxyJar.toPath())) {
-			new ListRequest("Which proxy version you want to install?", reader).request(ProxyVersion.values(), version -> {
+			new ListRequest("Which proxy version would you like to install?", reader).request(ProxyVersion.values(), version -> {
 				final ProxyVersion install = ProxyVersion.valueOf(version.toUpperCase());
 				try {
 					Logger.info(install.getUrl());
@@ -47,11 +47,11 @@ public class MasterSetup implements Setup {
 
 		final File serverJar = new File("global//server.jar");
 		if (Files.notExists(serverJar.toPath())) {
-			new ListRequest("Which server version you want to install?", reader).request(ServerVersion.values(), version -> {
+			new ListRequest("Which server version you like to install?", reader).request(ServerVersion.values(), version -> {
 				final ServerVersion install = ServerVersion.valueOf(version);
 				Logger.info(install.toString());
 				try {
-					new ListRequest("Which specific version you want to install?", reader).request(install.getVersions(), specificVersion -> {
+					new ListRequest("Which specific version would you like to install?", reader).request(install.getVersions(), specificVersion -> {
 						try {
 							Logger.info(install.getUrl().replace("%version%", install.getVersionByName(specificVersion).getUrl()));
 							new DownloadRequest().request(install.getUrl().replace("%version%", install.getVersionByName(specificVersion).getUrl()), serverJar.getPath(), () -> Logger.info("Download complete!"));
@@ -66,7 +66,7 @@ public class MasterSetup implements Setup {
 		}
 
 		if (Master.getMaster().getNetworkHandler().getWrapperMetas().isEmpty()) {
-			Logger.info("To create a wrapper use the following command: \"wrapper create <host>\"!");
+			Logger.info("Use the following command to create a new wrapper: \"wrapper create <host>\"!");
 		}
 	}
 
