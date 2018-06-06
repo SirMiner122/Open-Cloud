@@ -26,7 +26,7 @@ public class DownloadRequest {
 			fos.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 			complete.run();
 		} else {
-			logger.error("Unable to download file from requested url!", new FileDownloadException("Unable to download file from requested url!"));
+			Logger.error("Unable to download file from requested url!", new FileDownloadException("Unable to download file from requested url!"));
 		}
 
 		connection.disconnect();
