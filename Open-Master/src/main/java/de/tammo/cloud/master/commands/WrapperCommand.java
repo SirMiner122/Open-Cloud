@@ -19,7 +19,7 @@ public class WrapperCommand implements Command {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
 				Logger.info("<-- Wrapper -->");
-				Master.getMaster().getNetworkHandler().getWrappers().forEach(wrapper -> Logger.info("Wrapper on host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString() + (wrapper.isConnected() ? " is connected" : " is not connected")));
+				Master.getMaster().getNetworkHandler().getWrappers().forEach(wrapper -> Logger.info("Wrapper at host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString() + (wrapper.isConnected() ? " is currently connected" : " is not connected")));
 				Logger.info("");
 				return true;
 			}
@@ -29,28 +29,28 @@ public class WrapperCommand implements Command {
 				if (wrapper == null) {
 					Logger.warn("Wrapper not available!");
 				} else {
-					Logger.info("Wrapper with unique id " + wrapper.getWrapperMeta().getUuid().toString() + " is " + (wrapper.isConnected() ? "connected" : "not connected"));
+					 Logger.info("Wrapper with unique id " + wrapper.getWrapperMeta().getUuid().toString() + " is currently " + (wrapper.isConnected() ? "connected" : "not connected"));
 					return true;
 				}
 			} else if (args[0].equalsIgnoreCase("create")) {
 				if (Master.getMaster().getNetworkHandler().getWrapperByHost(args[1]) != null) {
-					Logger.warn("Wrapper already exists!");
+					Logger.warn("A Wrapper called \"" + args[1] +"\" already exists!");
 					return true;
 				}
 				final String key = Master.getMaster().getNetworkHandler().generateWrapperKey();
 				final Wrapper wrapper = new Wrapper(new WrapperMeta(UUID.randomUUID(), args[1], key));
 				Master.getMaster().getNetworkHandler().addWrapper(wrapper);
-				Logger.info("Added wrapper on host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString());
+				Logger.info("Added wrapper at host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString());
 				Logger.info("Key for wrapper is: " + key);
 				return true;
 			} else if (args[0].equalsIgnoreCase("delete")) {
 				final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(args[1]);
 				if (wrapper == null) {
-					Logger.warn("Wrapper is not created yet!");
+					Logger.warn("There is no Wrapper at the specified host");
 					return true;
 				}
 				Master.getMaster().getNetworkHandler().removeWrapper(wrapper);
-				Logger.info("Removed wrapper with host " + wrapper.getWrapperMeta().getHost() + "!");
+				Logger.info("Removed wrapper at host " + wrapper.getWrapperMeta().getHost() + "!");
 				return true;
 			}
 		}
