@@ -122,7 +122,7 @@ public class Master implements CloudApplication {
 			try {
 				this.commandHandler.executeCommand(Objects.requireNonNull(reader).readLine());
 			} catch (IOException e) {
-				this.logger.error("An error occured while reading from commandline!", e);
+				Logger.error("An error occured while reading from commandline!", e);
 			}
 		}
 
@@ -138,7 +138,7 @@ public class Master implements CloudApplication {
 			final String host = this.networkHandler.getHostFromChannel(channel);
 			if (!this.networkHandler.isWhitelisted(host)) {
 				channel.close().syncUninterruptibly();
-				this.logger.warn("A not whitelisted Wrapper tried to connect!");
+				Logger.warn("A not whitelisted Wrapper tried to connect!");
 				return;
 			}
 
