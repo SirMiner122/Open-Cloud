@@ -17,7 +17,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 		final int id = PacketRegistry.getIdByPacket(packet, PacketRegistry.PacketDirection.OUT);
 
 		if (id == -1) {
-			new NullPointerException("Could not find id from packet " + packet.getClass().getSimpleName() + "!").printStackTrace();
+			new NullPointerException("Could not get id from packet " + packet.getClass().getSimpleName() + "!").printStackTrace();
 		} else {
 			byteBuf.writeInt(id);
 			packet.write(new ByteBufOutputStream(byteBuf));
