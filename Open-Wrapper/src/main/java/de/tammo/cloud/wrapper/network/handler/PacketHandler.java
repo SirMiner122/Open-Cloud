@@ -27,7 +27,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
-		Logger.info("Connection was refused!");
+		Logger.info("The Master declined the connection!");
 		if (Wrapper.getWrapper().isRunning()) {
 			Wrapper.getWrapper().shutdown();
 		}
