@@ -127,7 +127,7 @@ public class Wrapper implements CloudApplication {
 			try {
 				this.commandHandler.executeCommand(Objects.requireNonNull(reader).readLine());
 			} catch (IOException e) {
-				Logger.error("Error while reading command!", e);
+				Logger.error("An error occured while reading from commandline!", e);
 			}
 		}
 
@@ -139,7 +139,7 @@ public class Wrapper implements CloudApplication {
 	private void setupServer() {
 		this.registerPackets();
 
-		this.nettyClient = new NettyClient(new ConnectableAddress(this.configuration.getMasterHost(), this.configuration.getMasterPort())).connect(() -> Logger.info("Connected to Master!"), () -> {
+		this.nettyClient = new NettyClient(new ConnectableAddress(this.configuration.getMasterHost(), this.configuration.getMasterPort())).connect(() -> Logger.info("Successfully connected to the Master!"), () -> {
 			Logger.warn("Master is currently not available!");
 			this.shutdown();
 		}, channel -> channel.pipeline().addLast(new PacketEncoder()).addLast(new PacketDecoder()).addLast(new PacketHandler()));
