@@ -10,13 +10,12 @@ import lombok.Setter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Setter
 @RequiredArgsConstructor
 public class Logger {
 
-	@Setter
 	private static String prefix;
 
-	@Setter
 	private static LogLevel level = LogLevel.INFO;
 
 	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");

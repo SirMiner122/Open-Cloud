@@ -36,7 +36,7 @@ public class ListRequest extends Request {
 		return responseBuilder.toString();
 	}
 
-	private<T> boolean contains(final T[] responses, final String response) {
+	private <T> boolean contains(final T[] responses, final String response) {
 		return Arrays.stream(responses).anyMatch(s -> s.toString().equalsIgnoreCase(response));
 	}
 

@@ -44,6 +44,7 @@ public interface CloudApplication {
 		}
 	}
 
+	//TODO check Version
 	default String getVersion() {
 		if (this.getClass().getPackage().getImplementationVersion() != null) {
 			return "";
