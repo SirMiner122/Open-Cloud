@@ -7,26 +7,30 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>Open-Modules</artifactId>
+        <artifactId>Open-API</artifactId>
         <groupId>de.tammo.cloud</groupId>
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Open-Security</artifactId>
+    <artifactId>Open-Proxy</artifactId>
+
+    <repositories>
+
+        <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+
+    </repositories>
 
     <dependencies>
 
         <dependency>
-            <groupId>de.tammo.cloud</groupId>
-            <artifactId>Open-Core</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.59</version>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.8-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

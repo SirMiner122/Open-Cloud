@@ -6,8 +6,10 @@ package de.tammo.cloud.wrapper.components.proxy;
 
 import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.components.ServerComponent;
+import de.tammo.cloud.wrapper.network.NetworkProviderService;
 import de.tammo.cloud.wrapper.network.packets.out.ProxyInfoAddOutPacket;
 import de.tammo.cloud.wrapper.network.packets.out.ProxyInfoRemoveOutPacket;
 import lombok.RequiredArgsConstructor;
@@ -91,11 +93,11 @@ public class ProxyServer implements ServerComponent {
 	}
 
 	public void add() {
-		Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(new ProxyInfoAddOutPacket(this.uuid));
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ProxyInfoAddOutPacket(this.uuid));
 	}
 
 	public void remove() {
-		Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(new ProxyInfoRemoveOutPacket(this.uuid));
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ProxyInfoRemoveOutPacket(this.uuid));
 	}
 
 	private void loadTemplateFromMaster() throws IOException {

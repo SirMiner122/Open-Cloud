@@ -4,8 +4,10 @@
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.components.ComponentsProviderService;
 import de.tammo.cloud.master.components.ServerInfo;
+import de.tammo.cloud.master.servergroup.ServerGroupService;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import io.netty.buffer.ByteBufInputStream;
@@ -23,8 +25,8 @@ public class ServerInfoAddInPacket implements Packet {
 	private int port;
 
 	public final Packet handle(final Channel channel) {
-		final ServerInfo serverInfo = ServerInfo.builder().group(Master.getMaster().getServerGroupHandler().getServerGroupByName(this.serverGroup)).uuid(this.uuid).port(this.port).build();
-		Master.getMaster().getComponentsHandler().addServerInfo(serverInfo);
+		final ServerInfo serverInfo = ServerInfo.builder().group(ServiceProvider.getService(ServerGroupService.class).getServerGroupByName(this.serverGroup)).uuid(this.uuid).port(this.port).build();
+		ServiceProvider.getService(ComponentsProviderService.class).addServerInfo(serverInfo);
 		return new SuccessPacket();
 	}
 

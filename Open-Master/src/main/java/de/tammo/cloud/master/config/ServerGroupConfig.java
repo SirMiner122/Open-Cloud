@@ -8,8 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import de.tammo.cloud.config.DocumentFile;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.servergroup.ServerGroup;
+import de.tammo.cloud.master.servergroup.ServerGroupService;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -23,13 +24,13 @@ public class ServerGroupConfig extends DocumentFile {
 
 	protected void load() throws IOException {
 		try (final BufferedReader bufferedReader = Files.newBufferedReader(this.file.toPath())){
-			Master.getMaster().getServerGroupHandler().setServerGroups(new Gson().fromJson(bufferedReader, new TypeToken<ArrayList<ServerGroup>>(){}.getType()));
+			ServiceProvider.getService(ServerGroupService.class).setServerGroups(new Gson().fromJson(bufferedReader, new TypeToken<ArrayList<ServerGroup>>(){}.getType()));
 		}
 	}
 
 	protected void save() throws IOException {
 		try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(this.file.toPath())){
-			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(Master.getMaster().getServerGroupHandler().getServerGroups()));
+			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(ServiceProvider.getService(ServerGroupService.class).getServerGroups()));
 		}
 	}
 }

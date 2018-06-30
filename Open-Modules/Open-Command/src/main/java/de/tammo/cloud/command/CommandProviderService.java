@@ -6,6 +6,7 @@ package de.tammo.cloud.command;
 
 import com.google.common.reflect.ClassPath;
 import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.service.Service;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -13,12 +14,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CommandHandler {
+public class CommandProviderService implements Service {
 
 	@Getter
 	private final ArrayList<Command> commands = new ArrayList<>();
 
-	public CommandHandler(final String commandPackage) {
+	public CommandProviderService(final String commandPackage) {
 		try {
 			for (final ClassPath.ClassInfo classInfo : ClassPath.from(this.getClass().getClassLoader()).getTopLevelClasses(commandPackage)) {
 				final Class commandClass = Class.forName(classInfo.getName());

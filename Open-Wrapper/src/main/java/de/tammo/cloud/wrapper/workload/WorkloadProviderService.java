@@ -4,19 +4,22 @@
 
 package de.tammo.cloud.wrapper.workload;
 
+import de.tammo.cloud.core.service.Service;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.core.threading.ThreadBuilder;
 import de.tammo.cloud.core.workload.Workload;
 import de.tammo.cloud.core.workload.WorkloadFactory;
 import de.tammo.cloud.wrapper.Wrapper;
+import de.tammo.cloud.wrapper.network.NetworkProviderService;
 import de.tammo.cloud.wrapper.network.packets.out.WrapperWorkloadOutPacket;
 
 import java.util.ArrayList;
 
-public class WorkloadProvider implements Runnable {
+public class WorkloadProviderService implements Runnable, Service {
 
 	private Thread thread;
 
-	public void start() {
+	public void init() {
 		this.thread = new ThreadBuilder("Workload Thread", this).setDaemon().start();
 	}
 
@@ -27,7 +30,7 @@ public class WorkloadProvider implements Runnable {
 	public void run() {
 		while (Wrapper.getWrapper().isRunning()) {
 			final Workload workload = this.getAverage(Wrapper.getWrapper().getConfiguration().getAverageSeconds());
-			Wrapper.getWrapper().getNetworkHandler().sendPacketToMaster(new WrapperWorkloadOutPacket(workload.getCpu(), workload.getMemory()));
+			ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new WrapperWorkloadOutPacket(workload.getCpu(), workload.getMemory()));
 		}
 	}
 

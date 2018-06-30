@@ -4,7 +4,8 @@
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.components.ComponentsProviderService;
 import de.tammo.cloud.master.components.ProxyInfo;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
@@ -19,7 +20,7 @@ public class ProxyInfoAddInPacket implements Packet {
 	private UUID uuid;
 
 	public final Packet handle(final Channel channel) {
-		Master.getMaster().getComponentsHandler().addProxyInfo(ProxyInfo.builder().uuid(this.uuid).build());
+		ServiceProvider.getService(ComponentsProviderService.class).addProxyInfo(ProxyInfo.builder().uuid(this.uuid).build());
 		return new SuccessPacket();
 	}
 

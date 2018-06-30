@@ -9,8 +9,20 @@ import de.tammo.cloud.master.Master;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
+/**
+ * The main class to start the Open-Master
+ *
+ * @author Tammo
+ * @version 1.0
+ */
 public class MasterBootstrap {
 
+	/**
+	 * Main method which checked, if the required Java version is installed
+	 *
+	 * @param args Startup arguments from the virtual machine
+	 * @throws JavaVersionRequiredException Throws exception if the required Java version is not installed
+	 */
 	public static void main(final String[] args) throws JavaVersionRequiredException {
 		if (Double.parseDouble(System.getProperty("java.class.version")) < 52) {
 			throw new JavaVersionRequiredException();
@@ -19,6 +31,11 @@ public class MasterBootstrap {
 		}
 	}
 
+	/**
+	 * Bootstrap the Open-Master and check the parameter
+	 *
+	 * @param args Parameter to check
+	 */
 	private MasterBootstrap(final String[] args) {
 		final OptionParser optionParser = new OptionParser();
 

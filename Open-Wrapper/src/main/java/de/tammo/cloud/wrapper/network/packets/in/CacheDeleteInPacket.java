@@ -5,20 +5,20 @@
 package de.tammo.cloud.wrapper.network.packets.in;
 
 import de.tammo.cloud.core.file.FileUtils;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
-import de.tammo.cloud.wrapper.Wrapper;
+import de.tammo.cloud.wrapper.components.ServerComponentProviderService;
 import io.netty.channel.Channel;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class CacheDeleteInPacket implements Packet {
 
 	public final Packet handle(final Channel channel) {
 		try {
-			FileUtils.deleteDir(Wrapper.getWrapper().getServerComponentHandler().getCache());
+			FileUtils.deleteDir(ServiceProvider.getService(ServerComponentProviderService.class).getCache());
 			return new SuccessPacket();
 		} catch (IOException e) {
 			e.printStackTrace();

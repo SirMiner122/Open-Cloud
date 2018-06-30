@@ -4,18 +4,16 @@
 
 package de.tammo.cloud.wrapper.network;
 
+import de.tammo.cloud.core.service.Service;
 import de.tammo.cloud.network.packet.Packet;
-import de.tammo.cloud.wrapper.components.proxy.ProxyServer;
 import io.netty.channel.Channel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.UUID;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class NetworkHandler {
+public class NetworkProviderService implements Service {
 
 	@Setter
 	private Channel masterChannel;

@@ -4,12 +4,13 @@
 
 package de.tammo.cloud.master.components;
 
+import de.tammo.cloud.core.service.Service;
 import lombok.Getter;
 
 import java.util.*;
 
 @Getter
-public class ComponentsHandler {
+public class ComponentsProviderService implements Service {
 
 	private final ArrayList<ProxyInfo> proxyInfoList = new ArrayList<>();
 

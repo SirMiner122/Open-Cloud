@@ -4,10 +4,11 @@
 
 package de.tammo.cloud.wrapper.network.packets.in;
 
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
-import de.tammo.cloud.wrapper.Wrapper;
+import de.tammo.cloud.wrapper.components.ServerComponentProviderService;
 import de.tammo.cloud.wrapper.components.server.GameServer;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.Channel;
@@ -28,7 +29,7 @@ public class StartGameServerInPacket implements Packet {
 
 		final GameServer gameServer = new GameServer(this.serverGroup, UUID.randomUUID(), this.port);
 
-		Wrapper.getWrapper().getServerComponentHandler().offerServerComponent(gameServer);
+		ServiceProvider.getService(ServerComponentProviderService.class).offerServerComponent(gameServer);
 
 		return new SuccessPacket();
 	}

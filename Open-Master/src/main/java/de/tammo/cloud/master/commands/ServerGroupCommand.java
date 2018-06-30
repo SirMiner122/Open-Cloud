@@ -6,9 +6,16 @@ package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
 import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.servergroup.ServerGroup;
+import de.tammo.cloud.master.servergroup.ServerGroupService;
 
+/**
+ * Command to manage all server groups
+ *
+ * @author Tammo
+ * @version 1.0
+ */
 @Command.CommandInfo(name = "group", aliases = {"servergroup", "sg"})
 public class ServerGroupCommand implements Command {
 
@@ -16,17 +23,17 @@ public class ServerGroupCommand implements Command {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
 				Logger.info("<-- Server Groups -->");
-				Master.getMaster().getServerGroupHandler().getServerGroups().forEach(serverGroup -> Logger.info("Servergroup: " + serverGroup.getName()));
+				ServiceProvider.getService(ServerGroupService.class).getServerGroups().forEach(serverGroup -> Logger.info("Servergroup: " + serverGroup.getName()));
 				Logger.info("");
 				return true;
 			}
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("delete")) {
-				final ServerGroup serverGroup = Master.getMaster().getServerGroupHandler().getServerGroupByName(args[1]);
+				final ServerGroup serverGroup = ServiceProvider.getService(ServerGroupService.class).getServerGroupByName(args[1]);
 				if (serverGroup == null) {
 					Logger.warn("Can not find this server group!");
 				} else {
-					Master.getMaster().getServerGroupHandler().removeServerGroup(serverGroup);
+					ServiceProvider.getService(ServerGroupService.class).removeServerGroup(serverGroup);
 					Logger.info("Deleted this server group!");
 				}
 				return true;
@@ -42,8 +49,8 @@ public class ServerGroupCommand implements Command {
 							final int minRam = Integer.parseInt(args[4]);
 							try {
 								final int maxRam = Integer.parseInt(args[5]);
-								Master.getMaster().getServerGroupHandler().addServerGroup(new ServerGroup(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(), minServer, maxServer, minRam, maxRam));
-								Master.getMaster().getServerGroupHandler().getServerGroups().forEach(ServerGroup::init);
+								ServiceProvider.getService(ServerGroupService.class).addServerGroup(new ServerGroup(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(), minServer, maxServer, minRam, maxRam));
+								ServiceProvider.getService(ServerGroupService.class).getServerGroups().forEach(ServerGroup::init);
 								Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
 							} catch (final NumberFormatException e) {
 								Logger.warn("Maximum of ram must be a number!");
@@ -63,6 +70,9 @@ public class ServerGroupCommand implements Command {
 		return false;
 	}
 
+	/**
+	 * Prints the help syntax
+	 */
 	public void printHelp() {
 		Logger.info("group list");
 		Logger.info("group create <name> <min server> <max server> <min ram> <max ram>");

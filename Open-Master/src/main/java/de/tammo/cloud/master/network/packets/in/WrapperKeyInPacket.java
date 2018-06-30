@@ -4,7 +4,8 @@
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.packets.out.WrapperKeyValidationOutPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
@@ -18,7 +19,7 @@ public class WrapperKeyInPacket implements Packet {
 	private String key;
 
 	public final Packet handle(final Channel channel) {
-		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(channel));
+		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(ServiceProvider.getService(NetworkProviderService.class).getHostFromChannel(channel));
 		if (wrapper != null) {
 			if (wrapper.getWrapperMeta().getKey().equals(this.key)) {
 				wrapper.setVerified(true);

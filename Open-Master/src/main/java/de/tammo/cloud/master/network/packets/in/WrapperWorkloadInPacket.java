@@ -4,7 +4,8 @@
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
@@ -21,7 +22,7 @@ public class WrapperWorkloadInPacket implements Packet {
 	private int memory;
 
 	public final Packet handle(final Channel channel) {
-		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByChannel(channel);
+		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByChannel(channel);
 		if (wrapper != null) {
 			wrapper.setCpu(this.cpu);
 			wrapper.setMemory(this.memory);

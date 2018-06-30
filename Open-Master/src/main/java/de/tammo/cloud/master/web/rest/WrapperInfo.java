@@ -4,7 +4,8 @@
 
 package de.tammo.cloud.master.web.rest;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.web.WebServer;
 import de.tammo.cloud.web.handler.RequestHandler;
 import de.tammo.cloud.web.mapping.Mapping;
@@ -15,7 +16,7 @@ import io.netty.handler.codec.http.*;
 public class WrapperInfo implements RequestHandler {
 
 	public final FullHttpResponse get(final FullHttpRequest request) {
-		final String wrappers = WebServer.GSON.toJson(Master.getMaster().getNetworkHandler().getWrappers());
+		final String wrappers = WebServer.GSON.toJson(ServiceProvider.getService(NetworkProviderService.class).getWrappers());
 		final FullHttpResponse response = new HttpResponseBuilder(request, HttpResponseStatus.OK).getResponse();
 		response.headers().set("Content-Type", "application/json");
 		response.content().writeBytes(wrappers.getBytes());

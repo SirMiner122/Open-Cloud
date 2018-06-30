@@ -4,7 +4,8 @@
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.components.ComponentsProviderService;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import io.netty.buffer.ByteBufInputStream;
@@ -18,7 +19,7 @@ public class ProxyInfoRemoveInPacket implements Packet {
 	private UUID uuid;
 
 	public final Packet handle(final Channel channel) {
-		Master.getMaster().getComponentsHandler().removeProxyInfo(Master.getMaster().getComponentsHandler().getProxyInfoByUniqueId(this.uuid));
+		ServiceProvider.getService(ComponentsProviderService.class).removeProxyInfo(ServiceProvider.getService(ComponentsProviderService.class).getProxyInfoByUniqueId(this.uuid));
 		return new SuccessPacket();
 	}
 

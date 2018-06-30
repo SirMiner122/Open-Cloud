@@ -4,7 +4,8 @@
 
 package de.tammo.cloud.master.web.rest;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.components.ComponentsProviderService;
 import de.tammo.cloud.web.WebServer;
 import de.tammo.cloud.web.handler.RequestHandler;
 import de.tammo.cloud.web.mapping.Mapping;
@@ -16,7 +17,7 @@ public class ServerInfo implements RequestHandler {
 
 	public final FullHttpResponse get(final FullHttpRequest request) {
 		final FullHttpResponse response = new HttpResponseBuilder(request, HttpResponseStatus.OK).getResponse();
-		response.content().writeBytes(WebServer.GSON.toJson(Master.getMaster().getComponentsHandler().getServerInfoList()).getBytes());
+		response.content().writeBytes(WebServer.GSON.toJson(ServiceProvider.getService(ComponentsProviderService.class).getServerInfoList()).getBytes());
 		response.headers().set("Content-Type", "application/json");
 		return response;
 	}
