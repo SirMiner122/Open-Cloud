@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * overview
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 public class ServiceProvider {
 

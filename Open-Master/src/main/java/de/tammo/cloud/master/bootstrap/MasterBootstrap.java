@@ -13,7 +13,7 @@ import joptsimple.OptionSet;
  * The main class to start the Open-Master
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 public class MasterBootstrap {
 

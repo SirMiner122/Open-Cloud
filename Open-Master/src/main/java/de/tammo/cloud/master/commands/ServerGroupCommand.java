@@ -14,7 +14,7 @@ import de.tammo.cloud.master.servergroup.ServerGroupService;
  * Command to manage all server groups
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 @Command.CommandInfo(name = "group", aliases = {"servergroup", "sg"})
 public class ServerGroupCommand implements Command {

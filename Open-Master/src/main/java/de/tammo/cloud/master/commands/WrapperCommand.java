@@ -17,7 +17,7 @@ import java.util.UUID;
  * Command to manage the wrappers
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 @Command.CommandInfo(name = "wrapper", aliases = {"w"})
 public class WrapperCommand implements Command {

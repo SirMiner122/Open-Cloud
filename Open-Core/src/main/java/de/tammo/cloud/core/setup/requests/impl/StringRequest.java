@@ -17,13 +17,13 @@ public class StringRequest extends Request {
 		super(request, reader);
 	}
 
-	public void request(final Consumer<String> accept) throws IOException {
+	public void request(final Consumer<String> callback) throws IOException {
 		Logger.info(this.request);
 		final String input = this.reader.readLine();
 		if (input.trim().isEmpty()) {
-			this.request(accept);
+			this.request(callback);
 		} else {
-			accept.accept(input);
+			callback.accept(input);
 		}
 	}
 

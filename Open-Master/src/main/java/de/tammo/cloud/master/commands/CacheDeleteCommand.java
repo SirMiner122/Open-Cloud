@@ -14,7 +14,7 @@ import de.tammo.cloud.master.network.packets.out.CacheDeleteOutPacket;
  * Command to delete the cache in every Open-Wrapper
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 @Command.CommandInfo(name = "cache")
 public class CacheDeleteCommand implements Command {

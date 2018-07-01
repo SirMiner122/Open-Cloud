@@ -45,7 +45,7 @@ import java.util.Objects;
  * Main class to control everything
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 public class Master implements CloudApplication {
 

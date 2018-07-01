@@ -13,7 +13,7 @@ import de.tammo.cloud.core.service.ServiceProvider;
  * Command to list all commands to get a overview
  *
  * @author Tammo
- * @version 1.0
+ * @since 1.0
  */
 @Command.CommandInfo(name = "help")
 public class HelpCommand implements Command {
