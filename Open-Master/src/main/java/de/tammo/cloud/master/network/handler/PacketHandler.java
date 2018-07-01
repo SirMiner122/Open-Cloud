@@ -39,7 +39,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 	public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
 		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(ServiceProvider.getService(NetworkProviderService.class).getHostFromChannel(ctx.channel()));
 		wrapper.disconnect();
-		Logger.info("Wrapper from host " + wrapper.getWrapperMeta().getHost() + " is disconnected!");
+		Logger.info("Wrapper at host " + wrapper.getWrapperMeta().getHost() + " disconnected!");
 		super.channelInactive(ctx);
 	}
 

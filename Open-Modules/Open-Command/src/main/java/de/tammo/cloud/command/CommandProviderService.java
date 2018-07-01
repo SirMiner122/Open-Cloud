@@ -25,9 +25,9 @@ public class CommandProviderService implements Service {
 				final Class commandClass = Class.forName(classInfo.getName());
 				if (Command.class.isAssignableFrom(commandClass) && commandClass.isAnnotationPresent(Command.CommandInfo.class)) {
 					this.commands.add((Command) commandClass.newInstance());
-					Logger.debug("Command " + classInfo.getSimpleName() + " was added to the command list!");
+					Logger.debug("Command \"" + classInfo.getSimpleName() + "\" was added to the command list!");
 				} else {
-					Logger.warn("Command " + classInfo.getSimpleName() + " does not implement the Command interface or have the CommandInfo annotation!");
+					Logger.warn("Command \"" + classInfo.getSimpleName() + "\n does not implement the Command interface or hasn't got the CommandInfo annotation!");
 				}
 			}
 		} catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
