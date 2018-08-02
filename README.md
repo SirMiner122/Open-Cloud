@@ -4,6 +4,8 @@
 
 # Open-Cloud 
 
+> **Important Note!** There is a new repository at https://github.com/Open-Cloud-Services/Open-Cloud
+
 ## En
 Open-Cloud is a Cloud System, giving you the ability to easilly manage the Minecraft Servers affiliated with your Minecraft Network.
 
