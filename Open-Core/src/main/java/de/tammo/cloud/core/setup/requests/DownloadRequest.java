@@ -7,7 +7,7 @@
 package de.tammo.cloud.core.setup.requests;
 
 import de.tammo.cloud.core.exceptions.FileDownloadException;
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.setup.requests.util.ReadableByteChannelWrapper;
 
 import java.io.FileOutputStream;

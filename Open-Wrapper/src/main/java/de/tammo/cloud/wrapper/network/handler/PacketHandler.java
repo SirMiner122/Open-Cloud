@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.wrapper.network.handler;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.wrapper.Wrapper;

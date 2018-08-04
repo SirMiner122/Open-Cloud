@@ -7,7 +7,7 @@
 package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.servergroup.ServerGroup;
 import de.tammo.cloud.master.servergroup.ServerGroupService;

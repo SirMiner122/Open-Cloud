@@ -4,7 +4,7 @@
  * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
-package de.tammo.cloud.core.logging;
+package de.tammo.cloud.core.log;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.master.setup;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.DownloadRequest;

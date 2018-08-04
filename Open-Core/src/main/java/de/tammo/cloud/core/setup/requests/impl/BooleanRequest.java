@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.core.setup.requests.impl;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.setup.requests.Request;
 import jline.console.ConsoleReader;
 
