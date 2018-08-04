@@ -7,8 +7,6 @@
 | **Codacy**     | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3a3e7135fb08468d98452679260f04d5)](https://www.codacy.com/app/Tammo0987/Open-Cloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Open-Cloud-Services/Open-Cloud&amp;utm_campaign=Badge_Grade)
 
 
-# Open-Cloud
-
 > **Note**: The Open-Cloud is still in development and not ready to use!
 
 Open-Cloud is an open source cloud system, which giving you the ability to easily manage the Minecraft servers affiliated with your Minecraft network.
