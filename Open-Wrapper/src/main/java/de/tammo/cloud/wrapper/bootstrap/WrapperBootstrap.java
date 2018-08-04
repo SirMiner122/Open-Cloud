@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.wrapper.bootstrap;
@@ -8,8 +10,6 @@ import de.tammo.cloud.core.exceptions.JavaVersionRequiredException;
 import de.tammo.cloud.wrapper.Wrapper;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-
-import java.io.IOException;
 
 public class WrapperBootstrap {
 

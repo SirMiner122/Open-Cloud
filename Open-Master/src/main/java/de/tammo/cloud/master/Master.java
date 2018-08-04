@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.master;
@@ -22,6 +24,7 @@ import de.tammo.cloud.master.servergroup.ServerGroupService;
 import de.tammo.cloud.master.setup.LoginSetup;
 import de.tammo.cloud.master.setup.MasterSetup;
 import de.tammo.cloud.master.web.TemplateDeployment;
+import de.tammo.cloud.master.web.validation.Validation;
 import de.tammo.cloud.network.NettyServer;
 import de.tammo.cloud.network.handler.PacketDecoder;
 import de.tammo.cloud.network.handler.PacketEncoder;
@@ -124,7 +127,7 @@ public class Master implements CloudApplication {
 		}
 
 		this.webServer = new WebServer(this.configuration.getWebPort(), new WebRequestHandlerProvider().add(new
-				TemplateDeployment()).addPackage("de.tammo.cloud.master.web.rest"));
+				TemplateDeployment()).add(new Validation()).addPackage("de.tammo.cloud.master.web.rest"));
 
 		this.setupServer(() -> Logger.info("Server was successfully bound to port " + this.configuration.getNettyPort()));
 
@@ -132,7 +135,7 @@ public class Master implements CloudApplication {
 			try {
 				ServiceProvider.getService(CommandProviderService.class).executeCommand(Objects.requireNonNull(reader).readLine());
 			} catch (IOException e) {
-				Logger.error("An error occured while reading from commandline!", e);
+				Logger.error("An error occurred while reading from commandline!", e);
 			}
 		}
 
