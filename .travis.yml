@@ -5,9 +5,11 @@ jdk:
 
 sudo: false
 
-install: mvn clean install -Dmaven.javadoc.skip=true -B -V
+jobs:
+  include:
+  - stage: compile
+    script: mvn clean install -Dmaven.javadoc.skip=true -B -V
 
-script: mvn test -B
 
 notifications:
   email: false
