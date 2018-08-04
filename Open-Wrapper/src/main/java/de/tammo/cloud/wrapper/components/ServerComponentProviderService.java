@@ -5,18 +5,20 @@
 package de.tammo.cloud.wrapper.components;
 
 import de.tammo.cloud.core.file.FileUtils;
+import de.tammo.cloud.core.service.Service;
 import de.tammo.cloud.core.threading.ThreadBuilder;
 import de.tammo.cloud.wrapper.Wrapper;
+import de.tammo.cloud.wrapper.components.proxy.ProxyServer;
 import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Queue;
+import java.util.UUID;
 import java.util.concurrent.*;
 
-public class ServerComponentHandler implements Runnable{
+public class ServerComponentProviderService implements Runnable, Service {
 
 	@Getter
 	private final File cache = new File("cache");
@@ -32,13 +34,24 @@ public class ServerComponentHandler implements Runnable{
 
 	private final ExecutorService executorService = Executors.newCachedThreadPool();
 
+	private final ProxyServer proxyServer = new ProxyServer(UUID.randomUUID());
 
-	public void init() throws IOException {
+	public void init() {
 		if (Files.notExists(this.cache.toPath())) {
-			Files.createDirectories(this.cache.toPath());
+			try {
+				Files.createDirectories(this.cache.toPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
+		this.startProxy();
+
 		this.thread = new ThreadBuilder("Component-Queue", this).setDaemon().start();
+	}
+
+	private void startProxy() {
+		this.offerServerComponent(this.proxyServer);
 	}
 
 	public void run() {
@@ -83,6 +96,7 @@ public class ServerComponentHandler implements Runnable{
 		this.executorService.submit(() -> {
 			try {
 				this.components.add(server);
+				server.add();
 				server.start();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -93,6 +107,7 @@ public class ServerComponentHandler implements Runnable{
 	private void stopServerComponent(final ServerComponent server) {
 		this.executorService.submit(() -> {
 			server.stop();
+			server.remove();
 			this.components.remove(server);
 		});
 	}

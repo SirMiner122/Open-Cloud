@@ -6,12 +6,19 @@ package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
 import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
 
 import java.util.UUID;
 
+/**
+ * Command to manage the wrappers
+ *
+ * @author Tammo
+ * @since 1.0
+ */
 @Command.CommandInfo(name = "wrapper", aliases = {"w"})
 public class WrapperCommand implements Command {
 
@@ -19,13 +26,14 @@ public class WrapperCommand implements Command {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
 				Logger.info("<-- Wrapper -->");
-				Master.getMaster().getNetworkHandler().getWrappers().forEach(wrapper -> Logger.info("Wrapper on host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString() + (wrapper.isConnected() ? " is connected" : " is not connected")));
+				ServiceProvider.getService(NetworkProviderService.class).getWrappers().forEach(wrapper -> Logger.info(
+						"Wrapper on" + " host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString() + (wrapper.isConnected() ? " is connected" : " is not connected")));
 				Logger.info("");
 				return true;
 			}
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("info")) {
-				final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(args[1]);
+				final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(args[1]);
 				if (wrapper == null) {
 					Logger.warn("Wrapper not available!");
 				} else {
@@ -33,23 +41,23 @@ public class WrapperCommand implements Command {
 					return true;
 				}
 			} else if (args[0].equalsIgnoreCase("create")) {
-				if (Master.getMaster().getNetworkHandler().getWrapperByHost(args[1]) != null) {
+				if (ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(args[1]) != null) {
 					Logger.warn("Wrapper already exists!");
 					return true;
 				}
-				final String key = Master.getMaster().getNetworkHandler().generateWrapperKey();
+				final String key = ServiceProvider.getService(NetworkProviderService.class).generateWrapperKey();
 				final Wrapper wrapper = new Wrapper(new WrapperMeta(UUID.randomUUID(), args[1], key));
-				Master.getMaster().getNetworkHandler().addWrapper(wrapper);
+				ServiceProvider.getService(NetworkProviderService.class).addWrapper(wrapper);
 				Logger.info("Added wrapper on host " + wrapper.getWrapperMeta().getHost() + " with unique id " + wrapper.getWrapperMeta().getUuid().toString());
 				Logger.info("Key for wrapper is: " + key);
 				return true;
 			} else if (args[0].equalsIgnoreCase("delete")) {
-				final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(args[1]);
+				final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(args[1]);
 				if (wrapper == null) {
 					Logger.warn("Wrapper is not created yet!");
 					return true;
 				}
-				Master.getMaster().getNetworkHandler().removeWrapper(wrapper);
+				ServiceProvider.getService(NetworkProviderService.class).removeWrapper(wrapper);
 				Logger.info("Removed wrapper with host " + wrapper.getWrapperMeta().getHost() + "!");
 				return true;
 			}
@@ -57,6 +65,9 @@ public class WrapperCommand implements Command {
 		return false;
 	}
 
+	/**
+	 * Prints the help syntax
+	 */
 	public void printHelp() {
 		Logger.info("wrapper list");
 		Logger.info("wrapper info <host>");

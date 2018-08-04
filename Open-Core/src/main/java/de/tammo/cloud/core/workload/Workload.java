@@ -4,9 +4,9 @@
 
 package de.tammo.cloud.core.workload;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class Workload {
 
 	private final int cpu;

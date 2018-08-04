@@ -17,7 +17,7 @@ public class Wrapper {
 	private final WrapperMeta wrapperMeta;
 
 	@Setter
-	private Channel channel;
+	private transient Channel channel;
 
 	@Setter
 	private boolean verified = false;
@@ -28,7 +28,7 @@ public class Wrapper {
 	@Setter
 	private int memory = 0;
 
-	private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
+	private transient final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
 
 	public void sendPacket(final Packet packet) {
 		if (this.channel == null) {

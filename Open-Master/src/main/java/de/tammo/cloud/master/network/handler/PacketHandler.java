@@ -5,7 +5,8 @@
 package de.tammo.cloud.master.network.handler;
 
 import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.packets.in.WrapperKeyInPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
@@ -15,7 +16,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
 	public void channelActive(final ChannelHandlerContext ctx) {
-		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(ctx.channel()));
+		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(ServiceProvider.getService(NetworkProviderService.class).getHostFromChannel(ctx.channel()));
 		if (wrapper != null) {
 			while (!wrapper.getQueue().isEmpty()) {
 				wrapper.sendPacket(wrapper.getQueue().poll());
@@ -26,7 +27,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	protected void channelRead0(final ChannelHandlerContext ctx, final Packet packet) {
-		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(ctx.channel()));
+		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(ServiceProvider.getService(NetworkProviderService.class).getHostFromChannel(ctx.channel()));
 		if (wrapper != null) {
 			if (wrapper.isVerified() || packet instanceof WrapperKeyInPacket) {
 				final Packet response = packet.handle(ctx.channel());
@@ -36,9 +37,9 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
-		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(ctx.channel()));
+		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(ServiceProvider.getService(NetworkProviderService.class).getHostFromChannel(ctx.channel()));
 		wrapper.disconnect();
-		Logger.info("Wrapper from host " + wrapper.getWrapperMeta().getHost() + " is disconnected!");
+		Logger.info("Wrapper at host " + wrapper.getWrapperMeta().getHost() + " disconnected!");
 		super.channelInactive(ctx);
 	}
 

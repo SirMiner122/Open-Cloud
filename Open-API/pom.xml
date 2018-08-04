@@ -9,16 +9,18 @@
     <parent>
         <artifactId>Open-Cloud</artifactId>
         <groupId>de.tammo.cloud</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Open-API</artifactId>
+    <version>${project.version}</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>Open-MasterAPI</module>
+        <module>Open-Proxy</module>
     </modules>
 
 </project>

@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.security.user;
 
+import de.tammo.cloud.core.service.Service;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 @Setter
 @Getter
-public class CloudUserHandler {
+public class CloudUserService implements Service {
 
 	private ArrayList<CloudUser> cloudUsers = new ArrayList<>();
 

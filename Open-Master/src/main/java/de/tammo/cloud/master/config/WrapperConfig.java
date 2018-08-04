@@ -8,7 +8,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import de.tammo.cloud.config.DocumentFile;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
 
 import java.io.*;
@@ -23,14 +24,14 @@ public class WrapperConfig extends DocumentFile {
 
 	protected void load() throws IOException {
 		try (final BufferedReader reader = Files.newBufferedReader(this.file.toPath())) {
-			Master.getMaster().getNetworkHandler().createWrappers(new Gson().fromJson(reader, new TypeToken<ArrayList<WrapperMeta>>() {}.getType()));
+			ServiceProvider.getService(NetworkProviderService.class).createWrappers(new Gson().fromJson(reader, new TypeToken<ArrayList<WrapperMeta>>() {}.getType()));
 		}
 	}
 
 	protected void save() throws IOException {
 		try (final BufferedWriter writer = Files.newBufferedWriter(this.file.toPath())) {
-			final Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-			writer.write(gson.toJson(Master.getMaster().getNetworkHandler().getWrapperMetas()));
+			final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			writer.write(gson.toJson(ServiceProvider.getService(NetworkProviderService.class).getWrapperMetas()));
 		}
 	}
 }

@@ -5,17 +5,18 @@
 package de.tammo.cloud.config;
 
 import com.google.common.reflect.ClassPath;
+import de.tammo.cloud.core.service.Service;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DocumentHandler {
+public class DocumentProviderService implements Service {
 
 	@Getter
 	private final ArrayList<DocumentFile> files = new ArrayList<>();
 
-	public DocumentHandler(final String path) {
+	public DocumentProviderService(final String path) {
 		try {
 			for (final ClassPath.ClassInfo classInfo : ClassPath.from(this.getClass().getClassLoader()).getTopLevelClasses(path)) {
 				final Class fileClass = Class.forName(classInfo.getName());
@@ -26,7 +27,9 @@ public class DocumentHandler {
 		} catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public void init() {
 		this.loadFiles();
 	}
 

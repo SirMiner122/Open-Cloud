@@ -28,6 +28,8 @@ public class WrapperBootstrap {
 		optionParser.accepts("help");
 		optionParser.accepts("version");
 
+		optionParser.accepts("clearcache");
+
 		final OptionSet optionSet = optionParser.parse(args);
 
 		System.setProperty("jline.WindowsTerminal.directConsole", "false");

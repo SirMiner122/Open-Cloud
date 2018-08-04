@@ -4,6 +4,7 @@
 
 package de.tammo.cloud.master.network;
 
+import de.tammo.cloud.core.service.Service;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
 import io.netty.channel.Channel;
@@ -12,7 +13,7 @@ import lombok.Getter;
 import java.net.InetSocketAddress;
 import java.util.*;
 
-public class NetworkHandler {
+public class NetworkProviderService implements Service {
 
 	@Getter
 	private final ArrayList<Wrapper> wrappers = new ArrayList<>();

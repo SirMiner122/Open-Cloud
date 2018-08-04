@@ -5,10 +5,11 @@
 package de.tammo.cloud.master.setup;
 
 import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.DownloadRequest;
 import de.tammo.cloud.core.setup.requests.impl.ListRequest;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.setup.version.ProxyVersion;
 import de.tammo.cloud.master.setup.version.ServerVersion;
 import jline.console.ConsoleReader;
@@ -65,7 +66,7 @@ public class MasterSetup implements Setup {
 			});
 		}
 
-		if (Master.getMaster().getNetworkHandler().getWrapperMetas().isEmpty()) {
+		if (ServiceProvider.getService(NetworkProviderService.class).getWrapperMetas().isEmpty()) {
 			Logger.info("To create a wrapper use the following command: \"wrapper create <host>\"!");
 		}
 	}

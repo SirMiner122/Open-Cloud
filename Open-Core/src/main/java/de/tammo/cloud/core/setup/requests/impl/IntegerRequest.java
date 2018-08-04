@@ -11,23 +11,36 @@ import jline.console.ConsoleReader;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+/**
+ * Implementation of the request. Request an integer
+ *
+ * @author Tammo
+ * @since 1.0
+ */
 public class IntegerRequest extends Request {
 
 	public IntegerRequest(final String request, final ConsoleReader reader) {
 		super(request, reader);
 	}
-	public void request(final Consumer<Integer> accept) throws IOException {
+
+	/**
+	 * Printing the request and parse the response
+	 *
+	 * @param callback {@link Consumer} to get a callback with the response
+	 * @throws IOException If an I/O error occurs
+	 */
+	public void request(final Consumer<Integer> callback) throws IOException {
 		Logger.info(this.request);
 		final String input = this.reader.readLine();
 		if (input.trim().isEmpty()) {
-			this.request(accept);
+			this.request(callback);
 		}
 
 		try {
 			final int number = Integer.parseInt(input);
-			accept.accept(number);
+			callback.accept(number);
 		} catch (NumberFormatException e) {
-			this.request(accept);
+			this.request(callback);
 		}
 	}
 

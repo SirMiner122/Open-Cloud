@@ -8,8 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import de.tammo.cloud.config.DocumentFile;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.security.user.CloudUser;
+import de.tammo.cloud.security.user.CloudUserService;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -23,14 +24,14 @@ public class CloudUserConfig extends DocumentFile {
 
 	protected void load() throws IOException {
 		try (final BufferedReader reader = Files.newBufferedReader(this.file.toPath())) {
-			Master.getMaster().getCloudUserHandler().setCloudUsers(new Gson().fromJson(reader, new TypeToken<ArrayList<CloudUser>>() {}.getType()));
+			ServiceProvider.getService(CloudUserService.class).setCloudUsers(new Gson().fromJson(reader, new TypeToken<ArrayList<CloudUser>>() {}.getType()));
 		}
 	}
 
 	protected void save() throws IOException {
 		try (final BufferedWriter writer = Files.newBufferedWriter(this.file.toPath())) {
-			final Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-			writer.write(gson.toJson(Master.getMaster().getCloudUserHandler().getCloudUsers()));
+			final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			writer.write(gson.toJson(ServiceProvider.getService(CloudUserService.class).getCloudUsers()));
 		}
 	}
 }

@@ -6,8 +6,12 @@ package de.tammo.cloud.wrapper.components.server;
 
 import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.components.ServerComponent;
+import de.tammo.cloud.wrapper.network.NetworkProviderService;
+import de.tammo.cloud.wrapper.network.packets.out.ServerInfoAddOutPacket;
+import de.tammo.cloud.wrapper.network.packets.out.ServerInfoRemovePacket;
 import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -98,6 +102,14 @@ public class GameServer implements ServerComponent {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void add() {
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ServerInfoAddOutPacket(this.serverGroup, this.uuid, this.port));
+	}
+
+	public void remove() {
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ServerInfoRemovePacket(this.uuid));
 	}
 
 	private void loadGlobalTemplate() throws IOException {

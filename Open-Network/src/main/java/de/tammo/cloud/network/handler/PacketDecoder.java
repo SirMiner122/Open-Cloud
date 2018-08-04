@@ -20,7 +20,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 		final Packet packet = PacketRegistry.getPacketById(id, PacketRegistry.PacketDirection.IN);
 
 		if (packet == null) {
-			new NullPointerException("Could not find packet by id " + id + "!").printStackTrace();
+			new NullPointerException("Could not find packet with id " + id + "!").printStackTrace();
 		} else {
 			packet.read(new ByteBufInputStream(byteBuf));
 			output.add(packet);

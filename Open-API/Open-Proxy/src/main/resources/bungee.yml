@@ -1,0 +1,5 @@
+name: Open-Proxy
+version: 1.0.0
+author: Tammo
+
+main: de.tammo.cloud.proxy.Proxy

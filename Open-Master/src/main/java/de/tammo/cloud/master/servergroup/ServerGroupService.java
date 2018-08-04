@@ -4,12 +4,13 @@
 
 package de.tammo.cloud.master.servergroup;
 
+import de.tammo.cloud.core.service.Service;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 
-public class ServerGroupHandler {
+public class ServerGroupService implements Service {
 
 	@Setter
 	@Getter

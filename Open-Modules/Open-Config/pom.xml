@@ -9,13 +9,19 @@
     <parent>
         <artifactId>Open-Modules</artifactId>
         <groupId>de.tammo.cloud</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Open-Config</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>de.tammo.cloud</groupId>
+            <artifactId>Open-Core</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>

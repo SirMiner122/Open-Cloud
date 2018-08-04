@@ -2,7 +2,7 @@
  * Copyright (c) 2018. File created by Tammo
  */
 
-package de.tammo.cloud.web.handler.impl;
+package de.tammo.cloud.master.web;
 
 import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.web.handler.RequestHandler;
