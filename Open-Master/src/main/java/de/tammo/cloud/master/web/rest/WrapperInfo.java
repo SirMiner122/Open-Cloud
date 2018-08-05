@@ -6,8 +6,8 @@
 
 package de.tammo.cloud.master.web.rest;
 
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.network.NetworkProviderService;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.web.WebServer;
 import de.tammo.cloud.web.handler.RequestHandler;
 import de.tammo.cloud.web.mapping.Mapping;

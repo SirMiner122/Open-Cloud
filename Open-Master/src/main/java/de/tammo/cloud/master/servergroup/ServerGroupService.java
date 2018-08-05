@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.master.servergroup;
 
-import de.tammo.cloud.core.service.Service;
+import de.tammo.cloud.service.Service;
 import lombok.Getter;
 import lombok.Setter;
 

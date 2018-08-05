@@ -20,6 +20,12 @@
             <version>${version.lombok}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.tammo.cloud</groupId>
+            <artifactId>Open-Service</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

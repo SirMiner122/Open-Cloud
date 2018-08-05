@@ -10,10 +10,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import de.tammo.cloud.config.DocumentFile;
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
 
+import de.tammo.cloud.service.ServiceProvider;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;

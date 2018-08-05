@@ -9,8 +9,11 @@ package de.tammo.cloud.core.setup.requests;
 import de.tammo.cloud.core.exceptions.FileDownloadException;
 import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.log.component.impl.ProgressBarComponent;
+import de.tammo.cloud.core.log.event.NextLoggerComponentEvent;
 import de.tammo.cloud.core.setup.requests.util.ReadableByteChannelWrapper;
 
+import de.tammo.cloud.event.EventService;
+import de.tammo.cloud.service.ServiceProvider;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -50,6 +53,7 @@ public class DownloadRequest {
 				}
 			}
 
+			ServiceProvider.getService(EventService.class).fireEvent(new NextLoggerComponentEvent());
 			complete.run();
 		} else {
 			Logger.error("Unable to download file from requested url!", new FileDownloadException("Unable to download file from requested url!"));

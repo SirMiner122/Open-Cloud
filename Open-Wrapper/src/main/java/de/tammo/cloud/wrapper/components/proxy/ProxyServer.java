@@ -8,7 +8,7 @@ package de.tammo.cloud.wrapper.components.proxy;
 
 import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.core.log.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.components.ServerComponent;
 import de.tammo.cloud.wrapper.network.NetworkProviderService;

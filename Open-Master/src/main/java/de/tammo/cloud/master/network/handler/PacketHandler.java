@@ -7,11 +7,11 @@
 package de.tammo.cloud.master.network.handler;
 
 import de.tammo.cloud.core.log.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.packets.in.WrapperKeyInPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
+import de.tammo.cloud.service.ServiceProvider;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

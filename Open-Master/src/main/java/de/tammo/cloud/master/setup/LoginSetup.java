@@ -7,13 +7,13 @@
 package de.tammo.cloud.master.setup;
 
 import de.tammo.cloud.core.log.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.impl.StringRequest;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.security.Hashing;
 import de.tammo.cloud.security.user.CloudUser;
 import de.tammo.cloud.security.user.CloudUserService;
+import de.tammo.cloud.service.ServiceProvider;
 import jline.console.ConsoleReader;
 
 import java.io.IOException;

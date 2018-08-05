@@ -1,5 +1,6 @@
 package de.tammo.cloud.event;
 
+import de.tammo.cloud.service.Service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -7,13 +8,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import lombok.Data;
 
 /**
- *
+ * Event system to handle events
  *
  * @author Tammo
  * @version 1.0
  * @since 1.0
  */
-public class EventService {
+public class EventService implements Service {
 
 	/**
 	 * {@link Map} of all registered {@link Event}s

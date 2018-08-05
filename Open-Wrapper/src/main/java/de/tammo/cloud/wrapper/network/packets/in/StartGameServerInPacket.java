@@ -6,10 +6,10 @@
 
 package de.tammo.cloud.wrapper.network.packets.in;
 
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.components.ServerComponentProviderService;
 import de.tammo.cloud.wrapper.components.server.GameServer;
 import io.netty.buffer.ByteBufInputStream;

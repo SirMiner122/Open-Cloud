@@ -6,9 +6,9 @@
 
 package de.tammo.cloud.wrapper.setup;
 
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.impl.StringRequest;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.network.NetworkProviderService;
 import de.tammo.cloud.wrapper.network.packets.out.WrapperKeyOutPacket;

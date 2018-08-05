@@ -8,9 +8,9 @@ package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
 import de.tammo.cloud.core.log.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.packets.out.CacheDeleteOutPacket;
+import de.tammo.cloud.service.ServiceProvider;
 
 /**
  * Command to delete the cache in every Open-Wrapper

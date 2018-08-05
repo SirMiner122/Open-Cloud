@@ -3,6 +3,9 @@ package de.tammo.cloud.core.log.component.impl;
 import de.tammo.cloud.core.log.LogLevel;
 import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.log.component.LoggerComponent;
+import de.tammo.cloud.core.log.event.NextLoggerComponentEvent;
+import de.tammo.cloud.event.EventService;
+import de.tammo.cloud.service.ServiceProvider;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +44,7 @@ public class ErrorComponent implements LoggerComponent {
 
 		System.out.print("\r> ");
 
-		//TODO Fire event
+		ServiceProvider.getService(EventService.class).fireEvent(new NextLoggerComponentEvent());
 	}
 
 }

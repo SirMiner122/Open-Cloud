@@ -9,7 +9,11 @@ package de.tammo.cloud.core.log;
 import de.tammo.cloud.core.log.component.LoggerComponent;
 import de.tammo.cloud.core.log.component.impl.ErrorComponent;
 import de.tammo.cloud.core.log.component.impl.TextComponent;
+import de.tammo.cloud.core.log.event.NextLoggerComponentEvent;
 import de.tammo.cloud.core.queue.Queue;
+import de.tammo.cloud.event.EventService;
+import de.tammo.cloud.event.EventTarget;
+import de.tammo.cloud.service.ServiceProvider;
 import lombok.*;
 
 /**
@@ -33,6 +37,14 @@ public class Logger {
 	 */
 	@Getter
 	private static Queue<LoggerComponent> queue = new Queue<>();
+
+	@EventTarget
+	public void onNext(final NextLoggerComponentEvent event) {
+		if (!queue.isEmpty()) {
+			final LoggerComponent component = queue.getFirst();
+			component.print();
+		}
+	}
 
 	/**
 	 * Printing a message with the level DEBUG
@@ -69,6 +81,7 @@ public class Logger {
 	 */
 	public static void error(final Object content, final Exception exception) {
 		queue.offer(new ErrorComponent(content, exception));
+		ServiceProvider.getService(EventService.class).fireEvent(new NextLoggerComponentEvent());
 	}
 
 	/**
@@ -79,6 +92,7 @@ public class Logger {
 	 */
 	private static void log(final Object content, final LogLevel logLevel) {
 		queue.offer(new TextComponent(content, logLevel));
+		ServiceProvider.getService(EventService.class).fireEvent(new NextLoggerComponentEvent());
 	}
 
 }

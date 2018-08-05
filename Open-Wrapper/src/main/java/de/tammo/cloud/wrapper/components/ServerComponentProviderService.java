@@ -7,8 +7,8 @@
 package de.tammo.cloud.wrapper.components;
 
 import de.tammo.cloud.core.file.FileUtils;
-import de.tammo.cloud.core.service.Service;
 import de.tammo.cloud.core.threading.ThreadBuilder;
+import de.tammo.cloud.service.Service;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.components.proxy.ProxyServer;
 import lombok.Getter;
