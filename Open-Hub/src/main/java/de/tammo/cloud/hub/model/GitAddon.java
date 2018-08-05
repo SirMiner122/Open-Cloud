@@ -2,12 +2,11 @@ package de.tammo.cloud.hub.model;
 
 import de.tammo.cloud.hub.AddonHub;
 import de.tammo.cloud.hub.OsChecker;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +14,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@Builder(builderMethodName = "builder")
 public class GitAddon {
 
+    @NonNull
     private String repositoryUrl;
-    private String branch;
+    private String branch = "master";
     private boolean autoUpdate = true;
 
     /**
@@ -43,7 +44,7 @@ public class GitAddon {
      * @throws GitAPIException this Exception occurs if the pull-fails
      */
     public PullResult updateAddon() throws IOException, GitAPIException {
-        return Git.open(new File(AddonHub.HUB_ADDON_FILE, getRepositoryName()))
+        return Git.open(new File(AddonHub.HUB_ADDON_FOLDER, getRepositoryName()))
                 .pull()
                 .call();
     }
@@ -61,6 +62,7 @@ public class GitAddon {
             command += ".cmd";
         }
 
+        if(!new File(new File(AddonHub.HUB_ADDON_FOLDER, getRepositoryName()), command).exists()) return null;
         command += " clean package";
 
         return new ProcessBuilder()
