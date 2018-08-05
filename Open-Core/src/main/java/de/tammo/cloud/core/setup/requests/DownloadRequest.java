@@ -8,6 +8,7 @@ package de.tammo.cloud.core.setup.requests;
 
 import de.tammo.cloud.core.exceptions.FileDownloadException;
 import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.core.log.component.impl.ProgressBarComponent;
 import de.tammo.cloud.core.setup.requests.util.ReadableByteChannelWrapper;
 
 import java.io.FileOutputStream;
@@ -39,9 +40,16 @@ public class DownloadRequest {
 		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 			final int length = connection.getContentLength();
 
-			final ReadableByteChannel channel = new ReadableByteChannelWrapper(Channels.newChannel(connection.getInputStream()), current -> Logger.progress(current, length));
-			final FileOutputStream fos = new FileOutputStream(path);
-			fos.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+			final ProgressBarComponent progressBarComponent = new ProgressBarComponent(length);
+			Logger.getQueue().offer(progressBarComponent);
+
+			try (final ReadableByteChannel channel =
+						 new ReadableByteChannelWrapper(Channels.newChannel(connection.getInputStream()), progressBarComponent::setCurrent)) {
+				try (final FileOutputStream fileOutputStream = new FileOutputStream(path)){
+					fileOutputStream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+				}
+			}
+
 			complete.run();
 		} else {
 			Logger.error("Unable to download file from requested url!", new FileDownloadException("Unable to download file from requested url!"));
