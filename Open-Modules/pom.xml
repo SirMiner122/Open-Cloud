@@ -24,6 +24,7 @@
         <module>Open-Command</module>
         <module>Open-Web</module>
         <module>Open-Config</module>
+        <module>Open-Event</module>
     </modules>
 
 
