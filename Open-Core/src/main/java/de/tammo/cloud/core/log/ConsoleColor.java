@@ -10,8 +10,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum ConsoleColor
-{
+public enum ConsoleColor {
+
     RESET  ("\u001B[0m"),
     BLACK  ("\u001B[30m"),
     RED    ("\u001B[31m"),
