@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.wrapper;
 
-import de.tammo.cloud.command.CommandProviderService;
+import de.tammo.cloud.command.CommandService;
 import de.tammo.cloud.config.DocumentProviderService;
 import de.tammo.cloud.core.CloudApplication;
 import de.tammo.cloud.core.file.FileUtils;
@@ -27,14 +27,13 @@ import de.tammo.cloud.wrapper.network.packets.in.*;
 import de.tammo.cloud.wrapper.network.packets.out.*;
 import de.tammo.cloud.wrapper.setup.WrapperSetup;
 import de.tammo.cloud.wrapper.workload.WorkloadProviderService;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Wrapper implements CloudApplication {
 
@@ -99,13 +98,13 @@ public class Wrapper implements CloudApplication {
 		ServiceProvider.addService(new NetworkProviderService());
 		ServiceProvider.addService(new ServerComponentProviderService());
 		ServiceProvider.addService(new WorkloadProviderService());
-		ServiceProvider.addService(new CommandProviderService("de.tammo.cloud.wrapper.commands"));
+		ServiceProvider.addService(new CommandService("de.tammo.cloud.wrapper.commands"));
 
 		ServiceProvider.init();
 
 		while (this.running) {
 			try {
-				ServiceProvider.getService(CommandProviderService.class).executeCommand(Objects.requireNonNull(reader).readLine());
+				ServiceProvider.getService(CommandService.class).executeCommand(Objects.requireNonNull(reader).readLine());
 			} catch (IOException e) {
 				Logger.error("An error occured while reading from commandline!", e);
 			}

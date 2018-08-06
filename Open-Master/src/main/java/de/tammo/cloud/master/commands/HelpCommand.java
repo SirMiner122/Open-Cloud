@@ -7,9 +7,10 @@
 package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
-import de.tammo.cloud.command.CommandProviderService;
+import de.tammo.cloud.command.CommandService;
 import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.service.ServiceProvider;
+import java.util.Arrays;
 
 /**
  * Command to list all commands to get a overview
@@ -17,16 +18,16 @@ import de.tammo.cloud.service.ServiceProvider;
  * @author Tammo
  * @since 1.0
  */
-@Command.CommandInfo(name = "help")
+@Command.Info(names = "help")
 public class HelpCommand implements Command {
 
 	public final boolean execute(final String[] args) {
 		Logger.info("<-- Help -->");
-		ServiceProvider.getService(CommandProviderService.class).getCommands().forEach(command -> {
-			if (command.getClass().isAnnotationPresent(CommandInfo.class)) {
-				final String name = command.getClass().getAnnotation(CommandInfo.class).name();
-				if (!name.equalsIgnoreCase("help")) {
-					Logger.info(name);
+		ServiceProvider.getService(CommandService.class).getCommands().forEach(command -> {
+			if (command.getClass().isAnnotationPresent(Info.class)) {
+				final String[] names = command.getClass().getAnnotation(Info.class).name();
+				if (!Arrays.asList(names).contains("help")) {
+					Arrays.stream(names).forEach(Logger::info);
 				}
 			}
 		});

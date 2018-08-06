@@ -9,7 +9,7 @@ package de.tammo.cloud.wrapper.commands;
 import de.tammo.cloud.command.Command;
 import de.tammo.cloud.wrapper.Wrapper;
 
-@Command.CommandInfo(name = "stop", aliases = {"shutdown", "terminate"})
+@Command.Info(names = {"stop", "shutdown", "terminate"}, description = "Stops the wrapper")
 public class StopCommand implements Command {
 
 	public boolean execute(final String[] args) {

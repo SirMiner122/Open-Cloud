@@ -11,7 +11,6 @@ import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
-
 import de.tammo.cloud.service.ServiceProvider;
 import java.util.UUID;
 
@@ -21,7 +20,7 @@ import java.util.UUID;
  * @author Tammo
  * @since 1.0
  */
-@Command.CommandInfo(name = "wrapper", aliases = {"w"})
+@Command.Info(names = "wrapper", description = "Manage the wrapper")
 public class WrapperCommand implements Command {
 
 	public boolean execute(final String[] args) {

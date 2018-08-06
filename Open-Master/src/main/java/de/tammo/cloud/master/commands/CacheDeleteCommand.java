@@ -18,7 +18,7 @@ import de.tammo.cloud.service.ServiceProvider;
  * @author Tammo
  * @since 1.0
  */
-@Command.CommandInfo(name = "cache")
+@Command.Info(names = "cache")
 public class CacheDeleteCommand implements Command {
 
 	public boolean execute(final String[] args) {

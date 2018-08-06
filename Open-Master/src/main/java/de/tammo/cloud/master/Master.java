@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.master;
 
-import de.tammo.cloud.command.CommandProviderService;
+import de.tammo.cloud.command.CommandService;
 import de.tammo.cloud.config.DocumentProviderService;
 import de.tammo.cloud.core.CloudApplication;
 import de.tammo.cloud.core.file.FileUtils;
@@ -34,15 +34,14 @@ import de.tammo.cloud.security.user.CloudUserService;
 import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.web.WebServer;
 import de.tammo.cloud.web.handler.WebRequestHandlerProvider;
-import jline.console.ConsoleReader;
-import joptsimple.OptionSet;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;
+import jline.console.ConsoleReader;
+import joptsimple.OptionSet;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Main class to control everything
@@ -100,7 +99,7 @@ public class Master implements CloudApplication {
 		ServiceProvider.addService(new CloudUserService());
 		ServiceProvider.addService(new ServerGroupService());
 		ServiceProvider.addService(new DocumentProviderService("de.tammo.cloud.master.config"));
-		ServiceProvider.addService(new CommandProviderService("de.tammo.cloud.master.commands"));
+		ServiceProvider.addService(new CommandService("de.tammo.cloud.master.commands"));
 
 		ServiceProvider.getService(EventService.class).registerEvents(new Logger());
 
@@ -135,7 +134,7 @@ public class Master implements CloudApplication {
 
 		while (this.running) {
 			try {
-				ServiceProvider.getService(CommandProviderService.class).executeCommand(Objects.requireNonNull(reader).readLine());
+				ServiceProvider.getService(CommandService.class).executeCommand(Objects.requireNonNull(reader).readLine());
 			} catch (IOException e) {
 				Logger.error("An error occurred while reading from commandline!", e);
 			}

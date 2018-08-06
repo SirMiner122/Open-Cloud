@@ -8,19 +8,55 @@ package de.tammo.cloud.command;
 
 import java.lang.annotation.*;
 
+/**
+ * Interface to implement commands
+ *
+ * @author Tammo
+ * @version 2.0
+ * @since 1.0
+ */
 public interface Command {
 
+	/**
+	 * @param args Arguments from the command line message to execute the command with parameters
+	 *
+	 * @return {@code true} if the {@link Command} was successfully executed
+	 *
+	 * @since 1.0
+	 */
 	boolean execute(final String[] args);
 
-	default void printHelp() {}
+	/**
+	 * @return {@link Info} about the {@link Command}
+	 *
+	 * @since 2.0
+	 */
+	default Info getInfo() {
+		return this.getClass().getAnnotation(Info.class);
+	}
 
+	/**
+	 * Annotation to declare the {@link Command}
+	 *
+	 * @since 1.0
+	 */
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
-	@interface CommandInfo {
+	@interface Info {
 
-		String name();
+		/**
+		 * @return List of all possible trigger
+		 *
+		 * @since 1.0
+		 */
+		String[] names();
 
-		String[] aliases() default {};
+		/**
+		 * @return Description from the {@link Command}
+		 *
+		 * @since 2.0
+		 */
+		String description() default "";
 	}
 
 }

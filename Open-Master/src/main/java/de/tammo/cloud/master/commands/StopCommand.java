@@ -15,7 +15,7 @@ import de.tammo.cloud.master.Master;
  * @author Tammo
  * @since 1.0
  */
-@Command.CommandInfo(name = "stop", aliases = {"shutdown", "terminate"})
+@Command.Info(names = {"stop", "shutdown", "terminat"}, description = "Stops the master")
 public class StopCommand implements Command {
 
 	public boolean execute(final String[] args) {
