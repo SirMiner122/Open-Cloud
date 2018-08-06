@@ -1,5 +1,9 @@
 package de.tammo.cloud.core.logging;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum ConsoleColor
 {
     RESET  ("\u001B[0m"),
@@ -12,15 +16,6 @@ public enum ConsoleColor
     CYAN   ("\u001B[36m"),
     WHITE  ("\u001B[37m");
 
+    @Getter
     private final String colorString;
-
-    ConsoleColor(String colorString)
-    {
-        this.colorString = colorString;
-    }
-
-    public String getColorString()
-    {
-        return colorString;
-    }
 }
