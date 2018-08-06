@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2018. File created by Tammo
+  ~ Copyright (c) 2018, Open-Cloud-Services and contributors
+  ~
+  ~ The code is licensed under the MIT License, which can be found in the root directory of the repository.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -9,7 +11,7 @@
     <parent>
         <artifactId>Open-Cloud</artifactId>
         <groupId>de.tammo.cloud</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +22,7 @@
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Core</artifactId>
-            <version>${version.open-cloud}</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
 

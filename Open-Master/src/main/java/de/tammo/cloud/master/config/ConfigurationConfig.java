@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.master.config;
@@ -27,7 +29,7 @@ public class ConfigurationConfig extends DocumentFile {
 
 	protected void save() throws IOException {
 		try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(this.file.toPath())) {
-			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(Master.getMaster().getConfiguration()));
+			bufferedWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(Master.getMaster().getConfiguration()));
 		}
 	}
 

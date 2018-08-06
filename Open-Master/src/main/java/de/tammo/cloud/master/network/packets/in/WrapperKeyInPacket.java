@@ -1,13 +1,16 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.packets.out.WrapperKeyValidationOutPacket;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.network.packet.Packet;
+import de.tammo.cloud.service.ServiceProvider;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.Channel;
 
@@ -18,7 +21,7 @@ public class WrapperKeyInPacket implements Packet {
 	private String key;
 
 	public final Packet handle(final Channel channel) {
-		final Wrapper wrapper = Master.getMaster().getNetworkHandler().getWrapperByHost(Master.getMaster().getNetworkHandler().getHostFromChannel(channel));
+		final Wrapper wrapper = ServiceProvider.getService(NetworkProviderService.class).getWrapperByHost(ServiceProvider.getService(NetworkProviderService.class).getHostFromChannel(channel));
 		if (wrapper != null) {
 			if (wrapper.getWrapperMeta().getKey().equals(this.key)) {
 				wrapper.setVerified(true);

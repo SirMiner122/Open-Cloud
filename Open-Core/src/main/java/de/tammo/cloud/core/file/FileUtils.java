@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.core.file;
@@ -10,26 +12,24 @@ import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * This class is for util methods, to simplify the use with files
+ *
+ * @author Tammo
+ * @since  1.0
+ */
 public class FileUtils {
 
-	public static void copyDir(final File from, final File to) throws IOException {
-		if (!Files.notExists(to.toPath())) {
-			Files.createDirectories(to.toPath());
-		}
-
-		for (final File file : Objects.requireNonNull(from.listFiles())) {
-			if (file.isDirectory()) {
-				copyDir(file, new File(to.getAbsolutePath() + "//" + file.getName()));
-			} else {
-				Files.copy(file.toPath(), new File(to.getAbsolutePath() + "//" + file.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
-			}
-		}
-	}
-
+	/**
+	 * Deletes a directory recursively
+	 *
+	 * @param dir Directory, which should deleted
+	 * @throws IOException The deletion of the directory has failed
+	 */
 	public static void deleteDir(final File dir) throws IOException {
 		if (!Files.exists(dir.toPath())) throw new FileNotFoundException();
 
@@ -44,6 +44,13 @@ public class FileUtils {
 		Files.delete(dir.toPath());
 	}
 
+	/**
+	 * Put a directory into an zip archive
+	 *
+	 * @param dir Directory which should put in the archive
+	 * @param zipPath Path to the zip file
+	 * @throws ZipException The packaging of the zip archive has failed
+	 */
 	public static void zip(final File dir, final String zipPath) throws ZipException {
 		final ZipFile zipFile = new ZipFile(zipPath + ".zip");
 		final ZipParameters parameters = new ZipParameters();
@@ -62,6 +69,13 @@ public class FileUtils {
 		});
 	}
 
+	/**
+	 * Unzip a directory to a specific path
+	 *
+	 * @param zipPath Path, where the zip archive is located
+	 * @param targetDir Target directory, where the unzipped files should be located
+	 * @throws ZipException The unzipping of the zip archive has failed
+	 */
 	public static void unzip(final String zipPath, final String targetDir) throws ZipException {
 		new ZipFile(zipPath).extractAll(targetDir);
 	}

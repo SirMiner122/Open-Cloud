@@ -1,13 +1,19 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.wrapper.components.server;
 
 import de.tammo.cloud.core.file.FileUtils;
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.components.ServerComponent;
+import de.tammo.cloud.wrapper.network.NetworkProviderService;
+import de.tammo.cloud.wrapper.network.packets.out.ServerInfoAddOutPacket;
+import de.tammo.cloud.wrapper.network.packets.out.ServerInfoRemovePacket;
 import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -98,6 +104,14 @@ public class GameServer implements ServerComponent {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void add() {
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ServerInfoAddOutPacket(this.serverGroup, this.uuid, this.port));
+	}
+
+	public void remove() {
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ServerInfoRemovePacket(this.uuid));
 	}
 
 	private void loadGlobalTemplate() throws IOException {

@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.network.handler;
@@ -17,7 +19,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 		final int id = PacketRegistry.getIdByPacket(packet, PacketRegistry.PacketDirection.OUT);
 
 		if (id == -1) {
-			new NullPointerException("Could not find id from packet " + packet.getClass().getSimpleName() + "!").printStackTrace();
+			new NullPointerException("Could not get id from packet " + packet.getClass().getSimpleName() + "!").printStackTrace();
 		} else {
 			byteBuf.writeInt(id);
 			packet.write(new ByteBufOutputStream(byteBuf));

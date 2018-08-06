@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.web.handler;
@@ -11,7 +13,7 @@ import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import lombok.RequiredArgsConstructor;
 
-import java.net.*;
+import java.net.URI;
 
 @RequiredArgsConstructor
 public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {

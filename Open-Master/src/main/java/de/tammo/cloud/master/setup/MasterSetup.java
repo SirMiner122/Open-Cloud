@@ -1,16 +1,19 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.master.setup;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.DownloadRequest;
 import de.tammo.cloud.core.setup.requests.impl.ListRequest;
-import de.tammo.cloud.master.Master;
+import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.setup.version.ProxyVersion;
 import de.tammo.cloud.master.setup.version.ServerVersion;
+import de.tammo.cloud.service.ServiceProvider;
 import jline.console.ConsoleReader;
 
 import java.io.File;
@@ -65,7 +68,7 @@ public class MasterSetup implements Setup {
 			});
 		}
 
-		if (Master.getMaster().getNetworkHandler().getWrapperMetas().isEmpty()) {
+		if (ServiceProvider.getService(NetworkProviderService.class).getWrapperMetas().isEmpty()) {
 			Logger.info("To create a wrapper use the following command: \"wrapper create <host>\"!");
 		}
 	}

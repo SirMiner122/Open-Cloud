@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.wrapper.network.packets.in;
@@ -7,7 +9,8 @@ package de.tammo.cloud.wrapper.network.packets.in;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
-import de.tammo.cloud.wrapper.Wrapper;
+import de.tammo.cloud.service.ServiceProvider;
+import de.tammo.cloud.wrapper.components.ServerComponentProviderService;
 import de.tammo.cloud.wrapper.components.server.GameServer;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.Channel;
@@ -28,7 +31,7 @@ public class StartGameServerInPacket implements Packet {
 
 		final GameServer gameServer = new GameServer(this.serverGroup, UUID.randomUUID(), this.port);
 
-		Wrapper.getWrapper().getServerComponentHandler().offerServerComponent(gameServer);
+		ServiceProvider.getService(ServerComponentProviderService.class).offerServerComponent(gameServer);
 
 		return new SuccessPacket();
 	}

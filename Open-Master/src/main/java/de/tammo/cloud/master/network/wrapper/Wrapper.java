@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.master.network.wrapper;
@@ -17,7 +19,7 @@ public class Wrapper {
 	private final WrapperMeta wrapperMeta;
 
 	@Setter
-	private Channel channel;
+	private transient Channel channel;
 
 	@Setter
 	private boolean verified = false;
@@ -28,7 +30,7 @@ public class Wrapper {
 	@Setter
 	private int memory = 0;
 
-	private final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
+	private transient final ConcurrentLinkedQueue<Packet> queue = new ConcurrentLinkedQueue<>();
 
 	public void sendPacket(final Packet packet) {
 		if (this.channel == null) {

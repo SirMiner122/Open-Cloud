@@ -1,13 +1,20 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.wrapper.components.proxy;
 
 import de.tammo.cloud.core.file.FileUtils;
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.components.ServerComponent;
+import de.tammo.cloud.wrapper.network.NetworkProviderService;
+import de.tammo.cloud.wrapper.network.packets.out.ProxyInfoAddOutPacket;
+import de.tammo.cloud.wrapper.network.packets.out.ProxyInfoRemoveOutPacket;
+import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.exception.ZipException;
 
 import java.io.*;
@@ -15,8 +22,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.UUID;
 
+@RequiredArgsConstructor
 public class ProxyServer implements ServerComponent {
+
+	private final UUID uuid;
 
 	private Process process;
 
@@ -69,9 +80,8 @@ public class ProxyServer implements ServerComponent {
 		try {
 			this.dispatchCommand("end");
 
-			Thread.sleep(500);
-
 			this.process.destroyForcibly();
+			this.process.waitFor();
 
 			this.reader.close();
 			this.writer.close();
@@ -82,6 +92,14 @@ public class ProxyServer implements ServerComponent {
 		}
 
 		Logger.info("Proxy was stopped!");
+	}
+
+	public void add() {
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ProxyInfoAddOutPacket(this.uuid));
+	}
+
+	public void remove() {
+		ServiceProvider.getService(NetworkProviderService.class).sendPacketToMaster(new ProxyInfoRemoveOutPacket(this.uuid));
 	}
 
 	private void loadTemplateFromMaster() throws IOException {

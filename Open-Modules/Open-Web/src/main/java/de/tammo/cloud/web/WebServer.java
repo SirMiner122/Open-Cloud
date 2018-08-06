@@ -1,13 +1,16 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.web;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.tammo.cloud.core.threading.ThreadBuilder;
 import de.tammo.cloud.web.handler.WebRequestHandlerProvider;
 import de.tammo.cloud.web.handler.WebServerHandler;
-import de.tammo.cloud.web.handler.impl.TemplateDeployment;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.*;
@@ -33,7 +36,9 @@ public class WebServer {
 
 	public final static String URL = "/api/v1";
 
-	public WebServer(final int port) {
+	public final static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+	public WebServer(final int port, final WebRequestHandlerProvider provider) {
 		this.port = port;
 
 		new ThreadBuilder("Web Server", () -> {
@@ -51,7 +56,7 @@ public class WebServer {
 				final ChannelFuture channelFuture = new ServerBootstrap().group(this.bossGroup, this.workerGroup).channel(epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class).childHandler(new ChannelInitializer<Channel>() {
 
 					protected void initChannel(final Channel channel) {
-						channel.pipeline().addLast(new HttpServerCodec(), new HttpObjectAggregator(Integer.MAX_VALUE), new WebServerHandler(new WebRequestHandlerProvider().add(new TemplateDeployment())));
+						channel.pipeline().addLast(new HttpServerCodec(), new HttpObjectAggregator(Integer.MAX_VALUE), new WebServerHandler(provider));
 					}
 
 				}).bind(this.port).syncUninterruptibly();

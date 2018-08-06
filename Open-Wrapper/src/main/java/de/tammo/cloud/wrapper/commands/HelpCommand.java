@@ -1,19 +1,22 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.wrapper.commands;
 
 import de.tammo.cloud.command.Command;
-import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.wrapper.Wrapper;
+import de.tammo.cloud.command.CommandProviderService;
+import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.service.ServiceProvider;
 
 @Command.CommandInfo(name = "help")
 public class HelpCommand implements Command {
 
 	public boolean execute(final String[] args) {
 		Logger.info("<-- Help -->");
-		Wrapper.getWrapper().getCommandHandler().getCommands().forEach(command -> {
+		ServiceProvider.getService(CommandProviderService.class).getCommands().forEach(command -> {
 			if (command.getClass().isAnnotationPresent(CommandInfo.class)) {
 				final String name = command.getClass().getAnnotation(CommandInfo.class).name();
 				if (!name.equalsIgnoreCase("help")) {

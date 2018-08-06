@@ -1,10 +1,12 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.core;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import joptsimple.OptionSet;
 
 public interface CloudApplication {
@@ -27,6 +29,10 @@ public interface CloudApplication {
 
 		Logger.info("");
 
+		Logger.info("Open-Cloud");
+		Logger.info("Java version " + System.getProperty("java.version") + " " + System.getProperty("os.name"));
+		Logger.info("");
+
 		this.sleep(200);
 
 		Logger.info("Starting " + module + "!");
@@ -37,6 +43,15 @@ public interface CloudApplication {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	//TODO check Version
+	default String getVersion() {
+		if (this.getClass().getPackage().getImplementationVersion() != null) {
+			return "";
+		} else {
+			return "DEV VERSION";
 		}
 	}
 

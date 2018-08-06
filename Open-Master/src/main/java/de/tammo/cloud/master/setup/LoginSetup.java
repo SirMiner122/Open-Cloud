@@ -1,15 +1,19 @@
 /*
- * Copyright (c) 2018. File created by Tammo
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
 
 package de.tammo.cloud.master.setup;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.impl.StringRequest;
 import de.tammo.cloud.master.Master;
 import de.tammo.cloud.security.Hashing;
 import de.tammo.cloud.security.user.CloudUser;
+import de.tammo.cloud.security.user.CloudUserService;
+import de.tammo.cloud.service.ServiceProvider;
 import jline.console.ConsoleReader;
 
 import java.io.IOException;
@@ -18,7 +22,7 @@ import java.util.UUID;
 public class LoginSetup implements Setup {
 
 	public void setup(final ConsoleReader reader) throws IOException {
-		if (Master.getMaster().getCloudUserHandler().getCloudUsers().isEmpty()) {
+		if (ServiceProvider.getService(CloudUserService.class).getCloudUsers().isEmpty()) {
 			Logger.info("There is currently no user created. Creating the first user -> ");
 			new StringRequest("Please enter a name for the setup user:", reader).request(name -> {
 				if (name.equalsIgnoreCase("exit")) {
@@ -26,7 +30,7 @@ public class LoginSetup implements Setup {
 					Master.getMaster().shutdown();
 				} else {
 					try {
-						new StringRequest("Please enter the password for the setup user:", reader).request(input -> Master.getMaster().getCloudUserHandler().getCloudUsers().add(new CloudUser(name, UUID.randomUUID(), Hashing.hash(input))));
+						new StringRequest("Please enter the password for the setup user:", reader).request(input -> ServiceProvider.getService(CloudUserService.class).getCloudUsers().add(new CloudUser(name, UUID.randomUUID(), Hashing.hash(input))));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -43,7 +47,7 @@ public class LoginSetup implements Setup {
 			if (name.equalsIgnoreCase("exit")) {
 				Master.getMaster().shutdown();
 			} else {
-				final CloudUser cloudUser = Master.getMaster().getCloudUserHandler().findCloudUserByName(name);
+				final CloudUser cloudUser = ServiceProvider.getService(CloudUserService.class).findCloudUserByName(name);
 				if (cloudUser == null) {
 					try {
 						this.login(reader);
