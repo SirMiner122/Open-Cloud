@@ -12,6 +12,7 @@ import de.tammo.cloud.core.log.component.impl.ProgressBarComponent;
 import de.tammo.cloud.core.log.event.NextLoggerComponentEvent;
 import de.tammo.cloud.core.setup.requests.util.ReadableByteChannelWrapper;
 
+import de.tammo.cloud.core.threading.ThreadBuilder;
 import de.tammo.cloud.event.EventService;
 import de.tammo.cloud.service.ServiceProvider;
 import java.io.FileOutputStream;
@@ -42,12 +43,11 @@ public class DownloadRequest {
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 			final int length = connection.getContentLength();
-
 			final ProgressBarComponent progressBarComponent = new ProgressBarComponent(length);
-			Logger.getQueue().offer(progressBarComponent);
 
 			try (final ReadableByteChannel channel =
-						 new ReadableByteChannelWrapper(Channels.newChannel(connection.getInputStream()), progressBarComponent::setCurrent)) {
+						 new ReadableByteChannelWrapper(Channels.newChannel(connection.getInputStream()),
+								 progressBarComponent::update)) {
 				try (final FileOutputStream fileOutputStream = new FileOutputStream(path)){
 					fileOutputStream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 				}

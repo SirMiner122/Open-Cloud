@@ -32,7 +32,6 @@ public class ProgressBarComponent implements LoggerComponent {
 	 *
 	 * @since 1.0
 	 */
-	@Setter
 	private long current;
 
 	/**
@@ -49,6 +48,11 @@ public class ProgressBarComponent implements LoggerComponent {
 
 			ServiceProvider.getService(EventService.class).fireEvent(new NextLoggerComponentEvent());
 		}
+	}
+
+	public void update(final long current) {
+		this.current = current;
+		this.print();
 	}
 
 	/**
