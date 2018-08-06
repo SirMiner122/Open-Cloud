@@ -1,7 +1,12 @@
+/*
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
+ */
+
 package de.tammo.cloud.core.log.component.impl;
 
-import de.tammo.cloud.core.log.LogLevel;
-import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.core.log.*;
 import de.tammo.cloud.core.log.component.LoggerComponent;
 import de.tammo.cloud.core.log.event.NextLoggerComponentEvent;
 import de.tammo.cloud.event.EventService;
@@ -37,8 +42,9 @@ public class TextComponent implements LoggerComponent {
 	public void print() {
 		if(Logger.getContext().getLevel().getLevel() > this.logLevel.getLevel()) return;
 
-		System.out.println("\r[" + Logger.getContext().getTimeFormat().format(new Date()) + "] "
-				+ Logger.getContext().getPrefix() + " [" + this.logLevel.getName() + "] " + this.content.toString());
+		System.out.println(this.logLevel.getColor().getColorString() + "\r[" + Logger.getContext().getTimeFormat().format(new Date()) +
+				"] " + Logger.getContext().getPrefix() + " [" + this.logLevel.getName() + "] " + this.content.toString() + ConsoleColor.RESET.getColorString());
+
 		System.out.print("\r> ");
 
 		ServiceProvider.getService(EventService.class).fireEvent(new NextLoggerComponentEvent());

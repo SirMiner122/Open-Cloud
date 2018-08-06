@@ -1,7 +1,12 @@
+/*
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
+ */
+
 package de.tammo.cloud.core.log.component.impl;
 
-import de.tammo.cloud.core.log.LogLevel;
-import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.core.log.*;
 import de.tammo.cloud.core.log.component.LoggerComponent;
 import de.tammo.cloud.core.log.event.NextLoggerComponentEvent;
 import de.tammo.cloud.event.EventService;
@@ -37,8 +42,8 @@ public class ErrorComponent implements LoggerComponent {
 	 * {@inheritDoc}
 	 */
 	public void print() {
-		System.out.println("\r[" + Logger.getContext().getTimeFormat().format(new Date()) + "] "
-				+ Logger.getContext().getPrefix() + " [" + LogLevel.ERROR.getName() + "] " + this.error.toString());
+		System.out.println("\r" + ConsoleColor.RED.getColorString() + "[" + Logger.getContext().getTimeFormat().format(new Date()) +
+				"] " + Logger.getContext().getPrefix() + " [" + LogLevel.ERROR.getName() + "] " + this.error.toString() + ConsoleColor.RESET.getColorString());
 
 		this.exception.printStackTrace();
 
