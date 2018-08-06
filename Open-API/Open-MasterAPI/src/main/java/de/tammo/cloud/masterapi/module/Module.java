@@ -3,32 +3,59 @@
  *
  * The code is licensed under the MIT License, which can be found in the root directory of the repository.
  */
-
 package de.tammo.cloud.masterapi.module;
 
-public interface Module {
+import java.io.File;
 
-	default void onLoad() {}
+public class Module
+{
+    private File configFolder;
 
-	default void onEnable() {}
+    /**
+     * The onEnable Method.
+     * Called if the Module gets Enabled
+     */
+    public void onEnable() {}
 
-	default void onDisable() {}
+    /**
+     * The onDisable Method.
+     * Called if the Module gets Disabled
+     */
+    public void onDisable() {}
 
-	default void onStop() {}
+    /**
+     * @return the ModuleInfo Annotation
+     */
+    public ModuleInfo getModuleInfo()
+    {
+        return getClass().getAnnotation(ModuleInfo.class);
+    }
 
-	default String getName() {
+    public Module getModule() { return this; }
 
-		return "";
-	}
+    public File getConfigFolder()
+    {
+        if(configFolder == null)
+        {
+            configFolder = new File(getModuleInfo().name());
+        }
 
-	default String getVersion() {
+        return configFolder;
+    }
 
-		return "1.0-SNAPSHOT";
-	}
+    public String getModuleEnableMessage()
+    {
+        return "Enabled Module " + toString() + ".";
+    }
 
-	default String getAuthor() {
+    public String getModuleDisableMessage()
+    {
+        return "Disabled Module " + toString() + ".";
+    }
 
-		return "";
-	}
-
+    @Override
+    public String toString()
+    {
+        return getModuleInfo().name() + "[" + getModuleInfo().version() + "]";
+    }
 }
