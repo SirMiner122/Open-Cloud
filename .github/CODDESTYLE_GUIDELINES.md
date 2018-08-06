@@ -24,5 +24,4 @@ The language level from Java is ```1.8```. Lambda expressions are available, **s
 
 ##### JavaDoc
 
-You have to write JavaDocs. If your Pull Request is without JavaDoc, then we have to reject the request. cs for your 
-Pull Req
+You have to write JavaDocs. If your Pull Request is without JavaDoc, then we have to reject the request.
