@@ -76,7 +76,7 @@ public class Logger {
 	/**
 	 * Printing a message with the level WARNING
 	 *
-	 * @param content Content, which should be log
+	 * @param content   Content, which should be log
 	 * @param exception The exception which was thrown. The stacktrace of the exception will be printed
 	 */
 	public static void error(final Object content, final Exception exception) {
@@ -87,7 +87,7 @@ public class Logger {
 	/**
 	 * Printing a message with the level {@param logLevel}
 	 *
-	 * @param content Content, which should be log
+	 * @param content  Content, which should be log
 	 * @param logLevel Logging level of the content
 	 */
 	private static void log(final Object content, final LogLevel logLevel) {
