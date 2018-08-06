@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class NettyServer {
 
-	final int port;
+	private final int port;
 
 	private EventLoopGroup bossGroup;
 
