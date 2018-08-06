@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.master.components;
 
-import de.tammo.cloud.core.service.Service;
+import de.tammo.cloud.service.Service;
 import lombok.Getter;
 
 import java.util.*;

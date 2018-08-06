@@ -6,8 +6,8 @@
 
 package de.tammo.cloud.wrapper.network;
 
-import de.tammo.cloud.core.service.Service;
 import de.tammo.cloud.network.packet.Packet;
+import de.tammo.cloud.service.Service;
 import io.netty.channel.Channel;
 import lombok.Getter;
 import lombok.Setter;

@@ -6,7 +6,7 @@
 
 package de.tammo.cloud.core;
 
-import de.tammo.cloud.core.logging.Logger;
+import de.tammo.cloud.core.log.Logger;
 import joptsimple.OptionSet;
 
 public interface CloudApplication {

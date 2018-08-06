@@ -10,9 +10,8 @@ import de.tammo.cloud.command.CommandProviderService;
 import de.tammo.cloud.config.DocumentProviderService;
 import de.tammo.cloud.core.CloudApplication;
 import de.tammo.cloud.core.file.FileUtils;
-import de.tammo.cloud.core.logging.LogLevel;
-import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.core.log.*;
+import de.tammo.cloud.event.EventService;
 import de.tammo.cloud.master.components.ComponentsProviderService;
 import de.tammo.cloud.master.config.configuration.Configuration;
 import de.tammo.cloud.master.network.NetworkProviderService;
@@ -32,6 +31,7 @@ import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import de.tammo.cloud.network.registry.PacketRegistry;
 import de.tammo.cloud.security.user.CloudUserService;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.web.WebServer;
 import de.tammo.cloud.web.handler.WebRequestHandlerProvider;
 import jline.console.ConsoleReader;
@@ -92,17 +92,19 @@ public class Master implements CloudApplication {
 
 		this.setRunning(true);
 
-		Logger.setPrefix("Open-Cloud");
-		Logger.setLevel(optionSet.has("debug") ? LogLevel.DEBUG : LogLevel.INFO);
+		Logger.setContext(new LoggerContext("Open-Cloud", optionSet.has("debug") ? LogLevel.DEBUG : LogLevel.INFO));
 
-		this.printHeader("Open-Cloud");
-
+		ServiceProvider.addService(new EventService());
 		ServiceProvider.addService(new ComponentsProviderService());
 		ServiceProvider.addService(new NetworkProviderService());
 		ServiceProvider.addService(new CloudUserService());
 		ServiceProvider.addService(new ServerGroupService());
 		ServiceProvider.addService(new DocumentProviderService("de.tammo.cloud.master.config"));
 		ServiceProvider.addService(new CommandProviderService("de.tammo.cloud.master.commands"));
+
+		ServiceProvider.getService(EventService.class).registerEvents(new Logger());
+
+		this.printHeader("Open-Cloud");
 
 		ServiceProvider.init();
 

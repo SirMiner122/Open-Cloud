@@ -7,8 +7,8 @@
 package de.tammo.cloud.command;
 
 import com.google.common.reflect.ClassPath;
-import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.core.service.Service;
+import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.service.Service;
 import lombok.Getter;
 
 import java.io.IOException;

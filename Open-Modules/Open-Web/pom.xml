@@ -11,7 +11,7 @@
     <parent>
         <artifactId>Open-Modules</artifactId>
         <groupId>de.tammo.cloud</groupId>
-        <version>${project.version}</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>de.tammo.cloud</groupId>
             <artifactId>Open-Core</artifactId>
-            <version>${project.version}</version>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>

@@ -6,11 +6,11 @@
 
 package de.tammo.cloud.wrapper.workload;
 
-import de.tammo.cloud.core.service.Service;
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.core.threading.ThreadBuilder;
 import de.tammo.cloud.core.workload.Workload;
 import de.tammo.cloud.core.workload.WorkloadFactory;
+import de.tammo.cloud.service.Service;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.Wrapper;
 import de.tammo.cloud.wrapper.network.NetworkProviderService;
 import de.tammo.cloud.wrapper.network.packets.out.WrapperWorkloadOutPacket;

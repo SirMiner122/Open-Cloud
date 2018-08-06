@@ -7,12 +7,12 @@
 package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
-import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
 import de.tammo.cloud.master.network.wrapper.WrapperMeta;
 
+import de.tammo.cloud.service.ServiceProvider;
 import java.util.UUID;
 
 /**

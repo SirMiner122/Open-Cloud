@@ -6,12 +6,12 @@
 
 package de.tammo.cloud.master.network.packets.in;
 
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.master.components.ComponentsProviderService;
 import de.tammo.cloud.master.components.ServerInfo;
 import de.tammo.cloud.master.servergroup.ServerGroupService;
 import de.tammo.cloud.network.packet.Packet;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
+import de.tammo.cloud.service.ServiceProvider;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.Channel;
 

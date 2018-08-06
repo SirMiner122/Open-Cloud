@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.targetEncoding>UTF-8</project.build.targetEncoding>
 
-        <project.version>1.0.1</project.version>
+        <project.version>1.0</project.version>
 
         <!-- Dependency Versions -->
         <version.lombok>1.16.20</version.lombok>
@@ -33,7 +33,7 @@
     <groupId>de.tammo.cloud</groupId>
     <artifactId>Open-Cloud</artifactId>
     <packaging>pom</packaging>
-    <version>${project.version}</version>
+    <version>1.0</version>
 
     <name>Open-Cloud</name>
 

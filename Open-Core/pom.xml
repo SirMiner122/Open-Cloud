@@ -12,7 +12,7 @@
     <parent>
         <artifactId>Open-Cloud</artifactId>
         <groupId>de.tammo.cloud</groupId>
-        <version>${project.version}</version>
+        <version>1.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -20,6 +20,12 @@
     <artifactId>Open-Core</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>de.tammo.cloud</groupId>
+            <artifactId>Open-Event</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

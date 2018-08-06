@@ -10,9 +10,7 @@ import de.tammo.cloud.command.CommandProviderService;
 import de.tammo.cloud.config.DocumentProviderService;
 import de.tammo.cloud.core.CloudApplication;
 import de.tammo.cloud.core.file.FileUtils;
-import de.tammo.cloud.core.logging.LogLevel;
-import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.core.log.*;
 import de.tammo.cloud.network.NettyClient;
 import de.tammo.cloud.network.handler.PacketDecoder;
 import de.tammo.cloud.network.handler.PacketEncoder;
@@ -20,6 +18,7 @@ import de.tammo.cloud.network.packet.impl.ErrorPacket;
 import de.tammo.cloud.network.packet.impl.SuccessPacket;
 import de.tammo.cloud.network.registry.PacketRegistry;
 import de.tammo.cloud.network.utils.ConnectableAddress;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.wrapper.components.ServerComponentProviderService;
 import de.tammo.cloud.wrapper.config.configuration.Configuration;
 import de.tammo.cloud.wrapper.network.NetworkProviderService;
@@ -64,8 +63,7 @@ public class Wrapper implements CloudApplication {
 
 		this.setRunning(true);
 
-		Logger.setPrefix("Open-Cloud Wrapper");
-		Logger.setLevel(optionSet.has("debug") ? LogLevel.DEBUG : LogLevel.INFO);
+		Logger.setContext(new LoggerContext("Open-Cloud Wrapper", optionSet.has("debug") ? LogLevel.DEBUG : LogLevel.INFO));
 
 		this.printHeader("Open-Cloud Wrapper");
 

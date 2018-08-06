@@ -6,14 +6,14 @@
 
 package de.tammo.cloud.master.setup;
 
-import de.tammo.cloud.core.logging.Logger;
-import de.tammo.cloud.core.service.ServiceProvider;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.core.setup.Setup;
 import de.tammo.cloud.core.setup.requests.DownloadRequest;
 import de.tammo.cloud.core.setup.requests.impl.ListRequest;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.setup.version.ProxyVersion;
 import de.tammo.cloud.master.setup.version.ServerVersion;
+import de.tammo.cloud.service.ServiceProvider;
 import jline.console.ConsoleReader;
 
 import java.io.File;

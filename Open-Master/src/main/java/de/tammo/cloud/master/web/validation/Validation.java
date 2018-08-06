@@ -8,10 +8,10 @@ package de.tammo.cloud.master.web.validation;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import de.tammo.cloud.core.service.ServiceProvider;
 import de.tammo.cloud.security.Hashing;
 import de.tammo.cloud.security.user.CloudUser;
 import de.tammo.cloud.security.user.CloudUserService;
+import de.tammo.cloud.service.ServiceProvider;
 import de.tammo.cloud.web.handler.RequestHandler;
 import de.tammo.cloud.web.mapping.Mapping;
 import de.tammo.cloud.web.response.HttpResponseBuilder;
