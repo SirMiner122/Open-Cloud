@@ -40,34 +40,32 @@ public class ServerGroupCommand implements Command {
 				}
 				return true;
 			}
-		} else if (args.length == 6) {
-			if (args[0].equalsIgnoreCase("create")) {
-				final String name = args[1];
+		} else if (args.length == 6 && args[0].equalsIgnoreCase("create")) {
+			final String name = args[1];
+			try {
+				final int minServer = Integer.parseInt(args[2]);
 				try {
-					final int minServer = Integer.parseInt(args[2]);
+					final int maxServer = Integer.parseInt(args[3]);
 					try {
-						final int maxServer = Integer.parseInt(args[3]);
+						final int minRam = Integer.parseInt(args[4]);
 						try {
-							final int minRam = Integer.parseInt(args[4]);
-							try {
-								final int maxRam = Integer.parseInt(args[5]);
-								ServiceProvider.getService(ServerGroupService.class).addServerGroup(new ServerGroup(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(), minServer, maxServer, minRam, maxRam));
-								ServiceProvider.getService(ServerGroupService.class).getServerGroups().forEach(ServerGroup::init);
-								Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
-							} catch (final NumberFormatException e) {
-								Logger.warn("Maximum of ram must be a number!");
-							}
+							final int maxRam = Integer.parseInt(args[5]);
+							ServiceProvider.getService(ServerGroupService.class).addServerGroup(new ServerGroup(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(), minServer, maxServer, minRam, maxRam));
+							ServiceProvider.getService(ServerGroupService.class).getServerGroups().forEach(ServerGroup::init);
+							Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
 						} catch (final NumberFormatException e) {
-							Logger.warn("Minimum of ram must be a number!");
+							Logger.warn("Maximum of ram must be a number!");
 						}
 					} catch (final NumberFormatException e) {
-						Logger.warn("Maximum of servers must be a number!");
+						Logger.warn("Minimum of ram must be a number!");
 					}
 				} catch (final NumberFormatException e) {
-					Logger.warn("Minimum of servers must be a number!");
+					Logger.warn("Maximum of servers must be a number!");
 				}
-				return true;
+			} catch (final NumberFormatException e) {
+				Logger.warn("Minimum of servers must be a number!");
 			}
+			return true;
 		}
 		return false;
 	}

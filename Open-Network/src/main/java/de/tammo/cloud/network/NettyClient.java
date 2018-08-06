@@ -82,11 +82,10 @@ public class NettyClient {
 	}
 
 	public void disconnect(final Runnable disconnected) {
-		if (this.future != null) {
-			if (this.future.channel().isOpen()) {
-				this.future.channel().close().syncUninterruptibly();
-			}
+		if (this.future != null && this.future.channel().isOpen()) {
+			this.future.channel().close().syncUninterruptibly();
 		}
+
 		if (!this.workerGroup.isShutdown()) {
 			this.workerGroup.shutdownGracefully();
 			disconnected.run();
