@@ -23,7 +23,7 @@ public class LoginSetup implements Setup {
 	public void setup(final ConsoleReader reader) throws IOException {
 		if (ServiceProvider.getService(CloudUserService.class).getCloudUsers().isEmpty()) {
 			Logger.info("There is currently no user created. Creating the first user -> ");
-			new StringRequest("Please enter a names for the setup user:", reader).request(name -> {
+			new StringRequest("Please enter a name for the setup user:", reader).request(name -> {
 				if (name.equalsIgnoreCase("exit")) {
 					Logger.info("\"exit\" is an invalid username. Exiting...");
 					Master.getMaster().shutdown();

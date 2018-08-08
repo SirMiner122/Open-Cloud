@@ -21,7 +21,7 @@ import io.netty.handler.codec.http.*;
 public class Validation implements RequestHandler {
 
 	public final FullHttpResponse post(final FullHttpRequest request) {
-		if (request.headers().contains("account-names") && request.headers().contains("account-password") && this.validateAccount(request.headers().get("account-names"), request.headers().get("account-password"))) {
+		if (request.headers().contains("account-name") && request.headers().contains("account-password") && this.validateAccount(request.headers().get("account-name"), request.headers().get("account-password"))) {
 			return this.buildSuccess(request);
 		} else if (request.headers().contains("account-token") && this.validateAccount(request.headers().get("account-token"))) {
 

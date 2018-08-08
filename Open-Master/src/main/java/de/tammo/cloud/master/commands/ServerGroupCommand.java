@@ -52,7 +52,7 @@ public class ServerGroupCommand implements Command {
 							final int maxRam = Integer.parseInt(args[5]);
 							ServiceProvider.getService(ServerGroupService.class).addServerGroup(new ServerGroup(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(), minServer, maxServer, minRam, maxRam));
 							ServiceProvider.getService(ServerGroupService.class).getServerGroups().forEach(ServerGroup::init);
-							Logger.info("Created server group with names " + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
+							Logger.info("Created server group with name " + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
 						} catch (final NumberFormatException e) {
 							Logger.warn("Maximum of ram must be a number!");
 						}
@@ -75,7 +75,7 @@ public class ServerGroupCommand implements Command {
 	 */
 	public void printHelp() {
 		Logger.info("group list");
-		Logger.info("group create <names> <min server> <max server> <min ram> <max ram>");
-		Logger.info("group delete <names>");
+		Logger.info("group create <name> <min server> <max server> <min ram> <max ram>");
+		Logger.info("group delete <name>");
 	}
 }
