@@ -5,57 +5,74 @@
  */
 package de.tammo.cloud.masterapi.module;
 
-import java.io.File;
+import de.tammo.cloud.core.log.Logger;
+import java.lang.annotation.*;
 
-public class Module
-{
-    private File configFolder;
-
-    /**
-     * The onEnable Method.
-     * Called if the Module gets Enabled
-     */
-    public void onEnable() {}
-
-    /**
-     * The onDisable Method.
-     * Called if the Module gets Disabled
-     */
-    public void onDisable() {}
+/**
+ * Create custom {@link Module}s for the Open-Master
+ *
+ * @author Tammo
+ * @version 1.0
+ * @since 1.0
+ */
+public interface Module {
 
     /**
-     * @return the ModuleInfo Annotation
+     * Enables the {@link Module}
+     *
+     * @since 1.0
      */
-    public ModuleInfo getModuleInfo()
-    {
-        return getClass().getAnnotation(ModuleInfo.class);
+    default void onEnable() {
+        Logger.info(this.getInfo().name() + " " + this.getInfo().version() + " was enabled!");
     }
 
-    public Module getModule() { return this; }
-
-    public File getConfigFolder()
-    {
-        if(configFolder == null)
-        {
-            configFolder = new File(getModuleInfo().name());
-        }
-
-        return configFolder;
+    /**
+     * Disables thee {@link Module}
+     *
+     * @since 1.0
+     */
+    default void onDisable() {
+        Logger.info(this.getInfo().name() + " " + this.getInfo().version() + " was disabled!");
     }
 
-    public String getModuleEnableMessage()
+    /**
+     * @return {@link Info} about this {@link Module}
+     */
+    default Info getInfo()
     {
-        return "Enabled Module " + toString() + ".";
+        return getClass().getAnnotation(Info.class);
     }
 
-    public String getModuleDisableMessage()
-    {
-        return "Disabled Module " + toString() + ".";
-    }
+    /**
+     * {@link Info} annotation to get information about this {@link Module}
+     *
+     * @author Tammo
+     * @version 1.0
+     * @since 1.0
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+	@interface Info {
 
-    @Override
-    public String toString()
-    {
-        return getModuleInfo().name() + "[" + getModuleInfo().version() + "]";
+        /**
+         * @return Name of the {@link Module}
+         *
+         * @since 1.0
+         */
+        String name();
+
+        /**
+         * @return Version of the {@link Module}
+         *
+         * @since 1.0
+         */
+        double version() default 1.0;
+
+        /**
+         * @return List of authors of the {@link Module}
+         *
+         * @since 1.0
+         */
+        String[] authors();
     }
 }

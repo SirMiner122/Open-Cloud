@@ -1,54 +1,92 @@
+/*
+ * Copyright (c) 2018, Open-Cloud-Services and contributors
+ *
+ * The code is licensed under the MIT License, which can be found in the root directory of the repository.
+ */
 package de.tammo.cloud.masterapi.module;
 
-import java.util.HashMap;
+import java.util.*;
 
-public class ModuleManager
-{
-    private HashMap<String, Module> modules = new HashMap<>();
+/**
+ * The core of the {@link Module} system to manage the {@link Module}s
+ *
+ * @author x7Airworker, Tammo
+ * @version 1.0
+ * @since 1.0
+ */
+public class ModuleManager {
 
     /**
-     * Unregisters all modules of the modules HashMap
+     * {@link Map} to store {@link Module}s with the name as key
+     *
+     * @since 1.0
      */
-    public void unregisterAllModules()
-    {
-        for(Module module : modules.values())
-        {
-            unregisterModule(module);
-        }
+    private Map<String, Module> modules = new HashMap<>();
+
+    /**
+     * Register {@link Module}s in the {@link ModuleManager}
+     *
+     * @param modules {@link Module}s to register
+     *
+     * @since 1.0
+     */
+    public void registerModules(final Module... modules) {
+        Arrays.asList(modules).forEach(this::registerModule);
     }
 
     /**
-     * Method to register a Module
+     * Register on {@link Module} in the {@link ModuleManager}
      *
-     * @param module the module to register
+     * @param module {@link Module} to register
+     *
+     * @since 1.0
      */
-    public void registerModule(Module module)
-    {
-        modules.put(module.getModuleInfo().name(), module);
+    public void registerModule(final Module module) {
+        this.modules.put(module.getInfo().name(), module);
         module.onEnable();
-        System.out.println(module.getModuleEnableMessage());
     }
 
     /**
-     * Method to unregister a Module
+     * Unregister all registered {@link Module}s
      *
-     * @param module the module to unregister
+     * @since 1.0
      */
-    public void unregisterModule(Module module)
-    {
-        modules.remove(module.getModuleInfo().name());
+    public void unregisterAllModules() {
+        this.unregisterModules((Module[]) this.modules.values().toArray());
+    }
+
+    /**
+     * Unregister {@link Module}s from the {@link ModuleManager}
+     *
+     * @param modules {@link Module}s to unregister
+     *
+     * @since 1.0
+     */
+    public void unregisterModules(final Module... modules) {
+        Arrays.asList(modules).forEach(this::unregisterModule);
+    }
+
+    /**
+     * Unregister {@link Module} from {@link ModuleManager}
+     *
+     * @param module {@link Module} to unregister
+     *
+     * @since 1.0
+     */
+    public void unregisterModule(final Module module) {
+        this.modules.remove(module.getInfo().name());
         module.onDisable();
-        System.out.println(module.getModuleDisableMessage());
     }
 
     /**
-     * Method to find a Module by a specified name
+     * @return {@link Module} by name
      *
-     * @param name of the module
-     * @return The module found by the name
+     * @param name Name of the wanted {@link Module}
+     *
+     * @since 1.0
      */
-    public Module getModuleByName(String name)
-    {
-        return modules.get(name);
+    public final Module getModuleByName(final String name) {
+        return this.modules.get(name);
     }
+
 }

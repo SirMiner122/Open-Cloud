@@ -21,6 +21,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>de.tammo.cloud</groupId>
+            <artifactId>Open-Core</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${version.lombok}</version>
