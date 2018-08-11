@@ -23,7 +23,7 @@ public class HelpCommand implements Command {
 
 	public final boolean execute(final String[] args) {
 		Logger.info("<-- Help -->");
-		ServiceProvider.getService(CommandService.class).getCommands().forEach(command -> {
+		/*ServiceProvider.getService(CommandService.class).getCommands().forEach(command -> {
 			if (command.getClass().isAnnotationPresent(Info.class)) {
 				final String[] names = command.getClass().getAnnotation(Info.class).name();
 				if (!Arrays.asList(names).contains("help")) {
@@ -31,7 +31,7 @@ public class HelpCommand implements Command {
 				}
 			}
 		});
-		Logger.info("");
+		Logger.info("");*/
 		return false;
 	}
 }

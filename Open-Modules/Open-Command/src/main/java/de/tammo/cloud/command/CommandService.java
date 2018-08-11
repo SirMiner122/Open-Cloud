@@ -7,9 +7,12 @@
 package de.tammo.cloud.command;
 
 import com.google.common.reflect.ClassPath;
+import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.service.Service;
+import java.io.Console;
 import java.io.IOException;
 import java.util.*;
+import jline.console.completer.Completer;
 
 /**
  * Configure commands and execute them
@@ -32,10 +35,10 @@ public class CommandService implements Service {
 	 */
 	public void init() {
 		try {
-			ClassPath.from(this.getClass().getClassLoader()).getAllClasses()
+			ClassPath.from(this.getClass().getClassLoader()).getTopLevelClassesRecursive("de.tammo.cloud")
 					.stream()
 					.map(ClassPath.ClassInfo::load)
-					.filter(aClass -> aClass.isAssignableFrom(Command.class))
+					.filter(Command.class::isAssignableFrom)
 					.filter(aClass -> aClass.isAnnotationPresent(Command.Info.class))
 					.forEach(aClass -> {
 						try {
@@ -67,25 +70,6 @@ public class CommandService implements Service {
 		System.arraycopy(arguments, 1, newArgs, 0, newArgs.length);
 
 		command.execute(newArgs);
-	}
-
-	/**
-	 * Auto complete a command
-	 *
-	 * @param message Current typed message to complete
-	 *
-	 * @since 2.0
-	 */
-	public void completeCommand(final String message) {
-		final String[] arguments = message.split("\\s+");
-
-		final Command command = this.commands.get(arguments[0]);
-		if(command == null || !command.getClass().isAssignableFrom(AutoComplete.class)) return;
-
-		final AutoComplete autoComplete = (AutoComplete) command;
-		final String begin = arguments[arguments.length - 1];
-
-		autoComplete.complete(begin, arguments.length - 1);
 	}
 
 }

@@ -39,9 +39,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;
 import jline.console.ConsoleReader;
+import jline.console.completer.StringsCompleter;
 import joptsimple.OptionSet;
 import lombok.Getter;
 import lombok.Setter;
+import org.fusesource.jansi.Ansi;
 
 /**
  * Main class to control everything
@@ -99,7 +101,7 @@ public class Master implements CloudApplication {
 		ServiceProvider.addService(new CloudUserService());
 		ServiceProvider.addService(new ServerGroupService());
 		ServiceProvider.addService(new DocumentProviderService("de.tammo.cloud.master.config"));
-		ServiceProvider.addService(new CommandService("de.tammo.cloud.master.commands"));
+		ServiceProvider.addService(new CommandService());
 
 		ServiceProvider.getService(EventService.class).registerEvents(new Logger());
 

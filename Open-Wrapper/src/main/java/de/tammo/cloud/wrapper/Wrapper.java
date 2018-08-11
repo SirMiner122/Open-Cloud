@@ -98,7 +98,7 @@ public class Wrapper implements CloudApplication {
 		ServiceProvider.addService(new NetworkProviderService());
 		ServiceProvider.addService(new ServerComponentProviderService());
 		ServiceProvider.addService(new WorkloadProviderService());
-		ServiceProvider.addService(new CommandService("de.tammo.cloud.wrapper.commands"));
+		ServiceProvider.addService(new CommandService());
 
 		ServiceProvider.init();
 

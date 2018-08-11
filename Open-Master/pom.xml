@@ -18,6 +18,11 @@
 
     <artifactId>Open-Master</artifactId>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.targetEncoding>UTF-8</project.build.targetEncoding>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
