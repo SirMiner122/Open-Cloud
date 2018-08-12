@@ -106,7 +106,7 @@ public class Wrapper implements CloudApplication {
 			try {
 				ServiceProvider.getService(CommandService.class).executeCommand(Objects.requireNonNull(reader).readLine());
 			} catch (IOException e) {
-				Logger.error("An error occured while reading from commandline!", e);
+				Logger.error("An error occurred while reading from commandline!", e);
 			}
 		}
 
