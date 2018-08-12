@@ -49,7 +49,7 @@ public class MasterBootstrap {
 
 		System.setProperty("jline.WindowsTerminal.directConsole", "false");
 
-		new Master().bootstrap(optionSet);
+		new Master().start(optionSet);
 	}
 
 }

@@ -39,11 +39,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;
 import jline.console.ConsoleReader;
-import jline.console.completer.StringsCompleter;
 import joptsimple.OptionSet;
 import lombok.Getter;
 import lombok.Setter;
-import org.fusesource.jansi.Ansi;
 
 /**
  * Main class to control everything
@@ -88,7 +86,7 @@ public class Master implements CloudApplication {
 	 *
 	 * @param optionSet Parsed arguments to configure the runtime
 	 */
-	public void bootstrap(final OptionSet optionSet) {
+	public void start(final OptionSet optionSet) {
 		master = this;
 
 		this.setRunning(true);

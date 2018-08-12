@@ -57,7 +57,7 @@ public class Wrapper implements CloudApplication {
 	@Getter
 	private String key;
 
-	public void bootstrap(final OptionSet optionSet) {
+	public void start(final OptionSet optionSet) {
 		wrapper = this;
 
 		this.setRunning(true);

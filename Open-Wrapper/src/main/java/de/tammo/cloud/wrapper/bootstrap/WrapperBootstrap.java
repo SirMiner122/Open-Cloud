@@ -34,7 +34,7 @@ public class WrapperBootstrap {
 
 		System.setProperty("jline.WindowsTerminal.directConsole", "false");
 
-		new Wrapper().bootstrap(optionSet);
+		new Wrapper().start(optionSet);
 	}
 
 }
