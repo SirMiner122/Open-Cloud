@@ -22,7 +22,6 @@
 
     <modules>
         <module>Open-MasterAPI</module>
-        <module>Open-Proxy</module>
     </modules>
 
 </project>
