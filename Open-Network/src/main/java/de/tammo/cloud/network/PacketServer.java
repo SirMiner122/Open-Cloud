@@ -7,6 +7,7 @@
 package de.tammo.cloud.network;
 
 import de.tammo.cloud.core.threading.ThreadBuilder;
+import de.tammo.cloud.network.packet.Packet;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.*;
@@ -15,29 +16,68 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
-import lombok.RequiredArgsConstructor;
-
-import javax.net.ssl.SSLException;
 import java.security.cert.CertificateException;
 import java.util.function.Consumer;
+import javax.net.ssl.SSLException;
+import lombok.RequiredArgsConstructor;
 
+/**
+ * {@link PacketServer} to receive {@link Packet}s and to process them
+ *
+ * @author Tammo
+ * @version 1.0
+ * @since 1.0
+ */
 @RequiredArgsConstructor
-public class NettyServer {
+public class PacketServer {
 
+	/**
+	 * Port on which the {@link PacketServer} should receive the {@link Packet}s
+	 *
+	 * @since 1.0
+	 */
 	private final int port;
 
-	private EventLoopGroup bossGroup;
+	/**
+	 * {@link EventLoopGroup}s to process the {@link Packet}s with more {@link Thread}s
+	 *
+	 * @since 1.0
+	 */
+	private EventLoopGroup bossGroup, workerGroup;
 
-	private EventLoopGroup workerGroup;
-
+	/**
+	 * {@link SslContext} to enable ssl at the {@link PacketServer}
+	 *
+	 * @since 1.0
+	 */
 	private SslContext sslContext;
 
+	/**
+	 * {@link ChannelFuture} to close the {@link PacketServer} later
+	 *
+	 * @since 1.0
+	 */
 	private ChannelFuture future;
 
+	/**
+	 * Constant boolean to check, if Epoll is available
+	 *
+	 * @since 1.0
+	 */
 	private final boolean EPOLL = Epoll.isAvailable();
 
-	public final NettyServer bind(final Runnable ready, final Consumer<Channel> init) {
-		new ThreadBuilder("Netty-Client", () -> {
+	/**
+	 * Bind the {@link PacketServer} to the {@link PacketServer#port} to receive {@link Packet}s
+	 *
+	 * @param ready {@link Runnable} which will be executed, if the {@link PacketServer} was bounded to the port
+	 * @param init {@link Consumer} to allow to add more handler to the {@link PacketServer}
+	 *
+	 * @return Instance of this class
+	 *
+	 * @since 1.0
+	 */
+	public final PacketServer bind(final Runnable ready, final Consumer<Channel> init) {
+		new ThreadBuilder("Packet-Server", () -> {
 			this.bossGroup = this.EPOLL ? new EpollEventLoopGroup() : new NioEventLoopGroup();
 			this.workerGroup = this.EPOLL ? new EpollEventLoopGroup() : new NioEventLoopGroup();
 
@@ -48,8 +88,7 @@ public class NettyServer {
 						.childHandler(new ChannelInitializer<Channel>() {
 
 					protected void initChannel(final Channel channel) {
-
-						if (sslContext != null) channel.pipeline().addLast(sslContext.newHandler(channel.alloc()));
+						if (PacketServer.this.sslContext != null) channel.pipeline().addLast(PacketServer.this.sslContext.newHandler(channel.alloc()));
 						init.accept(channel);
 					}
 
@@ -57,7 +96,7 @@ public class NettyServer {
 
 				ready.run();
 
-				NettyServer.this.future = future;
+				PacketServer.this.future = future;
 
 				future.channel().closeFuture().syncUninterruptibly();
 			} finally {
@@ -68,7 +107,14 @@ public class NettyServer {
 		return this;
 	}
 
-	public final NettyServer withSSL() {
+	/**
+	 * Create a {@link SelfSignedCertificate} to enable SSL for this {@link PacketServer}
+	 *
+	 * @return Instance of this class
+	 *
+	 * @since 1.0
+	 */
+	public final PacketServer withSSL() {
 		try {
 			final SelfSignedCertificate certificate = new SelfSignedCertificate();
 			this.sslContext = SslContextBuilder.forServer(certificate.certificate(), certificate.privateKey()).build();
@@ -79,13 +125,17 @@ public class NettyServer {
 		return this;
 	}
 
-	public void close(final Runnable closed) {
+	/**
+	 * Close this {@link PacketServer} to shutdown
+	 *
+	 * @since 1.0
+	 */
+	public void close() {
 		if (this.future.channel().isOpen()) {
 			this.future.channel().close().syncUninterruptibly();
 		}
 		this.workerGroup.shutdownGracefully();
 		this.bossGroup.shutdownGracefully();
-		closed.run();
 	}
 
 }

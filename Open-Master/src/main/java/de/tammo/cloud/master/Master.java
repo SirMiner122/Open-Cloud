@@ -24,7 +24,7 @@ import de.tammo.cloud.master.setup.LoginSetup;
 import de.tammo.cloud.master.setup.MasterSetup;
 import de.tammo.cloud.master.web.TemplateDeployment;
 import de.tammo.cloud.master.web.validation.Validation;
-import de.tammo.cloud.network.NettyServer;
+import de.tammo.cloud.network.PacketServer;
 import de.tammo.cloud.network.handler.PacketDecoder;
 import de.tammo.cloud.network.handler.PacketEncoder;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
@@ -58,9 +58,9 @@ public class Master implements CloudApplication {
 	private static Master master;
 
 	/**
-	 * Instance of {@link NettyServer}
+	 * Instance of {@link PacketServer}
 	 */
-	private NettyServer nettyServer;
+	private PacketServer nettyServer;
 
 	/**
 	 * Instance of {@link WebServer}
@@ -155,7 +155,7 @@ public class Master implements CloudApplication {
 
 		final NetworkProviderService networkProviderService = ServiceProvider.getService(NetworkProviderService.class);
 
-		this.nettyServer = new NettyServer(this.getConfiguration().getNettyPort()).bind(ready, channel -> {
+		this.nettyServer = new PacketServer(this.getConfiguration().getNettyPort()).bind(ready, channel -> {
 			final String host = networkProviderService.getHostFromChannel(channel);
 			if (!networkProviderService.isWhitelisted(host)) {
 				channel.close().syncUninterruptibly();
@@ -188,7 +188,8 @@ public class Master implements CloudApplication {
 				.close()
 				.syncUninterruptibly());
 
-		this.nettyServer.close(() -> Logger.info("Netty server was closed!"));
+		this.nettyServer.close();
+		Logger.info("Netty server was closed!");
 
 		final File temp = new File("temp");
 		if (Files.exists(temp.toPath())) {

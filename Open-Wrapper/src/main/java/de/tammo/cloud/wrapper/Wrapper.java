@@ -11,7 +11,7 @@ import de.tammo.cloud.config.DocumentProviderService;
 import de.tammo.cloud.core.CloudApplication;
 import de.tammo.cloud.core.file.FileUtils;
 import de.tammo.cloud.core.log.*;
-import de.tammo.cloud.network.NettyClient;
+import de.tammo.cloud.network.PacketClient;
 import de.tammo.cloud.network.handler.PacketDecoder;
 import de.tammo.cloud.network.handler.PacketEncoder;
 import de.tammo.cloud.network.packet.impl.ErrorPacket;
@@ -40,7 +40,7 @@ public class Wrapper implements CloudApplication {
 	@Getter
 	private static Wrapper wrapper;
 
-	private NettyClient nettyClient;
+	private PacketClient nettyClient;
 
 	@Setter
 	@Getter
@@ -118,7 +118,7 @@ public class Wrapper implements CloudApplication {
 	private void setupServer() {
 		this.registerPackets();
 
-		this.nettyClient = new NettyClient(new ConnectableAddress(this.configuration.getMasterHost(), this.configuration.getMasterPort())).connect(() -> Logger.info("Successfully connected to the Master!"), () -> {
+		this.nettyClient = new PacketClient(new ConnectableAddress(this.configuration.getMasterHost(), this.configuration.getMasterPort())).connect(() -> Logger.info("Successfully connected to the Master!"), () -> {
 			Logger.warn("Master is currently not available!");
 			this.shutdown();
 		}, channel -> channel.pipeline().addLast(new PacketEncoder()).addLast(new PacketDecoder()).addLast(new PacketHandler()));
