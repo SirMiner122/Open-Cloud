@@ -26,6 +26,8 @@ public interface Command {
 	 */
 	boolean execute(final String[] args);
 
+	CommandHelper getHelp();
+
 	/**
 	 * @return {@link Info} about the {@link Command}
 	 *

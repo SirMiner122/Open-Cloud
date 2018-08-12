@@ -7,6 +7,7 @@
 package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
+import de.tammo.cloud.command.CommandHelper;
 import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.wrapper.Wrapper;
@@ -23,6 +24,9 @@ import java.util.UUID;
 @Command.Info(names = "wrapper", description = "Manage the wrapper")
 public class WrapperCommand implements Command {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean execute(final String[] args) {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
@@ -67,12 +71,14 @@ public class WrapperCommand implements Command {
 	}
 
 	/**
-	 * Prints the help syntax
+	 * {@inheritDoc}
 	 */
-	public void printHelp() {
-		Logger.info("wrapper list");
-		Logger.info("wrapper info <host>");
-		Logger.info("wrapper create <host>");
-		Logger.info("wrapper delete <host>");
+	public final CommandHelper getHelp() {
+		final CommandHelper commandHelper = new CommandHelper("Wrapper list");
+		commandHelper.addToHelpList("Wrapper info <host>");
+		commandHelper.addToHelpList("Wrapper create <host>");
+		commandHelper.addToHelpList("Wrapper delete <host>");
+		return commandHelper;
 	}
+
 }

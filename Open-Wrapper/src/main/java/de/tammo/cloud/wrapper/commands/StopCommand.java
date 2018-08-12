@@ -7,14 +7,25 @@
 package de.tammo.cloud.wrapper.commands;
 
 import de.tammo.cloud.command.Command;
+import de.tammo.cloud.command.CommandHelper;
 import de.tammo.cloud.wrapper.Wrapper;
 
 @Command.Info(names = {"stop", "shutdown", "terminate"}, description = "Stops the wrapper")
 public class StopCommand implements Command {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean execute(final String[] args) {
 		Wrapper.getWrapper().setRunning(false);
 		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final CommandHelper getHelp() {
+		return new CommandHelper("Stop");
 	}
 
 }

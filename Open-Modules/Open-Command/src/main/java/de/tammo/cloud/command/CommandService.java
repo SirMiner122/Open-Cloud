@@ -7,12 +7,10 @@
 package de.tammo.cloud.command;
 
 import com.google.common.reflect.ClassPath;
-import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.service.Service;
-import java.io.Console;
 import java.io.IOException;
 import java.util.*;
-import jline.console.completer.Completer;
+import lombok.Getter;
 
 /**
  * Configure commands and execute them
@@ -28,6 +26,7 @@ public class CommandService implements Service {
 	 *
 	 * @since 2.0
 	 */
+	@Getter
 	private final Map<String, Command> commands = new HashMap<>();
 
 	/**
@@ -69,7 +68,9 @@ public class CommandService implements Service {
 		final String[] newArgs = new String[arguments.length - 1];
 		System.arraycopy(arguments, 1, newArgs, 0, newArgs.length);
 
-		command.execute(newArgs);
+		if (!command.execute(newArgs) && command.getHelp() != null) {
+			command.getHelp().printHelp();
+		}
 	}
 
 }

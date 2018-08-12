@@ -6,27 +6,28 @@
 
 package de.tammo.cloud.wrapper.commands;
 
-import de.tammo.cloud.command.Command;
-import de.tammo.cloud.command.CommandService;
+import de.tammo.cloud.command.*;
 import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.service.ServiceProvider;
-import java.util.Arrays;
 
-@Command.Info(names = "help")
+@Command.Info(names = "help", description = "Get help for all commands")
 public class HelpCommand implements Command {
 
-	public boolean execute(final String[] args) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean execute(final String[] args) {
 		Logger.info("<-- Help -->");
-		/*ServiceProvider.getService(CommandService.class).getCommands().forEach(command -> {
-			if (command.getClass().isAnnotationPresent(Info.class)) {
-				final String[] names = command.getClass().getAnnotation(Command.Info.class).name();
-				if (!Arrays.asList(names).contains("help")) {
-					Arrays.stream(names).forEach(Logger::info);
-				}
-			}
-		});
-		Logger.info("");*/
+		ServiceProvider.getService(CommandService.class).getCommands().values().forEach(command -> Logger.info(command.getHelp().getMainCommand()));
+		Logger.info("");
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public CommandHelper getHelp() {
+		return null;
 	}
 
 }

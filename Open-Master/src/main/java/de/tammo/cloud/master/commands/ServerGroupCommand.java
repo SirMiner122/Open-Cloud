@@ -7,10 +7,12 @@
 package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
+import de.tammo.cloud.command.CommandHelper;
 import de.tammo.cloud.core.log.Logger;
 import de.tammo.cloud.master.servergroup.ServerGroup;
 import de.tammo.cloud.master.servergroup.ServerGroupService;
 import de.tammo.cloud.service.ServiceProvider;
+import java.util.Arrays;
 
 /**
  * Command to manage all server groups
@@ -21,6 +23,9 @@ import de.tammo.cloud.service.ServiceProvider;
 @Command.Info(names = {"group", "servergroup", "sg"}, description = "Configure servergroups")
 public class ServerGroupCommand implements Command {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final boolean execute(final String[] args) {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("list")) {
@@ -71,11 +76,11 @@ public class ServerGroupCommand implements Command {
 	}
 
 	/**
-	 * Prints the help syntax
+	 * {@inheritDoc}
 	 */
-	public void printHelp() {
-		Logger.info("group list");
-		Logger.info("group create <name> <min server> <max server> <min ram> <max ram>");
-		Logger.info("group delete <name>");
+	public CommandHelper getHelp() {
+		return new CommandHelper("Group list", Arrays.asList("Group create <name> <min server> <max server> <min " +
+				"ram> <max ram>", "Group delete <name>"));
 	}
+
 }

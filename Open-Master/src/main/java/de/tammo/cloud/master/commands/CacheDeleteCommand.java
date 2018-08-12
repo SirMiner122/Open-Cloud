@@ -7,7 +7,7 @@
 package de.tammo.cloud.master.commands;
 
 import de.tammo.cloud.command.Command;
-import de.tammo.cloud.core.log.Logger;
+import de.tammo.cloud.command.CommandHelper;
 import de.tammo.cloud.master.network.NetworkProviderService;
 import de.tammo.cloud.master.network.packets.out.CacheDeleteOutPacket;
 import de.tammo.cloud.service.ServiceProvider;
@@ -18,24 +18,25 @@ import de.tammo.cloud.service.ServiceProvider;
  * @author Tammo
  * @since 1.0
  */
-@Command.Info(names = "cache")
+@Command.Info(names = "cache", description = "Deletes the cache of all wrappers")
 public class CacheDeleteCommand implements Command {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean execute(final String[] args) {
-		if (args.length == 1) {
-			if (args[0].equalsIgnoreCase("clear")) {
-				ServiceProvider.getService(NetworkProviderService.class).getWrappers().forEach(wrapper -> wrapper.sendPacket(new CacheDeleteOutPacket()));
-				return true;
-			}
+		if (args.length == 1 && args[0].equalsIgnoreCase("clear")) {
+			ServiceProvider.getService(NetworkProviderService.class).getWrappers().forEach(wrapper -> wrapper.sendPacket(new CacheDeleteOutPacket()));
+			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Prints the help syntax
+	 * {@inheritDoc}
 	 */
-	public void printHelp() {
-		Logger.info("cache clear");
+	public CommandHelper getHelp() {
+		return new CommandHelper("Cache clear");
 	}
 
 }
